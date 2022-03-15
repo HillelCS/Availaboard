@@ -1,4 +1,4 @@
-package com.availaboard;
+package com.availaboard.UI.init;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
