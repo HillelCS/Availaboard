@@ -23,3 +23,8 @@
 hs_err_pid*
 replay_pid*
 /.metadata/
+.metadata/.plugins/org.eclipse.core.resources/0.snap
+*.snap
+*.resources
+*.snap
+*.snap
