@@ -1,9 +1,11 @@
 .label-available {
-	color: green;
-	background: #90EE90;
+	color: #5aff15;
 }
-
 
 .label-busy {
 	color: red;
+}
+
+.availaboard-grid {
+	width: 40%;
 }

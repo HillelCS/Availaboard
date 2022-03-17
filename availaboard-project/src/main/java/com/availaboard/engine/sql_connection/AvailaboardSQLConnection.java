@@ -14,7 +14,7 @@ public class AvailaboardSQLConnection {
 	public ArrayList<Resource> loadResources() {
 		ArrayList<Resource> arr = new ArrayList<Resource>();
 		Resource res = new Resource();
-		res.setName("sam");
+		res.setName("Sam Jacobson");
 		res.setStatus(Status.AVAILABLE);
 		arr.add(res);
 		return arr;

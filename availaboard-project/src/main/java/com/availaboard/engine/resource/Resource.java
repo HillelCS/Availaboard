@@ -1,9 +1,10 @@
 package com.availaboard.engine.resource;
 
 public class Resource {
+	
 	private String name;
 	private Status status;
-	private String contact = "Contact Information is Not Available";
+	private String contact = "NA";
 	private int id;
 	
 	
