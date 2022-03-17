@@ -1,38 +1,12 @@
 package com.availaboard.engine.resource;
 
-public class Resource {
-	
+public abstract class Resource {
 	private String name;
 	private Status status;
-<<<<<<< Updated upstream
-	private String contact = "No contact available";
+	private String contact;
+	private int id;
 	
-	private int id;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
-	public String getContact() {
-		return contact;
-	}
-
-	public void setContact(String contact) {
-		this.contact = contact;
-=======
-	private int id;
+	
 	public String getName() {
 		return name;
 	}
@@ -50,6 +24,11 @@ public class Resource {
 	}
 	public void setId(int id) {
 		this.id = id;
->>>>>>> Stashed changes
+	}
+	public String getContact() {
+		return contact;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
 	}
 }
