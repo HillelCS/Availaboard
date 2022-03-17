@@ -1,0 +1,9 @@
+.label-available {
+	color: green;
+	background: #90EE90;
+}
+
+
+.label-busy {
+	color: red;
+}
