@@ -4,7 +4,7 @@ public class Resource {
 	
 	private String name;
 	private Status status;
-	private String contact = "NA";
+	private String contact = "N/A";
 	private int id;
 	
 	

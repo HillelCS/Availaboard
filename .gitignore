@@ -29,3 +29,4 @@ replay_pid*
 *.snap
 *.snap
 my-starter-project/node_modules/@babel/cli/node_modules/source-map/lib/util.js
+availaboard-project/resource/config.properties

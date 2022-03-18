@@ -1,4 +1,4 @@
-package com.availaboard.UI;
+package com.availaboard.UI.webpage;
 
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Status;
@@ -19,6 +19,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteParam;
 import com.vaadin.flow.router.RouteParameters;
+import com.vaadin.flow.router.Router;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
@@ -68,7 +69,7 @@ public class Availaboard extends VerticalLayout {
 	}
 
 	private RouterLink resourceLink(Resource res) {
-		NativeButton editButton = new NativeButton("Edit user details");
-		editButton.addClickListener(e -> editButton.getUI().navigate(ResourcePage.class, new RouteParameters("userID", "123"))));
+		RouterLink link = new RouterLink(res.getName(), ResourcePage.class, new RouteParameters("resourceID", String.valueOf(res.getId())));
+		return link;
 	}
 }
