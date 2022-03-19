@@ -68,7 +68,7 @@ public class Availaboard extends VerticalLayout {
 	}
 
 	private RouterLink resourceLink(Resource res) {
-		NativeButton editButton = new NativeButton("Edit user details");
-		editButton.addClickListener(e -> editButton.getUI().navigate(ResourcePage.class, new RouteParameters("userID", "123"))));
+		RouterLink link = new RouterLink(res.getName(), ResourcePage.class, new RouteParameters("resourceID", String.valueOf(res.getId())));
+		return link;
 	}
 }
