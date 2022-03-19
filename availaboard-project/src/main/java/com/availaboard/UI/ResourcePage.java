@@ -6,7 +6,6 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinRequest;
 @Route("availaboard/resource/:resourceID?")
 public class ResourcePage extends Div implements BeforeEnterObserver {

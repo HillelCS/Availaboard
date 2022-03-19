@@ -20,7 +20,6 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteParam;
 import com.vaadin.flow.router.RouteParameters;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
@@ -28,6 +27,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 @Route("")
 @CssImport("./styles/availaboard-style.css")
 @Theme(value = Lumo.class, variant = Lumo.DARK)
+
 public class Availaboard extends VerticalLayout {
 
 	Grid<Resource> grid = new Grid<Resource>(Resource.class, false);
