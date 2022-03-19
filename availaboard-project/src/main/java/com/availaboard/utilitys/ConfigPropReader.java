@@ -22,3 +22,4 @@ public class ConfigPropReader {
 		}
 		return result;
 	}
+}
