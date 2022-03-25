@@ -1,4 +1,4 @@
-package com.availaboard;
+package com.example.test;
 
 import com.vaadin.flow.theme.AbstractTheme;
 import com.vaadin.testbench.ScreenshotOnFailureRule;

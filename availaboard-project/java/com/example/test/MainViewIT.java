@@ -1,4 +1,4 @@
-package com.availaboard;
+package com.example.test;
 
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import org.junit.Assert;

@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import com.availaboard.engine.resource.Resource;
-import com.availaboard.engine.resource.Status;
 import com.availaboard.utilitys.ConfigPropReader;
 
 public class AvailaboardSQLConnection {
@@ -24,7 +23,7 @@ public class AvailaboardSQLConnection {
 		ArrayList<Resource> arr = new ArrayList<Resource>();
 		try {
 			String query = "select ResourceID from resource";
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
 			final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
 			PreparedStatement st = con.prepareStatement(query);
 			ResultSet rs = st.executeQuery();
@@ -44,7 +43,7 @@ public class AvailaboardSQLConnection {
 		System.out.println(ID);
 		try {
 			String query = "select name, contact, ResourceID from resource where ResourceID = ?";
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
 			final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
 			PreparedStatement st = con.prepareStatement(query);
 			st.setInt(1, ID);
