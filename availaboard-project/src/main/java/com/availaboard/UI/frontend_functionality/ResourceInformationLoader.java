@@ -1,42 +1,54 @@
 package com.availaboard.UI.frontend_functionality;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.stream.Stream;
-
+import java.util.ArrayList;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.Grid.Column;
-import com.vaadin.flow.function.ValueProvider;
-import com.google.common.reflect.TypeToken;
-import java.lang.reflect.Type;
+import com.vaadin.flow.component.textfield.TextField;
 
-public class ResourceInformationLoader<E extends Resource> extends FormLayout {
-	/**
-	 * 
-	 */
+public class ResourceInformationLoader extends FormLayout {
+	ArrayList<TextField> textFieldList = new ArrayList<TextField>();
 	private static final long serialVersionUID = -4590209736315740168L;
 	AvailaboardSQLConnection db = new AvailaboardSQLConnection();
-	Grid<E> grid = new Grid<E>();
+	Grid grid = new Grid();
+	Class type;
 
-	private Class<E> type;
-
-	public ResourceInformationLoader(Class<E> type) {
+	public ResourceInformationLoader(Class type) {
 		this.type = type;
 		for (Field field : type.getDeclaredFields()) {
 			if (field.isAnnotationPresent(ResourceFieldLoader.class)) {
-
-				
-
+				textFieldList.add(new TextField(field.getName()));
 			}
-
 		}
+		textFieldList.stream().forEach(field -> {
+			field.setReadOnly(true);
+			add(field);
+		});
+
 		add(grid);
 	}
-}
 
-//grid.addColumn(Resource -> (Resource).getContact()).setHeader("Contact").setWidth("33.333%").setFlexGrow(0)
+	public void setResources(Class resource) {
+		textFieldList.stream().forEach(field -> {
+			for (Field field1 : type.getDeclaredFields()) {
+				if (field1.isAnnotationPresent(ResourceFieldLoader.class)) {
+					if(field1.getName().equals(field.getLabel())) {
+						try {
+							field.setValue(field1.get(resource).toString());
+						} catch (IllegalArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		});
+			
+		
+	}
+}

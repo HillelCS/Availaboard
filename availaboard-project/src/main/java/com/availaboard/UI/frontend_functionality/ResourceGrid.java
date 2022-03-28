@@ -10,6 +10,7 @@ import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.resource.User;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
@@ -24,6 +25,7 @@ import com.vaadin.flow.router.RouterLink;
 import com.google.common.reflect.TypeToken;
 import java.lang.reflect.Type;
 
+@CssImport("./styles/webpage-styles/availaboard-grid.css")
 public class ResourceGrid<E extends Resource> extends Grid {
 	/**
 	 * 
@@ -39,13 +41,13 @@ public class ResourceGrid<E extends Resource> extends Grid {
 
 	public Grid<E> loadGrid() {
 		Grid<E> grid = new Grid<E>();
-		grid.addComponentColumn(E -> resourceLink(E)).setHeader("Name").setWidth("33.333%").setFlexGrow(0)
+		grid.addComponentColumn(E -> resourceLink(E)).setHeader("Name").setWidth("50%").setFlexGrow(0)
 				.setTextAlign(ColumnTextAlign.CENTER);
-		grid.addComponentColumn(E -> statusLabel(E)).setHeader("Status").setWidth("33.333%").setFlexGrow(0)
+		grid.addComponentColumn(E -> statusLabel(E)).setHeader("Status").setWidth("50%").setFlexGrow(0)
 				.setTextAlign(ColumnTextAlign.CENTER);
 		grid.addClassName("availaboard-grid");
 		grid.setAllRowsVisible(true);
-		grid.setItems((Collection<E>) db.loadResources(type));
+		grid.setItems((Collection<E>)(db.loadResources(type)));
 	
 		return grid;
 	}
@@ -64,9 +66,10 @@ public class ResourceGrid<E extends Resource> extends Grid {
 		return link;
 	}
 
-//	private ComponentRenderer<ResourceInformationLoader, E> resourceDetailsRenderer() {
-//	    return new ComponentRenderer();
-//	}
+	private ComponentRenderer<ResourceInformationLoader, E> resourceDetailRenderer() {
+	    return new ComponentRenderer(ResourceInformationLoader:: new,
+	    		ResourceInformationLoader::setResources(E));
+	}
 }
 
-//grid.addColumn(Resource -> (Resource).getContact()).setHeader("Contact").setWidth("33.333%").setFlexGrow(0)
+

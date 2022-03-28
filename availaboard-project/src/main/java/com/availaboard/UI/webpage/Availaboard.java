@@ -1,6 +1,5 @@
 package com.availaboard.UI.webpage;
 
-
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Status;
@@ -21,7 +20,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 
 @PageTitle("Availaboard")
 @Route("")
-@CssImport("./styles/availaboard-style.css")
+
 @Theme(value = Lumo.class, variant = Lumo.DARK)
 
 public class Availaboard extends VerticalLayout {
@@ -32,16 +31,10 @@ public class Availaboard extends VerticalLayout {
 
 	public Availaboard() {
 		ResourceGrid<User> userGrid = new ResourceGrid<User>(User.class);
-		Grid<User> grid = userGrid.loadGrid();
-		add(grid);
-		addLabel();
+		Grid<User> userGridLoader = userGrid.loadGrid();
+		layout.add(userGridLoader);
+		layout.setHorizontalComponentAlignment(Alignment.CENTER, userGridLoader);
+		add(layout);
 	}
-
-	private void addLabel() {
-		Label label = new Label("Availaboard");
-		label.addClassName("availaboard-label");
-		add(label);
-	}
-
 
 }
