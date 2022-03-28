@@ -13,7 +13,7 @@ import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
 @PageTitle("Availaboard")
-@Route("/")
+@Route("")
 @Theme(value = Lumo.class, variant = Lumo.DARK)
 public class Availaboard extends VerticalLayout {
 
