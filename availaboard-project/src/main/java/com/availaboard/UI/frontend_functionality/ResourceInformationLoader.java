@@ -2,8 +2,6 @@ package com.availaboard.UI.frontend_functionality;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import com.availaboard.engine.resource.Resource;
-import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.textfield.TextField;

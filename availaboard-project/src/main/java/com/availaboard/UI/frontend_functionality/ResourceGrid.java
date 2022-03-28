@@ -67,8 +67,8 @@ public class ResourceGrid<E extends Resource> extends Grid {
 	}
 
 	private ComponentRenderer<ResourceInformationLoader, E> resourceDetailRenderer() {
-	    return new ComponentRenderer(ResourceInformationLoader:: new,
-	    		ResourceInformationLoader::setResources(E));
+	    return new ComponentRenderer(ResourceInformationLoader::new,
+	    		ResourceInformationLoader::setResources);
 	}
 }
 
