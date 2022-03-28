@@ -12,6 +12,11 @@ public class ResourcePage extends Div implements BeforeEnterObserver {
 	private int userID;
 	private Resource res;
 	AvailaboardSQLConnection db = new AvailaboardSQLConnection();
+	/*
+	 * Uses a method to set the UserID of the object being
+	 * passed in to a field in the class that can be 
+	 * referenced.
+	 */
 	@Override
 	public void beforeEnter(BeforeEnterEvent event) {
 		userID = Integer.valueOf(event.getRouteParameters().get("resourceID").stream().filter(x -> x.length() == 1)

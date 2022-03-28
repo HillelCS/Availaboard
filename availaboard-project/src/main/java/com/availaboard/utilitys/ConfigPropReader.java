@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 public class ConfigPropReader {
+	/*
+	 * Loads an ArrayList of the username, password
+	 * and URL needed to login to a database. 
+	 * AvailaboardSQLConnection uses it. The method grabs
+	 * the information from config.properties.
+	 */
 	public ArrayList<String> getPropValues() {
 		ArrayList<String> result = new ArrayList<String>();
 		try {

@@ -24,7 +24,13 @@ public class AvailaboardSQLConnection {
 	private final String url = config.getPropValues().get(2).replaceAll("^\"|\"$", "");
 
 	/*
-	 * Load all resources from the database
+	 * Loads all resources from the database. 
+	 * When calling the method pass in a class and a type
+	 * and it will look for that class name in the database
+	 * and load the appropriate type of object. 
+	 * It returns a Collection of all the 
+	 * Objects of the type <E> returned.
+	 * 
 	 */
 	public <E> Collection<E> loadResources(Class<E> res) {
 		ArrayList<E> arr = new ArrayList<E>();
@@ -43,6 +49,15 @@ public class AvailaboardSQLConnection {
 		return arr;
 	}
 
+	/*
+	 * Not a great current solution to the problem but currently all 
+	 * I've got. The method takes an ID and a class and constructs 
+	 * an object of that class based off of what type of class it is.
+	 * It then appropriately loads the information from the database and adds
+	 * it to the object. Ideally the method uses metadata from the database
+	 * and matches all of the fields in the object to the database and
+	 * loads them automatically. 
+	 */
 	public <E> Resource createResourceWithID(int ID, Class<E> res) {
 		Resource resourceObject = null;
 
