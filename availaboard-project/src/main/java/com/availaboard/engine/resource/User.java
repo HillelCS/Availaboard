@@ -1,12 +1,40 @@
 package com.availaboard.engine.resource;
 
+import com.availaboard.UI.frontend_functionality.ResourceFieldLoader;
+
 public class User extends Resource {
 	
+	@ResourceFieldLoader
 	private String firstName;
+	@ResourceFieldLoader
 	private String lastName;
+	@ResourceFieldLoader
 	private String email;
+	@ResourceFieldLoader
+	private String username;
+	private String password;
 	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getFullname() {
+		return fullname;
+	}
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+
 	private String fullname = firstName + " " + lastName;
+	
 	
 	
 	public String getFirstName() {
@@ -25,12 +53,11 @@ public class User extends Resource {
 		return email;
 	}
 	public void setEmail(String email) {
-		super.setContact(email);
 		this.email = email;
 	}
 	
 	@Override
 	public String toString() {
-		return this.getClass().toString();
+		return "User";
 	}
 }

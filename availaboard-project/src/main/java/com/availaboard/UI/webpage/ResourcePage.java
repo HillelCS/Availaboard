@@ -1,4 +1,4 @@
-package com.availaboard.UI;
+package com.availaboard.UI.webpage;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.vaadin.flow.component.Component;
@@ -18,6 +18,6 @@ public class ResourcePage extends Div implements BeforeEnterObserver {
 				.findFirst().map(Object::toString).orElse(""));
 	}
 	public ResourcePage() {
-		//System.out.println(db.username);
+		
 	}
 }
