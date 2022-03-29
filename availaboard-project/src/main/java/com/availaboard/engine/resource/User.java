@@ -12,6 +12,7 @@ public class User extends Resource {
 	private String email;
 	@ResourceFieldLoader
 	private String username;
+	
 	private String password;
 	
 	public String getUsername() {
@@ -26,16 +27,6 @@ public class User extends Resource {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getFullname() {
-		return fullname;
-	}
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
-	}
-
-	private String fullname = firstName + " " + lastName;
-	
-	
 	
 	public String getFirstName() {
 		return firstName;
