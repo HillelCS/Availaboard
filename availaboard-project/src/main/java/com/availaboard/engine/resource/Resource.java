@@ -1,10 +1,15 @@
 package com.availaboard.engine.resource;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.function.Supplier;
+
 public class Resource {
 
 	private String name;
 	private Status status;
 	private int id;
+
 
 	public String getName() {
 		return name;
@@ -29,5 +34,7 @@ public class Resource {
 	public void setId(int id) {
 		this.id = id;
 	}
-	 
+
+
+
 }

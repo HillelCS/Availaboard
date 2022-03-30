@@ -63,7 +63,11 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-
+			<dependency>
+				<groupId>net.jodah</groupId>
+				<artifactId>typetools</artifactId>
+				<version>0.6.3</version>
+			</dependency>
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
@@ -90,7 +94,10 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>net.jodah</groupId>
+			<artifactId>typetools</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.vaadin</groupId>

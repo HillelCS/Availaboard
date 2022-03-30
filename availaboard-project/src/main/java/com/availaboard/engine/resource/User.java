@@ -4,6 +4,8 @@ import com.availaboard.UI.frontend_functionality.ResourceFieldLoader;
 
 public class User extends Resource {
 	
+
+
 	@ResourceFieldLoader
 	private String firstName;
 	@ResourceFieldLoader
