@@ -59,149 +59,53 @@ public class AvailaboardSQLConnection {
 		return arr;
 	}
 
+	
 	/*
-	 * Not a great current solution to the problem but currently all I've got. The
-	 * method takes an ID and a class and constructs an object of that class based
-	 * off of what type of class it is. It then appropriately loads the information
-	 * from the database and adds it to the object. Ideally the method uses metadata
-	 * from the database and matches all of the fields in the object to the database
-	 * and loads them automatically.
+	 * Third attempt at this method. 
+	 * @param ID is the ResourceID
+	 * @param type is the object being passed in
+	 * 
+	 * This method creates a new instance of the class being passed in by using a plain Resource
+	 * object and constructing a new instance of the object being passed in with class.forName. The E
+	 * variable requires the object to be an instance of the Resource so it is guaranteed to be fine.
+	 * Then, the method iterates through each field of the class being passed in. It selects the column
+	 * value in the database that has the same name as the field in the class. It then set's the field to 
+	 * the value in the database of that ResourceID. Finally, it sets the status and name values. 
+	 * The Resource is casted to (E) and returned. 
+	 * 
 	 */
-
-//	/*
-//	 * Refactoring.
-//	 */
-//	public <E> Resource createResourceWithID(int ID, Class<E> res) {
-//		Resource resourceObject = null;
-//
-//		try {
-//			final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-//
-//			if (res == Room.class) {
-//				// TODO
-//			} else if (res == Equipment.class) {
-//				// TODO
-//			} else {
-//				resourceObject = new User();
-//				String query = "select FirstName, LastName, Email, Username, Password from " + res.getSimpleName()
-//						+ " where ResourceID = ?";
-//				PreparedStatement st = con.prepareStatement(query);
-//				st.setInt(1, ID);
-//				ResultSet rs = st.executeQuery();
-//				if (rs.next()) {
-//					((User) resourceObject).setFirstName(rs.getString(1));
-//					((User) resourceObject).setLastName(rs.getString(2));
-//					((User) resourceObject).setEmail(rs.getString(3));
-//					((User) resourceObject).setUsername(rs.getString(4));
-//					((User) resourceObject).setPassword(rs.getString(5));
-//					((User) resourceObject).setId(ID);
-//				}
-//			}
-//
-//			String query = "select status, name from resource where ResourceID = ?";
-//			PreparedStatement st = con.prepareStatement(query);
-//			st.setInt(1, ((Resource) resourceObject).getId());
-//			ResultSet rs = st.executeQuery();
-//			if (rs.next()) {
-//				((Resource) resourceObject).setStatus(Status.valueOf(rs.getString(1)));
-//				((Resource) resourceObject).setName(rs.getString(2));
-//			}
-//			return resourceObject;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-
-	// Try #2
-	/*
-	 * private void setAllFields(User user, Connection con) {
-	 * 
-	 * try { for (Field field : user.getClass().getDeclaredFields()) { String query
-	 * = "select ? from " + user.getClass().getSimpleName() +
-	 * " where ResourceID = ?"; PreparedStatement st = con.prepareStatement(query);
-	 * st.setString(1, field.getName()); st.setInt(2, user.getId()); ResultSet rs =
-	 * st.executeQuery(); if (rs.next()) { FieldUtils.writeField(user,
-	 * field.getName(), rs.getObject(1), true); } } } catch (IllegalAccessException
-	 * | SQLException e) {
-	 * 
-	 * } }
-	 * 
-	 * private void setAllFields(Room room, Connection con) { try { for (Field field
-	 * : room.getClass().getDeclaredFields()) { String query = "select ? from " +
-	 * room.getClass().getSimpleName() + " where ResourceID = ?"; PreparedStatement
-	 * st = con.prepareStatement(query); st.setString(1, field.getName());
-	 * st.setInt(2, room.getId()); ResultSet rs = st.executeQuery(); if (rs.next())
-	 * { FieldUtils.writeField(room, field.getName(), rs.getObject(1), true); } } }
-	 * catch (IllegalAccessException | SQLException e) {
-	 * 
-	 * } }
-	 * 
-	 * private void setAllFields(Equipment equipment, Connection con) { try { for
-	 * (Field field : equipment.getClass().getDeclaredFields()) { String query =
-	 * "select ? from " + equipment.getClass().getSimpleName() +
-	 * " where ResourceID = ?"; PreparedStatement st = con.prepareStatement(query);
-	 * st.setString(1, field.getName()); st.setInt(2, equipment.getId()); ResultSet
-	 * rs = st.executeQuery(); if (rs.next()) { FieldUtils.writeField(equipment,
-	 * field.getName(), rs.getObject(1), true); } } } catch (IllegalAccessException
-	 * | SQLException e) {
-	 * 
-	 * } }
-	 * 
-	 * public <E extends Resource> E createResourceWithID(int ID, Class<E> type) {
-	 * String name = null; Status status = null; Resource res = new Resource();
-	 * ClassPathScanningCandidateComponentProvider e = new
-	 * ClassPathScanningCandidateComponentProvider(false); try { Connection con =
-	 * DriverManager.getConnection(this.url, this.username, this.password); String
-	 * query = "select status, name from resource where ResourceID = ?";
-	 * PreparedStatement st = con.prepareStatement(query); st.setInt(1, ID);
-	 * ResultSet rs = st.executeQuery(); if (rs.next()) { status =
-	 * Status.valueOf(rs.getString(1)); name = rs.getString(2); }
-	 * 
-	 * if (type == Room.class) { Room room = new Room(); room.setName(name);
-	 * room.setStatus(status); setAllFields(room, con); return (E) room; } else if
-	 * (type == Equipment.class) { Equipment equipment = new Equipment(); return (E)
-	 * equipment; } else { User user = new User(); return (E) user; } } catch
-	 * (SQLException e) { e.printStackTrace(); } catch (IllegalArgumentException e)
-	 * { // TODO Auto-generated catch block e.printStackTrace(); } catch
-	 * (SecurityException e) { e.printStackTrace(); } return null;
-	 * 
-	 * }
-	 */
-
-	public <E extends Resource> E createResourceWithID(int ID, Class<E> type) {
+	private <E extends Resource> E createResourceWithID(int ID, Class<E> type) {
 		try {
 			Resource res = (Resource) Class.forName(type.getName()).getConstructor().newInstance();
 			for (Field field : res.getClass().getDeclaredFields()) {
 				field.setAccessible(true);
-				System.out.println("Field: " + field);
-				System.out.println("Field Type: " + field.getType());
-	
-				field.set(res, "test");
-				System.out.println("Field Value: " + field.get(res));
+				String query = "select ? from " + type.getSimpleName();
+				final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+				PreparedStatement st = con.prepareStatement(query);
+				st.setString(1, type.getName());
+				ResultSet rs = st.executeQuery();
+
+				if (rs.next()) {
+					field.set(res, rs.getObject(1));
+				}
+
+				query = "select status, name from resource where ResourceID = ?";
+				st = con.prepareStatement(query);
+				st.setInt(1, ID);
+				rs = st.executeQuery();
+				if (rs.next()) {
+					res.setStatus(Status.valueOf(rs.getString(1)));
+					res.setName(rs.getString(2));
+				}
+
 			}
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
+			return (E) res;
+		} catch (IllegalArgumentException | SQLException | IllegalAccessException | InstantiationException
+				| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
+
 	}
 }
