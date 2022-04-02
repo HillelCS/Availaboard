@@ -1,9 +1,7 @@
 package com.availaboard.engine.resource;
 
-import com.availaboard.UI.frontend_functionality.ResourceFieldLoader;
-
 public class User extends Resource {
-	
+
 
 
 	@ResourceFieldLoader
@@ -14,9 +12,18 @@ public class User extends Resource {
 	private String email;
 	@ResourceFieldLoader
 	private String username;
-	
+
 	private String password;
 	
+	@FieldExcludedFromDatabase
+	private boolean isLoggedIn;
+
+	public boolean isLoggedIn() {
+		return isLoggedIn;
+	}
+	public void setLoggedIn(boolean isLoggedIn) {
+		this.isLoggedIn = isLoggedIn;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -29,7 +36,7 @@ public class User extends Resource {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -48,7 +55,7 @@ public class User extends Resource {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "User";

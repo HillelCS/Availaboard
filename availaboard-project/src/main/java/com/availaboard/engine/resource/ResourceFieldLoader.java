@@ -1,4 +1,4 @@
-package com.availaboard.UI.frontend_functionality;
+package com.availaboard.engine.resource;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

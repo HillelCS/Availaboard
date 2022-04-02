@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import com.availaboard.engine.resource.Resource;
+import com.availaboard.engine.resource.ResourceFieldLoader;
 import com.vaadin.flow.component.formlayout.FormLayout;
 
 public class ResourceInformationLoader extends FormLayout {

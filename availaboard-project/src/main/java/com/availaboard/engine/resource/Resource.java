@@ -11,6 +11,9 @@ public class Resource {
 	private int id;
 
 
+	protected Resource() {
+		
+	}
 	public String getName() {
 		return name;
 	}
@@ -34,7 +37,4 @@ public class Resource {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
-
 }

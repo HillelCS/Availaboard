@@ -1,14 +1,20 @@
 package com.availaboard.UI.webpage;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Set;
+
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.core.type.filter.AssignableTypeFilter;
+
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.engine.resource.Resource;
-import com.availaboard.engine.resource.User;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
@@ -17,28 +23,53 @@ import com.vaadin.flow.theme.lumo.Lumo;
 @Theme(value = Lumo.class, variant = Lumo.DARK)
 public class Availaboard extends VerticalLayout {
 
-	Grid<Resource> grid = new Grid<Resource>(Resource.class);
 	VerticalLayout layout = new VerticalLayout();
 	AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
 	/*
-	 * Constructs the Availaboard grids. To create a new grid
-	 * with a type of Resource it is very simple. First, 
-	 * create the class, extends it from Resource (mandatory) and specify the fields that should be loaded
-	 * with the @ResourceFieldLoader annotation. Then, create a new 
-	 * ResourceGrid, pass in the type of object that you created as a 
-	 * generic type and pass in that object as a class in the parameter
-	 * for the constructor. Finally call the loadGrid() function which
-	 * return a Grid object with all of the objects loaded to it. 
-	 * Then add the grid to the layout. 
-	 * 
+	 * Uses a stream to add all of the grids to the layout and centers them.
 	 */
 	public Availaboard() {
-		ResourceGrid<User> userGrid = new ResourceGrid<User>(User.class);
-		Grid<User> userGridLoader = userGrid.loadGrid();
-		layout.add(userGridLoader);
-		layout.setHorizontalComponentAlignment(Alignment.CENTER, userGridLoader);
+		getResourceGrids().stream().forEach(grid -> {
+			layout.add(grid);
+			layout.setHorizontalComponentAlignment(Alignment.CENTER, grid);
+		});
+
 		add(layout);
+	}
+
+	/*
+	 * Returns a list of the grids. It does this automatically by getting
+	 * every subclass of Resource and creating a Grid with it. It then adds 
+	 * all of them to an ArrayList and returns.
+	 * NoSuchMethodException happens every time because the ClassPathScanningCandidateComponentProvider
+	 * iterates through the superclass too, except the superclass was made private
+	 * so it can't create a grid for it. Supposedly it could, but 
+	 * if it did it would break the code because the Resource object does not extend itself which 
+	 * is a requirement for basically everything. A component is simply a class that extends Resource.
+	 */
+	private ArrayList<Grid<Resource>> getResourceGrids() {
+		ArrayList<Grid<Resource>> arr = new ArrayList<>();
+		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+		provider.addIncludeFilter(new AssignableTypeFilter(Resource.class));
+
+		Set<BeanDefinition> components = provider.findCandidateComponents("com/availaboard/engine/resource");
+		for (BeanDefinition component : components) {
+			try {
+				Resource res = (Resource) Class.forName(component.getBeanClassName()).getConstructor().newInstance();
+				ResourceGrid<Resource> grid = new ResourceGrid<>(res.getClass());
+				Grid<Resource> resGrid = grid.loadGrid(res.getClass());
+				arr.add(resGrid);
+			} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | SecurityException | InstantiationException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				System.out.println("Should happen");
+			}
+
+		}
+		return arr;
+
 	}
 
 }
