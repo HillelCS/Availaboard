@@ -1,5 +1,6 @@
 package com.availaboard.UI.frontend_functionality;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
@@ -11,6 +12,7 @@ import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.router.RouteParameters;
@@ -56,15 +58,31 @@ public class ResourceGrid<E extends Resource> extends Grid {
 			grid.addClassName("availaboard-grid");
 			grid.setAllRowsVisible(true);
 			grid.setItems((Collection<E>) (db.loadResources(type)));
-
+			grid.addThemeVariants(GridVariant.LUMO_NO_ROW_BORDERS);
+			grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
 			grid.addSelectionListener(selection -> {
 				grid.getSelectionModel().getFirstSelectedItem().ifPresent(item -> {
-					System.out.println(item.getName());
+					for(Field field: item.getClass().getDeclaredFields()) {
+						field.setAccessible(true);
+						try {
+							System.out.println("Field: " + field.getName());
+							System.out.println("Value: " + field.get(item));
+						} catch (IllegalArgumentException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				});
 			});
-
+		
 			HeaderRow headerRow = grid.prependHeaderRow();
 			headerRow.join(nameColumn, statusColumn).setText(res.getSimpleName());
+		
+			
+			
 			return grid;
 		} catch (IllegalArgumentException | SecurityException e) {
 
