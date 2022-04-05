@@ -65,7 +65,7 @@ public class Availaboard extends VerticalLayout {
 					| InvocationTargetException | SecurityException | InstantiationException e) {
 				e.printStackTrace();
 			} catch (NoSuchMethodException e) {
-				System.out.println("Should happen");
+
 			}
 
 		}

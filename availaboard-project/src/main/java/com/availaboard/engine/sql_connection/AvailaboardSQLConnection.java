@@ -64,21 +64,24 @@ public class AvailaboardSQLConnection {
 	 * casted to (E) and returned.
 	 *
 	 */
-	private <E extends Resource> E createResourceWithID(int ID, Class<E> type) {
+	@SuppressWarnings("unchecked")
+	public <E extends Resource> E createResourceWithID(int ID, Class<E> type) {
 		try {
 			Resource res = (Resource) Class.forName(type.getName()).getConstructor().newInstance();
 			res.setId(ID);
+
 			for (Field field : res.getClass().getDeclaredFields()) {
-				if (!field.isAnnotationPresent(FieldExcludedFromDatabase.class)) {
+				if (!(field.isAnnotationPresent(FieldExcludedFromDatabase.class))) {
 					field.setAccessible(true);
-					String query = "select ? from " + type.getSimpleName();
+					String query = String.format("select %s from %s where ResourceID = ?", field.getName(),
+							type.getSimpleName());
 					final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
 					PreparedStatement st = con.prepareStatement(query);
-					st.setString(1, type.getName());
+					st.setInt(1, ID);
 					ResultSet rs = st.executeQuery();
 
 					if (rs.next()) {
-						field.set(res, rs.getObject(1));
+						field.set(res, rs.getString(1));
 					}
 
 					query = "select status, name from resource where ResourceID = ?";
@@ -89,16 +92,14 @@ public class AvailaboardSQLConnection {
 						res.setStatus(Status.valueOf(rs.getString(1)));
 						res.setName(rs.getString(2));
 					}
-
 				}
-				return (E) res;
 			}
+			return (E) res;
 
 		} catch (IllegalArgumentException | SQLException | IllegalAccessException | InstantiationException
 				| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		return null;
-
 	}
 }
