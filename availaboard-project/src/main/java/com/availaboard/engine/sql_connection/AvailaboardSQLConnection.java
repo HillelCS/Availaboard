@@ -13,6 +13,7 @@ import java.util.Collection;
 import com.availaboard.engine.resource.FieldExcludedFromDatabase;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Status;
+import com.availaboard.engine.resource.User;
 import com.availaboard.utilitys.ConfigPropReader;
 
 public class AvailaboardSQLConnection {
@@ -101,5 +102,18 @@ public class AvailaboardSQLConnection {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public boolean login(User user) {
+//		try {
+//			
+//			
+//		
+//
+//		} catch (SQLException e) {
+//
+//		}
+
+		return false;
 	}
 }
