@@ -14,6 +14,7 @@ import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -21,6 +22,7 @@ import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
 @PageTitle("Availaboard")
+@CssImport("./styles/webpage-styles/availaboard.css")
 @Route("")
 @Theme(value = Lumo.class, variant = Lumo.DARK)
 public class Availaboard extends VerticalLayout {
@@ -30,6 +32,8 @@ public class Availaboard extends VerticalLayout {
 	
 	Button loginButton = new Button("Login");
 	Button createAccountButton = new Button("Create an Account");
+	
+	
 	/*
 	 * Uses a stream to add all of the grids to the layout and centers them.
 	 */
@@ -39,9 +43,15 @@ public class Availaboard extends VerticalLayout {
 			layout.setHorizontalComponentAlignment(Alignment.CENTER, grid);
 		});
 		
-		layout.add(loginButton);
-		layout.add(createAccountButton);
+		createAccountButton.addClassName("create-account-button");
+		loginButton.addClassName("login-button");
+		
+		
+		HorizontalLayout horLayout = new HorizontalLayout();
+		horLayout.add(loginButton, createAccountButton);
 
+		layout.add(horLayout);
+		layout.setHorizontalComponentAlignment(Alignment.CENTER, horLayout);
 		add(layout);
 	}
 

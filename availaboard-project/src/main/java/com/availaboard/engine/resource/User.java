@@ -1,6 +1,5 @@
 package com.availaboard.engine.resource;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 
 public class User extends Resource {
