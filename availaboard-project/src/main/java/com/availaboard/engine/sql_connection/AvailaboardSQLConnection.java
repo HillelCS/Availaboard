@@ -15,6 +15,7 @@ import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.resource.User;
 import com.availaboard.utilitys.ConfigPropReader;
+import com.vaadin.flow.component.notification.Notification;
 
 public class AvailaboardSQLConnection {
 
@@ -70,7 +71,6 @@ public class AvailaboardSQLConnection {
 		try {
 			Resource res = (Resource) Class.forName(type.getName()).getConstructor().newInstance();
 			res.setId(ID);
-
 			for (Field field : res.getClass().getDeclaredFields()) {
 				if (!(field.isAnnotationPresent(FieldExcludedFromDatabase.class))) {
 					field.setAccessible(true);
@@ -104,16 +104,27 @@ public class AvailaboardSQLConnection {
 		return null;
 	}
 
-	public boolean login(User user) {
-//		try {
-//			
-//			
-//		
-//
-//		} catch (SQLException e) {
-//
-//		}
+	public void authenticate(String username, String password) throws InvalidCredentialsException {
+		try {
+			String query = "SELECT COUNT(1) FROM user WHERE username = ? and password = ?;";
+			Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+			PreparedStatement st = con.prepareStatement(query);
+			st.setString(1, username);
+			st.setString(2, password);
+			ResultSet rs = st.executeQuery();
 
-		return false;
+			if (rs.next()) {
+				if (rs.getInt(1) == 1) {
+
+				} else {
+
+					throw new InvalidCredentialsException();
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }
