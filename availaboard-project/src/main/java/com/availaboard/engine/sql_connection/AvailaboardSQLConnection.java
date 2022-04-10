@@ -71,37 +71,61 @@ public class AvailaboardSQLConnection {
 		try {
 			Resource res = (Resource) Class.forName(type.getName()).getConstructor().newInstance();
 			res.setId(ID);
+
+			final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+			String query = "select status, name from resource where ResourceID = ?";
+			PreparedStatement st = con.prepareStatement(query);
+			st.setInt(1, ID);
+			ResultSet rs = st.executeQuery();
+
+			if (rs.next()) {
+				res.setStatus(Status.valueOf(rs.getString(1)));
+				res.setName(rs.getString(2));
+			}
+
 			for (Field field : res.getClass().getDeclaredFields()) {
 				if (!(field.isAnnotationPresent(FieldExcludedFromDatabase.class))) {
 					field.setAccessible(true);
-					String query = String.format("select %s from %s where ResourceID = ?", field.getName(),
+					query = String.format("select %s from %s where ResourceID = ?", field.getName(),
 							type.getSimpleName());
-					final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-					PreparedStatement st = con.prepareStatement(query);
-					st.setInt(1, ID);
-					ResultSet rs = st.executeQuery();
 
-					if (rs.next()) {
-						field.set(res, rs.getString(1));
-					}
-
-					query = "select status, name from resource where ResourceID = ?";
 					st = con.prepareStatement(query);
 					st.setInt(1, ID);
 					rs = st.executeQuery();
+
 					if (rs.next()) {
-						res.setStatus(Status.valueOf(rs.getString(1)));
-						res.setName(rs.getString(2));
+						setType(res, rs.getString(1), field);
 					}
+
 				}
 			}
+			con.close();
 			return (E) res;
-
 		} catch (IllegalArgumentException | SQLException | IllegalAccessException | InstantiationException
 				| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public void setType(Resource res, String value, Field field) {
+		try {
+			if (field.isEnumConstant()) {
+				field.set(res, Enum.valueOf((Class<? extends Enum>) Class.forName(field.getType().getSimpleName()), value));
+			} else {
+				field.set(res, value);
+			}
+
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void authenticate(String username, String password) throws InvalidCredentialsException {
@@ -121,6 +145,7 @@ public class AvailaboardSQLConnection {
 					throw new InvalidCredentialsException();
 				}
 			}
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
