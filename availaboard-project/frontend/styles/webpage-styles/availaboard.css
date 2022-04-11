@@ -1,9 +1,9 @@
 .login-button {
-	position:relative;
-	bottom: 480px;
+	margin: 20px;
+	bottom: 470px;
 }
 
 .create-account-button {
-	position:relative;
-	bottom: 480px;
+	margin: 20px;
+	bottom: 470px;
 }

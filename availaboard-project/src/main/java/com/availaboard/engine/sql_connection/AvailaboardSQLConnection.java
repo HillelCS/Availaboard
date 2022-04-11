@@ -71,36 +71,32 @@ public class AvailaboardSQLConnection {
 		try {
 			Resource res = (Resource) Class.forName(type.getName()).getConstructor().newInstance();
 			res.setId(ID);
-
-			final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
-			String query = "select status, name from resource where ResourceID = ?";
-			PreparedStatement st = con.prepareStatement(query);
-			st.setInt(1, ID);
-			ResultSet rs = st.executeQuery();
-
-			if (rs.next()) {
-				res.setStatus(Status.valueOf(rs.getString(1)));
-				res.setName(rs.getString(2));
-			}
-
 			for (Field field : res.getClass().getDeclaredFields()) {
 				if (!(field.isAnnotationPresent(FieldExcludedFromDatabase.class))) {
 					field.setAccessible(true);
-					query = String.format("select %s from %s where ResourceID = ?", field.getName(),
+					String query = String.format("select %s from %s where ResourceID = ?", field.getName(),
 							type.getSimpleName());
+					final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+					PreparedStatement st = con.prepareStatement(query);
+					st.setInt(1, ID);
+					ResultSet rs = st.executeQuery();
 
+					if (rs.next()) {
+						field.set(res, rs.getString(1));
+					}
+
+					query = "select status, name from resource where ResourceID = ?";
 					st = con.prepareStatement(query);
 					st.setInt(1, ID);
 					rs = st.executeQuery();
-
 					if (rs.next()) {
-						setType(res, rs.getString(1), field);
+						res.setStatus(Status.valueOf(rs.getString(1)));
+						res.setName(rs.getString(2));
 					}
-
 				}
 			}
-			con.close();
 			return (E) res;
+
 		} catch (IllegalArgumentException | SQLException | IllegalAccessException | InstantiationException
 				| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
 			e.printStackTrace();
@@ -108,6 +104,7 @@ public class AvailaboardSQLConnection {
 		return null;
 	}
 
+<<<<<<< HEAD
 	public void setType(Resource res, String value, Field field) {
 		try {
 			if (field.isEnumConstant()) {
@@ -129,6 +126,8 @@ public class AvailaboardSQLConnection {
 		}
 	}
 
+=======
+>>>>>>> parent of d8e0ed1 (Started permissions for User)
 	public void authenticate(String username, String password) throws InvalidCredentialsException {
 		try {
 			String query = "SELECT COUNT(1) FROM user WHERE username = ? and password = ?;";
@@ -146,7 +145,6 @@ public class AvailaboardSQLConnection {
 					throw new InvalidCredentialsException();
 				}
 			}
-			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -10,7 +10,6 @@ import org.springframework.core.type.filter.AssignableTypeFilter;
 
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.engine.resource.Resource;
-import com.availaboard.engine.resource.User;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -42,8 +41,6 @@ public class AvailaboardView extends VerticalLayout {
 
 	Button loginButton = new Button("Login");
 	Button createAccountButton = new Button("Create an Account");
-	
-	private User user;
 
 	/*
 	 * Uses a stream to add all of the grids to the layout and centers them.

@@ -19,8 +19,7 @@ public class User extends Resource {
 	public String getFieldName(String fieldName) {
 		return fieldList.get(fieldName);
 	}
-	
-	
+
 	@ResourceFieldLoader
 	private String firstName;
 	@ResourceFieldLoader
@@ -31,10 +30,13 @@ public class User extends Resource {
 	private String username;
 
 	private String password;
+<<<<<<< HEAD
 	
 	// REMOVE LATER, only here for testing
 	@ResourceFieldLoader
 	private Permission permissions;
+=======
+>>>>>>> parent of d8e0ed1 (Started permissions for User)
 
 	@FieldExcludedFromDatabase
 	private boolean isLoggedIn;
@@ -90,13 +92,5 @@ public class User extends Resource {
 	@Override
 	public String toString() {
 		return "User";
-	}
-
-	public Permission getPermissions() {
-		return permissions;
-	}
-
-	public void setPermissions(Permission permission) {
-		this.permissions = permission;
 	}
 }
