@@ -80,19 +80,17 @@ public class AvailaboardSQLConnection {
 					PreparedStatement st = con.prepareStatement(query);
 					st.setInt(1, ID);
 					ResultSet rs = st.executeQuery();
-<<<<<<< HEAD
+
 
 					if (rs.next()) {
 						field.set(res, rs.getString(1));
 					}
 
-=======
-
 					if (rs.next()) {
 						field.set(res, rs.getString(1));
 					}
 
->>>>>>> parent of d8e0ed1 (Started permissions for User)
+
 					query = "select status, name from resource where ResourceID = ?";
 					st = con.prepareStatement(query);
 					st.setInt(1, ID);
@@ -112,8 +110,6 @@ public class AvailaboardSQLConnection {
 		return null;
 	}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 	public void setType(Resource res, String value, Field field) {
 		try {
 			if (field.isEnumConstant()) {
@@ -135,10 +131,6 @@ public class AvailaboardSQLConnection {
 		}
 	}
 
-=======
->>>>>>> parent of d8e0ed1 (Started permissions for User)
-=======
->>>>>>> parent of d8e0ed1 (Started permissions for User)
 	public void authenticate(String username, String password) throws InvalidCredentialsException {
 		try {
 			String query = "SELECT COUNT(1) FROM user WHERE username = ? and password = ?;";

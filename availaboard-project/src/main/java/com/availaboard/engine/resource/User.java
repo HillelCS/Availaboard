@@ -30,16 +30,12 @@ public class User extends Resource {
 	private String username;
 
 	private String password;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	
 	// REMOVE LATER, only here for testing
 	@ResourceFieldLoader
 	private Permission permissions;
-=======
->>>>>>> parent of d8e0ed1 (Started permissions for User)
-=======
->>>>>>> parent of d8e0ed1 (Started permissions for User)
+
 
 	@FieldExcludedFromDatabase
 	private boolean isLoggedIn;
