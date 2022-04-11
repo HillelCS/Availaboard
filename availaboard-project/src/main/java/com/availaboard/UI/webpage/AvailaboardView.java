@@ -49,6 +49,7 @@ public class AvailaboardView extends VerticalLayout {
 	 * Uses a stream to add all of the grids to the layout and centers them.
 	 */
 	public AvailaboardView() {
+		System.out.println("test");
 		getResourceGrids().stream().forEach(grid -> {
 			layout.add(grid);
 			layout.setHorizontalComponentAlignment(Alignment.CENTER, grid);

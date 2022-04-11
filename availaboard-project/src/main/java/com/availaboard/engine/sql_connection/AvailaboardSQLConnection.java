@@ -111,7 +111,8 @@ public class AvailaboardSQLConnection {
 	public void setType(Resource res, String value, Field field) {
 		try {
 			if (field.isEnumConstant()) {
-				field.set(res, Enum.valueOf((Class<? extends Enum>) Class.forName(field.getType().getSimpleName()), value));
+				field.set(res,
+						Enum.valueOf((Class<? extends Enum>) Class.forName(field.getType().getSimpleName()), value));
 			} else {
 				field.set(res, value);
 			}

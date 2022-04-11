@@ -12,6 +12,7 @@ public class User extends Resource {
 		fieldList.put("lastName", "Last Name");
 		fieldList.put("email", "Email");
 		fieldList.put("username", "Username");
+		fieldList.put("permissions", "Permissions");
 	}
 
 	@Override
@@ -31,6 +32,7 @@ public class User extends Resource {
 
 	private String password;
 	
+	// REMOVE LATER, only here for testing
 	@ResourceFieldLoader
 	private Permission permissions;
 
