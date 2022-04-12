@@ -29,5 +29,6 @@ public class LoginPageView extends VerticalLayout {
 				e.printStackTrace();
 			}
 		}));
+		setDefaultHorizontalComponentAlignment(Alignment.CENTER);
 	}
 }
