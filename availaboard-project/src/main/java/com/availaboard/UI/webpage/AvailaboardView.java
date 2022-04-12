@@ -21,6 +21,7 @@ import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
@@ -29,8 +30,8 @@ import com.vaadin.flow.theme.lumo.Lumo;
 @PageTitle("Availaboard")
 @CssImport("./styles/webpage-styles/availaboard.css")
 @Route("")
-@Theme(value = Lumo.class, variant = Lumo.DARK)
-public class AvailaboardView extends VerticalLayout {
+@Theme(themeClass = Lumo.class, variant = Lumo.DARK)
+public class AvailaboardView extends VerticalLayout implements AppShellConfigurator{
 
 	/**
 	 * 

@@ -7,7 +7,6 @@ import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
 @Route("/create-account")
-@Theme(value = Lumo.class, variant = Lumo.DARK)
 public class CreateNewAccountView extends VerticalLayout {
 
 	
