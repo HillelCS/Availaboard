@@ -118,15 +118,26 @@
     "lit": "2.1.4"
   },
   "devDependencies": {
+    "chokidar": "^3.5.0",
+    "compression-webpack-plugin": "4.0.1",
+    "css-loader": "5.2.7",
+    "esbuild-loader": "2.15.1",
+    "extra-watch-webpack-plugin": "1.0.3",
+    "extract-loader": "5.1.0",
+    "file-loader": "6.2.0",
+    "fork-ts-checker-webpack-plugin": "6.2.1",
     "glob": "7.1.6",
-    "mkdirp": "1.0.4",
-    "rollup-plugin-brotli": "3.1.0",
+    "html-webpack-plugin": "4.5.1",
+    "lit-css-loader": "0.1.0",
+    "loader-utils": "2.0.0",
     "typescript": "4.5.3",
-    "vite": "v2.8.6",
-    "vite-plugin-checker": "0.3.4",
-    "workbox-build": "6.5.0",
+    "webpack": "4.46.0",
+    "webpack-cli": "4.9.2",
+    "webpack-dev-server": "^4.8.1",
+    "webpack-merge": "4.2.2",
     "workbox-core": "6.5.0",
-    "workbox-precaching": "6.5.0"
+    "workbox-precaching": "6.5.0",
+    "workbox-webpack-plugin": "6.5.0"
   },
   "license": "UNLICENSED",
   "name": "no-name",
@@ -248,17 +259,28 @@
       "lit": "2.1.4"
     },
     "devDependencies": {
+      "chokidar": "^3.5.0",
+      "compression-webpack-plugin": "4.0.1",
+      "css-loader": "5.2.7",
+      "esbuild-loader": "2.15.1",
+      "extra-watch-webpack-plugin": "1.0.3",
+      "extract-loader": "5.1.0",
+      "file-loader": "6.2.0",
+      "fork-ts-checker-webpack-plugin": "6.2.1",
       "glob": "7.1.6",
-      "mkdirp": "1.0.4",
-      "rollup-plugin-brotli": "3.1.0",
+      "html-webpack-plugin": "4.5.1",
+      "lit-css-loader": "0.1.0",
+      "loader-utils": "2.0.0",
       "typescript": "4.5.3",
-      "vite": "v2.8.6",
-      "vite-plugin-checker": "0.3.4",
-      "workbox-build": "6.5.0",
+      "webpack": "4.46.0",
+      "webpack-cli": "4.9.2",
+      "webpack-dev-server": "4.7.4",
+      "webpack-merge": "4.2.2",
       "workbox-core": "6.5.0",
-      "workbox-precaching": "6.5.0"
+      "workbox-precaching": "6.5.0",
+      "workbox-webpack-plugin": "6.5.0"
     },
-    "hash": "9e4259e52803e4805a496ac2254fc25414f9c13aafb3b06aebedff0f23268804"
+    "hash": "d07601b5725726e4ce9817050de3a2a83ad1ef8031a53295c4afd006a2cad745"
   },
   "overrides": {
     "@vaadin/bundles": "$@vaadin/bundles",
@@ -375,6 +397,7 @@
     "latest": "$latest",
     "@vaadin/common-frontend": "$@vaadin/common-frontend",
     "lit": "$lit",
+    "chokidar": "$chokidar",
     "date-fns": "$date-fns"
   }
 }
