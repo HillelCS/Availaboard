@@ -16,6 +16,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 
 @PageTitle("Login")
 @Route("/login")
+@Theme(value = Lumo.class, variant = Lumo.DARK)
 public class LoginPageView extends VerticalLayout {
 	AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 

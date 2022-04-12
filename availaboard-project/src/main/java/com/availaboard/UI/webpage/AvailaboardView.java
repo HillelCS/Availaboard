@@ -4,11 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AssignableTypeFilter;
-import org.springframework.stereotype.Component;
 
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.engine.resource.Resource;
@@ -23,17 +21,16 @@ import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
-@Theme(themeClass = Lumo.class, variant = Lumo.DARK)
 @PageTitle("Availaboard")
 @CssImport("./styles/webpage-styles/availaboard.css")
 @Route("")
-public class AvailaboardView extends VerticalLayout implements AppShellConfigurator {
+@Theme(value = Lumo.class, variant = Lumo.DARK)
+public class AvailaboardView extends VerticalLayout {
 
 	/**
 	 * 
@@ -48,7 +45,6 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 	/*
 	 * Uses a stream to add all of the grids to the layout and centers them.
 	 */
-
 	public AvailaboardView() {
 		getResourceGrids().stream().forEach(grid -> {
 			layout.add(grid);
