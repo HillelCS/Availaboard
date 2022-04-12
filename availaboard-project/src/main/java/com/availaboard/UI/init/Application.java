@@ -10,8 +10,9 @@ import com.vaadin.flow.spring.annotation.EnableVaadin;
  */
 
 @EnableVaadin({"com.availaboard.UI"})
-@SpringBootApplication
-
+@SpringBootApplication(scanBasePackages = {
+        "com.availaboard"
+})
 public class Application extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

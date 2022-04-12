@@ -16,7 +16,7 @@ public class Resource {
 	 */
 
 	@FieldExcludedFromDatabase
-	private static HashMap<String, String> fieldList = new HashMap<>();
+	private static HashMap<String, String> fieldList = new HashMap<String, String>();
 
 	/*
 	 * Takes in a String of a field name and returns the nickname of a field in each

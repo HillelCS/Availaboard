@@ -31,10 +31,12 @@ public class User extends Resource {
 
 	private String password;
 
+
 	
 	// REMOVE LATER, only here for testing
 	@ResourceFieldLoader
 	private Permission permissions;
+
 
 
 	@FieldExcludedFromDatabase

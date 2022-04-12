@@ -13,9 +13,7 @@ import java.util.Collection;
 import com.availaboard.engine.resource.FieldExcludedFromDatabase;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Status;
-import com.availaboard.engine.resource.User;
 import com.availaboard.utilitys.ConfigPropReader;
-import com.vaadin.flow.component.notification.Notification;
 
 public class AvailaboardSQLConnection {
 
@@ -32,7 +30,7 @@ public class AvailaboardSQLConnection {
 	 *
 	 */
 	public <E extends Resource> Collection<E> loadResources(Class<E> type) {
-		ArrayList<E> arr = new ArrayList<>();
+		ArrayList<E> arr = new ArrayList<E>();
 		try {
 			String query = "select ResourceID from " + type.getSimpleName();
 			final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
@@ -81,7 +79,6 @@ public class AvailaboardSQLConnection {
 					st.setInt(1, ID);
 					ResultSet rs = st.executeQuery();
 
-
 					if (rs.next()) {
 						field.set(res, rs.getString(1));
 					}
@@ -89,7 +86,6 @@ public class AvailaboardSQLConnection {
 					if (rs.next()) {
 						field.set(res, rs.getString(1));
 					}
-
 
 					query = "select status, name from resource where ResourceID = ?";
 					st = con.prepareStatement(query);
@@ -109,6 +105,7 @@ public class AvailaboardSQLConnection {
 		}
 		return null;
 	}
+
 
 	public void setType(Resource res, String value, Field field) {
 		try {
@@ -144,7 +141,6 @@ public class AvailaboardSQLConnection {
 				if (rs.getInt(1) == 1) {
 
 				} else {
-
 					throw new InvalidCredentialsException();
 				}
 			}
