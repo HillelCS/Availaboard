@@ -3,11 +3,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import com.vaadin.flow.server.VaadinServletConfiguration;
 import com.vaadin.flow.spring.annotation.EnableVaadin;
 /**
  * The entry point of the Spring Boot application.
  */
+
 
 @EnableVaadin({"com.availaboard.UI"})
 @SpringBootApplication(scanBasePackages = {

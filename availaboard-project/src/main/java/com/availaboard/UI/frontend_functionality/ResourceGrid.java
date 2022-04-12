@@ -52,6 +52,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
 	 * right type of object from the database.
 	 */
 
+	
 	public Grid<E> loadGrid(Class<? extends Resource> res) {
 		try {
 			Grid<E> grid = new Grid<>();
