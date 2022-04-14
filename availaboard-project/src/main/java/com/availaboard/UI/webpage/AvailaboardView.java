@@ -17,8 +17,6 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.AppShellConfigurator;
@@ -100,7 +98,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 	private ArrayList<Grid<Resource>> getResourceGrids() {
 		ArrayList<Grid<Resource>> arr = new ArrayList<>();
 		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
-		provider.addIncludeFilter(new AssignableTypeFilter(Resource.class));
+		provider.addIncludeFilter(new AssignableTypeFilter(Resource.class)));
 
 		Set<BeanDefinition> components = provider.findCandidateComponents("com/availaboard/engine/resource");
 		for (BeanDefinition component : components) {
