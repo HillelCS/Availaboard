@@ -98,7 +98,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 	private ArrayList<Grid<Resource>> getResourceGrids() {
 		ArrayList<Grid<Resource>> arr = new ArrayList<>();
 		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
-		provider.addIncludeFilter(new AssignableTypeFilter(Resource.class)));
+		provider.addIncludeFilter(new AssignableTypeFilter(Resource.class));
 
 		Set<BeanDefinition> components = provider.findCandidateComponents("com/availaboard/engine/resource");
 		for (BeanDefinition component : components) {
