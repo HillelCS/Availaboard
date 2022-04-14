@@ -9,9 +9,6 @@ public class Equipment extends Resource {
 	@ResourceFieldLoader("Contact")
 	private String contact;
 
-	private int equipment_type_ID;
-
-
 	public String getModel() {
 		return model;
 	}
@@ -34,14 +31,6 @@ public class Equipment extends Resource {
 
 	public void setContact(String contact) {
 		this.contact = contact;
-	}
-
-	public int getEquipment_type_ID() {
-		return equipment_type_ID;
-	}
-
-	public void setEquipment_type_ID(int equipment_type_ID) {
-		this.equipment_type_ID = equipment_type_ID;
 	}
 
 	@Override
