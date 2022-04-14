@@ -2,9 +2,9 @@ package com.availaboard.engine.resource;
 
 public class User extends Resource {
 
-	static @ResourceFieldLoader("First Name")
+	@ResourceFieldLoader("First Name")
 	private String firstName;
-	static @ResourceFieldLoader("Last Name")
+	@ResourceFieldLoader("Last Name")
 	private String lastName;
 	@ResourceFieldLoader("Email Address")
 	private String email;
@@ -13,13 +13,7 @@ public class User extends Resource {
 
 	private String password;
 
-
-	
-	// REMOVE LATER, only here for testing
-	@ResourceFieldLoader("Permissions")
 	private Permission permissions;
-
-
 
 	@FieldExcludedFromDatabase
 	private boolean isLoggedIn;
@@ -75,5 +69,13 @@ public class User extends Resource {
 	@Override
 	public String toString() {
 		return "User";
+	}
+
+	public Permission getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(Permission permissions) {
+		this.permissions = permissions;
 	}
 }

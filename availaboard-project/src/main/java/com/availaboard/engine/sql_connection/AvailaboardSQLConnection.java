@@ -67,6 +67,7 @@ public class AvailaboardSQLConnection {
 	@SuppressWarnings("unchecked")
 	public <E extends Resource> E createResourceWithID(int ID, Class<E> type) {
 		try {
+			final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
 			Resource res = (Resource) Class.forName(type.getName()).getConstructor().newInstance();
 			res.setId(ID);
 			for (Field field : res.getClass().getDeclaredFields()) {
@@ -74,31 +75,24 @@ public class AvailaboardSQLConnection {
 					field.setAccessible(true);
 					String query = String.format("select %s from %s where ResourceID = ?", field.getName(),
 							type.getSimpleName());
-					final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
 					PreparedStatement st = con.prepareStatement(query);
 					st.setInt(1, ID);
 					ResultSet rs = st.executeQuery();
 
 					if (rs.next()) {
-						field.set(res, rs.getString(1));
-					}
-
-					if (rs.next()) {
-						field.set(res, rs.getString(1));
-					}
-
-					query = "select status, name from resource where ResourceID = ?";
-					st = con.prepareStatement(query);
-					st.setInt(1, ID);
-					rs = st.executeQuery();
-					if (rs.next()) {
-						res.setStatus(Status.valueOf(rs.getString(1)));
-						res.setName(rs.getString(2));
+						setType(res, rs.getString(1), field);
 					}
 				}
 			}
-			return (E) res;
-
+				String query = "select status, name from resource where ResourceID = ?";
+				PreparedStatement st = con.prepareStatement(query);
+				st.setInt(1, ID);
+				ResultSet rs = st.executeQuery();
+				if (rs.next()) {
+					res.setStatus(Status.valueOf(rs.getString(1)));
+					res.setName(rs.getString(2));
+				}
+				return (E) res;
 		} catch (IllegalArgumentException | SQLException | IllegalAccessException | InstantiationException
 				| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
 			e.printStackTrace();
@@ -106,10 +100,9 @@ public class AvailaboardSQLConnection {
 		return null;
 	}
 
-
 	public void setType(Resource res, String value, Field field) {
 		try {
-			if (field.isEnumConstant()) {
+			if(field.getType() instanceof Class && ((Class<?>)field.getType()).isEnum()) {
 				field.set(res,
 						Enum.valueOf((Class<? extends Enum>) Class.forName(field.getType().getSimpleName()), value));
 			} else {

@@ -1,9 +1,9 @@
 .login-button {
-	margin: 20px;
-	bottom: 470px;
+	position: inherit;
+     top: 50%;
 }
 
 .create-account-button {
-	margin: 20px;
-	bottom: 470px;
+	position: inherit;
+    top: 100%;
 }
