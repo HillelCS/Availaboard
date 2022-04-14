@@ -1,30 +1,16 @@
 package com.availaboard.engine.resource;
 
-import java.util.HashMap;
-
 public class Equipment extends Resource {
 
-	@ResourceFieldLoader
+	@ResourceFieldLoader("Model")
 	private String model;
-	@ResourceFieldLoader
+	@ResourceFieldLoader("Equipment Type")
 	private String equipment_type;
-	@ResourceFieldLoader
+	@ResourceFieldLoader("Contact")
 	private String contact;
 
 	private int equipment_type_ID;
 
-	@FieldExcludedFromDatabase
-	private static HashMap<String, String> fieldList = new HashMap<String, String>();
-
-	static {
-		fieldList.put("model", "Model");
-		fieldList.put("contact", "Contact");
-	}
-
-	@Override
-	public String getFieldName(String fieldName) {
-		return fieldList.get(fieldName);
-	}
 
 	public String getModel() {
 		return model;

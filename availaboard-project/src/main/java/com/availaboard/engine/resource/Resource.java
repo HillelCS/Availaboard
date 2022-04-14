@@ -7,6 +7,8 @@ public class Resource {
 	private String name;
 	private Status status;
 	private int id;
+	
+	
 
 	/*
 	 * This HashMap has two Strings for the Key and Value. The Key is the field
@@ -28,8 +30,11 @@ public class Resource {
 	}
 
 	protected Resource() {
+		
 	}
 
+	//Create a method that takes in a string and prints it out to the screen
+	
 	public String getName() {
 		return name;
 	}

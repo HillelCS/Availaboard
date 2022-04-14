@@ -108,8 +108,8 @@ public class ResourceGrid<E extends Resource> extends Grid {
 	/*
 	 * Creates a pop-up window. This method creates a vertical layout that can be
 	 * added onto a pop-up window. The method loads all of the fields of the class
-	 * and their respective names which are statically created in the classes. All
-	 * of the fields are then added to a Vertical Layout and returned.
+	 * and their respective names which are statically created in the classes with the @ResourceFieldLoader
+	 * interface. All of the fields are then added to a Vertical Layout and returned.
 	 */
 	private static VerticalLayout createDialogLayout(Dialog dialog, Resource resourceObj) {
 		AvailaboardSQLConnection db = new AvailaboardSQLConnection();
@@ -131,7 +131,8 @@ public class ResourceGrid<E extends Resource> extends Grid {
 			if (field.isAnnotationPresent(ResourceFieldLoader.class)) {
 				try {
 					field.setAccessible(true);
-					Label label = new Label(res.getFieldName(field.getName()) + ": " + field.get(res));
+					ResourceFieldLoader fieldLoader = field.getAnnotation(ResourceFieldLoader.class);
+					Label label = new Label(fieldLoader.value() + ": " + field.get(res));
 					fieldLayout.add(label);
 				} catch (IllegalArgumentException e1) {
 					e1.printStackTrace();

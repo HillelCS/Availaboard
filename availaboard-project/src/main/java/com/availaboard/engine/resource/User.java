@@ -1,32 +1,14 @@
 package com.availaboard.engine.resource;
 
-import java.util.HashMap;
-
 public class User extends Resource {
 
-	@FieldExcludedFromDatabase
-	private static HashMap<String, String> fieldList = new HashMap<String, String>();
-
-	static {
-		fieldList.put("firstName", "First Name");
-		fieldList.put("lastName", "Last Name");
-		fieldList.put("email", "Email");
-		fieldList.put("username", "Username");
-		fieldList.put("permissions", "Permissions");
-	}
-
-	@Override
-	public String getFieldName(String fieldName) {
-		return fieldList.get(fieldName);
-	}
-
-	@ResourceFieldLoader
+	static @ResourceFieldLoader("First Name")
 	private String firstName;
-	@ResourceFieldLoader
+	static @ResourceFieldLoader("Last Name")
 	private String lastName;
-	@ResourceFieldLoader
+	@ResourceFieldLoader("Email Address")
 	private String email;
-	@ResourceFieldLoader
+	@ResourceFieldLoader("User Name")
 	private String username;
 
 	private String password;
@@ -34,7 +16,7 @@ public class User extends Resource {
 
 	
 	// REMOVE LATER, only here for testing
-	@ResourceFieldLoader
+	@ResourceFieldLoader("Permissions")
 	private Permission permissions;
 
 
