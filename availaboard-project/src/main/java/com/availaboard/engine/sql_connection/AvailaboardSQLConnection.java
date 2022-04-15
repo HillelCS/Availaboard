@@ -13,6 +13,7 @@ import java.util.Collection;
 import com.availaboard.engine.resource.FieldExcludedFromDatabase;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Status;
+import com.availaboard.engine.resource.User;
 import com.availaboard.utilitys.ConfigPropReader;
 
 public class AvailaboardSQLConnection {
@@ -56,10 +57,10 @@ public class AvailaboardSQLConnection {
 	 * This method creates a new instance of the class being passed in by using a
 	 * plain Resource object and constructing a new instance of the object being
 	 * passed in with class.forName(). The E variable requires the object to be an
-	 * instance of the Resource so it is guaranteed not to throw an exception. Then, the method
-	 * iterates through each field of the class being passed in. It selects the
-	 * column value in the database that has the same name as the field in the
-	 * class. It then set's the field to the value in the database of that
+	 * instance of the Resource so it is guaranteed not to throw an exception. Then,
+	 * the method iterates through each field of the class being passed in. It
+	 * selects the column value in the database that has the same name as the field
+	 * in the class. It then set's the field to the value in the database of that
 	 * ResourceID. Finally, it sets the status and name values. The Resource is
 	 * casted to (E) and returned.
 	 *
@@ -101,14 +102,16 @@ public class AvailaboardSQLConnection {
 	}
 
 	/*
-	 * A useful method that sets a a field with the value being passed in.
-	 * The reason for this is so that when a field is an enum it automatically
-	 * set's the returned value to an Enum type.
+	 * A useful method that sets a a field with the value being passed in. The
+	 * reason for this is so that when a field is an enum it automatically set's the
+	 * returned value to an Enum type.
 	 */
 	public void setType(Resource res, String value, Field field) {
 		try {
 			if (field.getType() instanceof Class && ((Class<?>) field.getType()).isEnum()) {
 				field.set(res, Enum.valueOf((Class<Enum>) field.getType(), value));
+			} else if (field.getType().equals(boolean.class)) {
+				field.set(res, Boolean.parseBoolean(value));
 			} else {
 				field.set(res, value);
 			}
@@ -120,10 +123,27 @@ public class AvailaboardSQLConnection {
 		}
 	}
 
+	private int getResourceIDFromUsername(String username) {
+		try {
+			String query = "SELECT ResourceID FROM user WHERE username = ?";
+			Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+			PreparedStatement st = con.prepareStatement(query);
+			st.setString(1, username);
+			ResultSet rs = st.executeQuery();
+
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 	/*
-	 * A simple login method. If both the username and password exist
-	 * in the same row the program does nothing. If both the username and password
-	 * do not exist the in the same row the program throws a InvalidCredentialsException.
+	 * A simple login method. If both the username and password exist in the same
+	 * row the program does nothing. If both the username and password do not exist
+	 * the in the same row the program throws a InvalidCredentialsException.
 	 */
 	public void authenticate(String username, String password) throws InvalidCredentialsException {
 		try {
@@ -140,7 +160,50 @@ public class AvailaboardSQLConnection {
 				}
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/*
+	 * Set's a field in a Resource object to that value sitting in the database.
+	 */
+	public void setFieldFromDatabase(Resource res, Field field) {
+		try {
+			final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+			String query = String.format("select %s from %s where ResourceID = ?", field.getName(),
+					res.getClass().getSimpleName());
+
+			PreparedStatement st = con.prepareStatement(query);
+			st.setInt(1, res.getId());
+			ResultSet rs = st.executeQuery();
+
+			if (rs.next()) {
+				setType(res, rs.getString(1), field);
+			}
+
+		} catch (IllegalArgumentException | SQLException | SecurityException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/*
+	 * Updates a row in the database to the value sitting in a Resource object
+	 */
+	public void updateRowInDatabase(Resource res, Field field) {
+		try {
+			final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
+			String query = String.format("insert into %s (%s) values ? where ResourceID = ?",
+					res.getClass().getSimpleName(), field.getName());
+
+			PreparedStatement st = con.prepareStatement(query);
+			st.setString(1, field.get(res).toString());
+			st.setInt(2, res.getId());
+			st.executeUpdate();
+
+		} catch (IllegalArgumentException | SQLException | IllegalAccessException | SecurityException e) {
 			e.printStackTrace();
 		}
 	}

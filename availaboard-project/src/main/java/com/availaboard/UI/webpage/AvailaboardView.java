@@ -9,7 +9,9 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.filter.AssignableTypeFilter;
 
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
+import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Resource;
+import com.availaboard.engine.resource.User;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -20,6 +22,9 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.AppShellConfigurator;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
@@ -27,27 +32,26 @@ import com.vaadin.flow.theme.lumo.Lumo;
 
 @PageTitle("Availaboard")
 @CssImport("./styles/webpage-styles/availaboard.css")
-@Route("")
 @Theme(themeClass = Lumo.class, variant = Lumo.DARK)
+@Route("")
 public class AvailaboardView extends VerticalLayout implements AppShellConfigurator {
 
 	AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
-	Button loginButton = new Button("Login");
-	Button createAccountButton = new Button("Create an Account");
-
 	/*
-	 * Uses a stream to add all of the grids to the layout and centers them. Also uses layouts to properly 
-	 * position everything on the grid. 
+	 * Uses a stream to add all of the grids to the layout and centers them. Also
+	 * uses layouts to properly position everything on the grid.
 	 */
-	public AvailaboardView() {
 
-		setAlignItems(Alignment.CENTER);
+	private HorizontalLayout topLayout() {
+		Button loginButton = new Button("Login");
+		Button createAccountButton = new Button("Create an Account");
+
 		createAccountButton.addClassName("create-account-button");
 		loginButton.addClassName("login-button");
 
 		createAccountButton.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
-			@Override 
+			@Override
 			public void onComponentEvent(ClickEvent<Button> event) {
 				UI.getCurrent().navigate("/create-account");
 			}
@@ -59,10 +63,16 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 				UI.getCurrent().navigate("/login");
 			}
 		});
+
 		HorizontalLayout horizontalLayout = new HorizontalLayout();
 		horizontalLayout.add(loginButton, createAccountButton);
 
-		add(horizontalLayout);
+		return horizontalLayout;
+	}
+
+	public AvailaboardView() {
+		setAlignItems(Alignment.CENTER);
+		add(topLayout());
 
 		getResourceGrids().stream().forEach(grid -> {
 			add(grid);

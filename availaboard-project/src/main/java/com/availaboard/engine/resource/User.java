@@ -14,8 +14,7 @@ public class User extends Resource {
 	private String password;
 
 	private Permission permissions;
-
-	@FieldExcludedFromDatabase
+	
 	private boolean isLoggedIn;
 
 	public boolean isLoggedIn() {
