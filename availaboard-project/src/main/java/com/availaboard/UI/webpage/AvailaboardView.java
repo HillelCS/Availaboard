@@ -29,60 +29,45 @@ import com.vaadin.flow.theme.lumo.Lumo;
 @CssImport("./styles/webpage-styles/availaboard.css")
 @Route("")
 @Theme(themeClass = Lumo.class, variant = Lumo.DARK)
-public class AvailaboardView extends VerticalLayout implements AppShellConfigurator{
+public class AvailaboardView extends VerticalLayout implements AppShellConfigurator {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	VerticalLayout layout = new VerticalLayout();
 	AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
 	Button loginButton = new Button("Login");
 	Button createAccountButton = new Button("Create an Account");
 
 	/*
-	 * Uses a stream to add all of the grids to the layout and centers them.
+	 * Uses a stream to add all of the grids to the layout and centers them. Also uses layouts to properly 
+	 * position everything on the grid. 
 	 */
 	public AvailaboardView() {
-		getResourceGrids().stream().forEach(grid -> {
-			layout.add(grid);
-			layout.setHorizontalComponentAlignment(Alignment.CENTER, grid);
-		});
 
+		setAlignItems(Alignment.CENTER);
 		createAccountButton.addClassName("create-account-button");
 		loginButton.addClassName("login-button");
 
 		createAccountButton.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
+			@Override 
 			public void onComponentEvent(ClickEvent<Button> event) {
 				UI.getCurrent().navigate("/create-account");
 			}
 		});
 
 		loginButton.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
 			@Override
 			public void onComponentEvent(ClickEvent<Button> event) {
 				UI.getCurrent().navigate("/login");
 			}
 		});
+		HorizontalLayout horizontalLayout = new HorizontalLayout();
+		horizontalLayout.add(loginButton, createAccountButton);
 
-		HorizontalLayout horLayout = new HorizontalLayout();
-		horLayout.add(loginButton, createAccountButton);
+		add(horizontalLayout);
 
-		layout.add(horLayout);
-		layout.setHorizontalComponentAlignment(Alignment.CENTER, horLayout);
-		add(layout);
+		getResourceGrids().stream().forEach(grid -> {
+			add(grid);
+			setHorizontalComponentAlignment(Alignment.CENTER, grid);
+		});
 	}
 
 	/*
