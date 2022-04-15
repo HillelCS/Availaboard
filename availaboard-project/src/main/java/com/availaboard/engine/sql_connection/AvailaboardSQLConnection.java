@@ -84,15 +84,15 @@ public class AvailaboardSQLConnection {
 					}
 				}
 			}
-				String query = "select status, name from resource where ResourceID = ?";
-				PreparedStatement st = con.prepareStatement(query);
-				st.setInt(1, ID);
-				ResultSet rs = st.executeQuery();
-				if (rs.next()) {
-					res.setStatus(Status.valueOf(rs.getString(1)));
-					res.setName(rs.getString(2));
-				}
-				return (E) res;
+			String query = "select status, name from resource where ResourceID = ?";
+			PreparedStatement st = con.prepareStatement(query);
+			st.setInt(1, ID);
+			ResultSet rs = st.executeQuery();
+			if (rs.next()) {
+				res.setStatus(Status.valueOf(rs.getString(1)));
+				res.setName(rs.getString(2));
+			}
+			return (E) res;
 		} catch (IllegalArgumentException | SQLException | IllegalAccessException | InstantiationException
 				| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
 			e.printStackTrace();
@@ -102,21 +102,15 @@ public class AvailaboardSQLConnection {
 
 	public void setType(Resource res, String value, Field field) {
 		try {
-			if(field.getType() instanceof Class && ((Class<?>)field.getType()).isEnum()) {
-				field.set(res,
-						Enum.valueOf((Class<? extends Enum>) Class.forName(field.getType().getSimpleName()), value));
+			if (field.getType() instanceof Class && ((Class<?>) field.getType()).isEnum()) {
+				field.set(res, Enum.valueOf((Class<Enum>) field.getType(), value));
 			} else {
 				field.set(res, value);
 			}
 
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -141,6 +135,5 @@ public class AvailaboardSQLConnection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 }

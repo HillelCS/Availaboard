@@ -8,11 +8,12 @@ public class User extends Resource {
 	private String lastName;
 	@ResourceFieldLoader("Email Address")
 	private String email;
-	@ResourceFieldLoader("User Name")
+	@ResourceFieldLoader("Username")
 	private String username;
 
 	private String password;
 
+	@ResourceFieldLoader("Permissions")
 	private Permission permissions;
 
 	@FieldExcludedFromDatabase

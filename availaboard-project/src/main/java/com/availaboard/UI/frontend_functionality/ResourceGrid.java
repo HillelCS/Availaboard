@@ -100,6 +100,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
 		dialog.setModal(true);
 
 		dialog.setDraggable(true);
+
 		Button button = new Button(res.getName(), e -> dialog.open());
 		button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
 		return button;
@@ -108,8 +109,9 @@ public class ResourceGrid<E extends Resource> extends Grid {
 	/*
 	 * Creates a pop-up window. This method creates a vertical layout that can be
 	 * added onto a pop-up window. The method loads all of the fields of the class
-	 * and their respective names which are statically created in the classes with the @ResourceFieldLoader
-	 * interface. All of the fields are then added to a Vertical Layout and returned.
+	 * and their respective names which are statically created in the classes with
+	 * the @ResourceFieldLoader interface. All of the fields are then added to a
+	 * Vertical Layout and returned.
 	 */
 	private static VerticalLayout createDialogLayout(Dialog dialog, Resource resourceObj) {
 		AvailaboardSQLConnection db = new AvailaboardSQLConnection();
@@ -151,7 +153,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
 		VerticalLayout dialogLayout = new VerticalLayout(header, fieldLayout, buttonLayout);
 		dialogLayout.setPadding(false);
 
-		dialogLayout.getStyle().set("width", "300px").set("max-width", "450px");
+		dialogLayout.getStyle().set("width", "350px").set("max-width", "450px");
 
 		return dialogLayout;
 	}
