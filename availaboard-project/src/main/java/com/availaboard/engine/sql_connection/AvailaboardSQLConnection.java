@@ -30,7 +30,7 @@ public class AvailaboardSQLConnection {
 	 *
 	 */
 	public <E extends Resource> Collection<E> loadResources(Class<E> type) {
-		ArrayList<E> arr = new ArrayList<E>();
+		ArrayList<E> arr = new ArrayList<>();
 		try {
 			String query = "select ResourceID from " + type.getSimpleName();
 			final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
@@ -55,8 +55,8 @@ public class AvailaboardSQLConnection {
 	 *
 	 * This method creates a new instance of the class being passed in by using a
 	 * plain Resource object and constructing a new instance of the object being
-	 * passed in with class.forName. The E variable requires the object to be an
-	 * instance of the Resource so it is guaranteed to be fine. Then, the method
+	 * passed in with class.forName(). The E variable requires the object to be an
+	 * instance of the Resource so it is guaranteed not to throw an exception. Then, the method
 	 * iterates through each field of the class being passed in. It selects the
 	 * column value in the database that has the same name as the field in the
 	 * class. It then set's the field to the value in the database of that
@@ -100,6 +100,11 @@ public class AvailaboardSQLConnection {
 		return null;
 	}
 
+	/*
+	 * A useful method that sets a a field with the value being passed in.
+	 * The reason for this is so that when a field is an enum it automatically
+	 * set's the returned value to an Enum type.
+	 */
 	public void setType(Resource res, String value, Field field) {
 		try {
 			if (field.getType() instanceof Class && ((Class<?>) field.getType()).isEnum()) {
@@ -115,6 +120,11 @@ public class AvailaboardSQLConnection {
 		}
 	}
 
+	/*
+	 * A simple login method. If both the username and password exist
+	 * in the same row the program does nothing. If both the username and password
+	 * do not exist the in the same row the program throws a InvalidCredentialsException.
+	 */
 	public void authenticate(String username, String password) throws InvalidCredentialsException {
 		try {
 			String query = "SELECT COUNT(1) FROM user WHERE username = ? and password = ?;";
@@ -125,9 +135,7 @@ public class AvailaboardSQLConnection {
 			ResultSet rs = st.executeQuery();
 
 			if (rs.next()) {
-				if (rs.getInt(1) == 1) {
-
-				} else {
+				if (rs.getInt(1) != 1) {
 					throw new InvalidCredentialsException();
 				}
 			}

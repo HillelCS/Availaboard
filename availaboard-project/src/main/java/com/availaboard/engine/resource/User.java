@@ -13,7 +13,6 @@ public class User extends Resource {
 
 	private String password;
 
-	@ResourceFieldLoader("Permissions")
 	private Permission permissions;
 
 	@FieldExcludedFromDatabase
