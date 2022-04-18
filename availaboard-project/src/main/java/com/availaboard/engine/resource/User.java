@@ -1,19 +1,8 @@
 package com.availaboard.engine.resource;
 
-import java.util.Collection;
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-@Entity
-public class User extends Resource implements UserDetails {
+public class User extends Resource {
 
 	@ResourceFieldLoader("First Name")
-	@Id
 	private String firstName;
 	@ResourceFieldLoader("Last Name")
 	private String lastName;
@@ -25,11 +14,7 @@ public class User extends Resource implements UserDetails {
 	private String password;
 
 	private Permission permissions;
-
-	@FieldExcludedFromDatabase
-	private boolean accountNonLocked;
-
-	@FieldExcludedFromDatabase
+	
 	private boolean isLoggedIn;
 
 	public boolean isLoggedIn() {
@@ -91,38 +76,5 @@ public class User extends Resource implements UserDetails {
 
 	public void setPermissions(Permission permissions) {
 		this.permissions = permissions;
-	}
-
-	@Override 
-	   public Collection<? extends GrantedAuthority> getAuthorities() { 
-	      return List.of(() -> "read"); 
-	   }
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return accountNonLocked;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-
-	public void setAccountNonLocked(Boolean accountNonLocked) {
-		this.accountNonLocked = accountNonLocked;
-	}
-
-	public boolean getAccountNonLocked() {
-		return accountNonLocked;
 	}
 }
