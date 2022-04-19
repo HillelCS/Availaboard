@@ -18,6 +18,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.router.RouterLink;
@@ -26,10 +27,12 @@ import com.vaadin.flow.server.VaadinService;
 /**
  * The main layout. Contains the navigation menu.
  */
-
+@CssImport("./styles/webpage-styles/main-layout.css")
 public class MainLayout extends AppLayout implements RouterLayout {
 
 	private final Button logoutButton;
+	private final RouterLink availaboardButton;
+	private final RouterLink loginButton;
 
 	public MainLayout() {
 
@@ -56,6 +59,9 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		logoutButton.addClickListener(e -> logout());
 		logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
 
+		availaboardButton = createMenuLink(AvailaboardView.class, "Availaboard Grids", VaadinIcon.GRID.create());
+		loginButton = createMenuLink(LoginView.class, "Login", VaadinIcon.ANGLE_UP.create());
+
 	}
 
 	private void logout() {
@@ -73,7 +79,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
 	private Button createMenuButton(String caption, Icon icon) {
 		final Button routerButton = new Button(caption);
-		routerButton.setClassName("menu-button");
+		routerButton.setClassName("menu-link");
 		routerButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
 		routerButton.setIcon(icon);
 		icon.setSize("24px");
@@ -92,25 +98,28 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
 	@Override
 	protected void onAttach(AttachEvent attachEvent) {
-		super.onAttach(attachEvent);
+		VerticalLayout verticalLayout = new VerticalLayout();
 
-		// User can quickly activate logout with Ctrl+L
-		attachEvent.getUI().addShortcutListener(() -> logout(), Key.KEY_L, KeyModifier.CONTROL);
+		super.onAttach(attachEvent);
 
 		// add the admin view menu item if user has admin role
 		final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
-		if (accessControl.isUserInRole(AccessControl.ADMIN_ROLE_NAME)) {
-
+		if (accessControl.isUserSignedIn()) {
 			// Create extra navigation target for admins
 			registerAdminViewIfApplicable(accessControl);
-
 			// The link can only be created now, because the RouterLink checks
 			// that the target is valid.
-			addToDrawer(createMenuLink(AdminView.class, AdminView.VIEW_NAME, VaadinIcon.DOCTOR.create()));
+			attachEvent.getUI().addShortcutListener(() -> logout(), Key.KEY_L, KeyModifier.CONTROL);
+			verticalLayout.add(createMenuLink(AdminView.class, AdminView.VIEW_NAME, VaadinIcon.DOCTOR.create()));
+			verticalLayout.add(logoutButton);
 		}
 
 		// Finally, add logout button for all users
-		addToDrawer(logoutButton);
+		verticalLayout.add(loginButton);
+		verticalLayout.add(availaboardButton);
+		verticalLayout.setSizeFull();
+		verticalLayout.setAlignItems(Alignment.START);
+		addToDrawer(verticalLayout);
 	}
 
 }
