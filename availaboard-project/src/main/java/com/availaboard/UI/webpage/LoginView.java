@@ -1,37 +1,76 @@
 package com.availaboard.UI.webpage;
+
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.availaboard.engine.security.AccessControl;
+import com.availaboard.engine.security.AccessControlFactory;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.router.RouteConfiguration;
 
-@Route("login") 
-@PageTitle("Login | Availaboard")
-public class LoginView extends VerticalLayout implements BeforeEnterObserver {
+/**
+ * UI content when the user is not logged in yet.
+ */
+@Route("login")
+@PageTitle("Login")
+public class LoginView extends FlexLayout {
 
-	private final LoginForm login = new LoginForm(); 
+	private AccessControl accessControl;
 
-	public LoginView(){
-		addClassName("login-view");
-		setSizeFull(); 
-		setAlignItems(Alignment.CENTER);
-		setJustifyContentMode(JustifyContentMode.CENTER);
-
-		login.setAction("login"); 
-
-		add(new H1("Availaboard"), login);
+	public LoginView() {
+		accessControl = AccessControlFactory.getInstance().createAccessControl();
+		buildUI();
 	}
 
-	@Override
-	public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-		// inform the user about an authentication error
-		if(beforeEnterEvent.getLocation()  
-        .getQueryParameters()
-        .getParameters()
-        .containsKey("error")) {
-            login.setError(true);
-        }
+	private void buildUI() {
+		setSizeFull();
+		// setClassName("login-screen");
+
+		// login form, centered in the available part of the screen
+		LoginForm loginForm = new LoginForm();
+		loginForm.addLoginListener(this::login);
+		loginForm.addForgotPasswordListener(event -> Notification.show("Hint: same as username"));
+
+		// layout to center login form when there is sufficient screen space
+		FlexLayout centeringLayout = new FlexLayout();
+		centeringLayout.setSizeFull();
+		centeringLayout.setJustifyContentMode(JustifyContentMode.CENTER);
+		centeringLayout.setAlignItems(Alignment.CENTER);
+		centeringLayout.add(loginForm);
+
+		// information text about logging in
+		Component loginInformation = buildLoginInformation();
+
+		add(loginInformation);
+		add(centeringLayout);
+	}
+
+	private Component buildLoginInformation() {
+		VerticalLayout loginInformation = new VerticalLayout();
+		loginInformation.setClassName("login-information");
+
+		H1 loginInfoHeader = new H1("Login Information");
+		loginInfoHeader.setWidth("100%");
+		Span loginInfoText = new Span("Log in as \"admin\" to have full access. Log in with any "
+				+ "other username to have read-only access. For all " + "users, the password is same as the username.");
+		loginInfoText.setWidth("100%");
+		loginInformation.add(loginInfoHeader);
+		loginInformation.add(loginInfoText);
+
+		return loginInformation;
+	}
+
+	private void login(LoginForm.LoginEvent event) {
+		if (accessControl.signIn(event.getUsername(), event.getPassword())) {
+			getUI().get().navigate("/admin");
+		} else {
+			event.getSource().setError(true);
+		}
 	}
 }

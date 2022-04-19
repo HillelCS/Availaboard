@@ -140,6 +140,10 @@ public class AvailaboardSQLConnection {
 		return 0;
 	}
 
+	public User createUserWithUsername(String username) {
+		return createResourceWithID(getResourceIDFromUsername(username), User.class);
+	}
+
 	/*
 	 * A simple login method. If both the username and password exist in the same
 	 * row the program does nothing. If both the username and password do not exist
