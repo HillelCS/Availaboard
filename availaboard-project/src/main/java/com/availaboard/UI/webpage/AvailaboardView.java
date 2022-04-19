@@ -45,17 +45,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
 	private HorizontalLayout topLayout() {
 		Button loginButton = new Button("Login");
-		Button createAccountButton = new Button("Create an Account");
-
-		createAccountButton.addClassName("create-account-button");
 		loginButton.addClassName("login-button");
-
-		createAccountButton.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
-			@Override
-			public void onComponentEvent(ClickEvent<Button> event) {
-				UI.getCurrent().navigate("/create-account");
-			}
-		});
 
 		loginButton.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
 			@Override
@@ -65,7 +55,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 		});
 
 		HorizontalLayout horizontalLayout = new HorizontalLayout();
-		horizontalLayout.add(loginButton, createAccountButton);
+		horizontalLayout.add(loginButton);
 
 		return horizontalLayout;
 	}

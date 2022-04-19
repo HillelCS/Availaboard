@@ -30,41 +30,19 @@ public class LoginView extends FlexLayout {
 
 	private void buildUI() {
 		setSizeFull();
-		// setClassName("login-screen");
-
-		// login form, centered in the available part of the screen
 		LoginForm loginForm = new LoginForm();
 		loginForm.addLoginListener(this::login);
-		loginForm.addForgotPasswordListener(event -> Notification.show("Hint: same as username"));
 
-		// layout to center login form when there is sufficient screen space
 		FlexLayout centeringLayout = new FlexLayout();
 		centeringLayout.setSizeFull();
 		centeringLayout.setJustifyContentMode(JustifyContentMode.CENTER);
 		centeringLayout.setAlignItems(Alignment.CENTER);
 		centeringLayout.add(loginForm);
 
-		// information text about logging in
-		Component loginInformation = buildLoginInformation();
 
-		add(loginInformation);
 		add(centeringLayout);
 	}
 
-	private Component buildLoginInformation() {
-		VerticalLayout loginInformation = new VerticalLayout();
-		loginInformation.setClassName("login-information");
-
-		H1 loginInfoHeader = new H1("Login Information");
-		loginInfoHeader.setWidth("100%");
-		Span loginInfoText = new Span("Log in as \"admin\" to have full access. Log in with any "
-				+ "other username to have read-only access. For all " + "users, the password is same as the username.");
-		loginInfoText.setWidth("100%");
-		loginInformation.add(loginInfoHeader);
-		loginInformation.add(loginInfoText);
-
-		return loginInformation;
-	}
 
 	private void login(LoginForm.LoginEvent event) {
 		if (accessControl.signIn(event.getUsername(), event.getPassword())) {
