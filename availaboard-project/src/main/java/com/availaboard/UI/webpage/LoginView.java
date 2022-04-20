@@ -1,18 +1,11 @@
 package com.availaboard.UI.webpage;
 
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.login.LoginForm;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
-import com.vaadin.flow.router.RouteConfiguration;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 
 /**
  * UI content when the user is not logged in yet.
@@ -21,6 +14,10 @@ import com.vaadin.flow.router.RouteConfiguration;
 @PageTitle("Login")
 public class LoginView extends FlexLayout {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -6633815459114206330L;
 	private AccessControl accessControl;
 
 	public LoginView() {
@@ -28,7 +25,6 @@ public class LoginView extends FlexLayout {
 		buildUI();
 	}
 
-	
 	private void buildUI() {
 		setSizeFull();
 		LoginForm loginForm = new LoginForm();
@@ -41,7 +37,6 @@ public class LoginView extends FlexLayout {
 		centeringLayout.add(loginForm);
 		add(centeringLayout);
 	}
-
 
 	private void login(LoginForm.LoginEvent event) {
 		if (accessControl.signIn(event.getUsername(), event.getPassword())) {

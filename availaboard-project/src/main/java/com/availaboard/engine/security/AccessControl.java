@@ -3,20 +3,20 @@ package com.availaboard.engine.security;
 import java.io.Serializable;
 
 /**
- * Regulates {@link User} sessions. 
+ * Regulates {@link User} sessions.
  */
 
 public interface AccessControl extends Serializable {
 
-    String ADMIN_ROLE_NAME = "admin";
+	String ADMIN_ROLE_NAME = "admin";
 
-    boolean signIn(String username, String password);
+	String getPrincipalName();
 
-    boolean isUserSignedIn();
+	boolean isUserAdmin(String role);
 
-    boolean isUserAdmin(String role);
+	boolean isUserSignedIn();
 
-    String getPrincipalName();
+	boolean signIn(String username, String password);
 
-    void signOut();
+	void signOut();
 }

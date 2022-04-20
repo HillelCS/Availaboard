@@ -12,7 +12,6 @@ import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
@@ -23,7 +22,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.VaadinService;
 
 /**
  * The main layout. Contains the navigation menu.
@@ -32,6 +30,10 @@ import com.vaadin.flow.server.VaadinService;
 @CssImport(value = "./styles/webpage-styles/menu-buttons.css", themeFor = "vaadin-button")
 public class MainLayout extends AppLayout implements RouterLayout {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -1788874174184456733L;
 	private final Button logoutButton;
 	private final RouterLink availaboardButton;
 	private final RouterLink loginButton;
@@ -58,17 +60,6 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
 	}
 
-	private void logout() {
-		AccessControlFactory.getInstance().createAccessControl().signOut();
-	}
-
-	private RouterLink createMenuLink(Class<? extends Component> viewClass, String caption) {
-		final RouterLink routerLink = new RouterLink(null, viewClass);
-		routerLink.setClassName("menu-link");
-		routerLink.add(new Span(caption));
-		return routerLink;
-	}
-
 	private Button createMenuButton(String caption, Icon icon) {
 		final Button routerButton = new Button(caption);
 		routerButton.setClassName("menu-link");
@@ -78,11 +69,15 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		return routerButton;
 	}
 
-	private void registerAdminViewIfApplicable(AccessControl accessControl) {
-		if (accessControl.isUserAdmin(AccessControl.ADMIN_ROLE_NAME)
-				&& !RouteConfiguration.forSessionScope().isRouteRegistered(AdminView.class)) {
-			RouteConfiguration.forSessionScope().setRoute(AdminView.VIEW_NAME, AdminView.class, MainLayout.class);
-		}
+	private RouterLink createMenuLink(Class<? extends Component> viewClass, String caption) {
+		final RouterLink routerLink = new RouterLink(null, viewClass);
+		routerLink.setClassName("menu-link");
+		routerLink.add(new Span(caption));
+		return routerLink;
+	}
+
+	private void logout() {
+		AccessControlFactory.getInstance().createAccessControl().signOut();
 	}
 
 	@Override
@@ -102,6 +97,13 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		verticalLayout.setSizeFull();
 		verticalLayout.setAlignItems(Alignment.START);
 		addToDrawer(verticalLayout);
+	}
+
+	private void registerAdminViewIfApplicable(AccessControl accessControl) {
+		if (accessControl.isUserAdmin(AccessControl.ADMIN_ROLE_NAME)
+				&& !RouteConfiguration.forSessionScope().isRouteRegistered(AdminView.class)) {
+			RouteConfiguration.forSessionScope().setRoute(AdminView.VIEW_NAME, AdminView.class, MainLayout.class);
+		}
 	}
 
 }

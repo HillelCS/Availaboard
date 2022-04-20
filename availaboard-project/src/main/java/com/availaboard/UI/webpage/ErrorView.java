@@ -1,5 +1,7 @@
 package com.availaboard.UI.webpage;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -9,14 +11,16 @@ import com.vaadin.flow.router.HasErrorParameter;
 import com.vaadin.flow.router.NotFoundException;
 import com.vaadin.flow.router.ParentLayout;
 
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * View shown when trying to navigate to a view that does not exist using
  */
 @ParentLayout(MainLayout.class)
 public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFoundException> {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 2387496440562208964L;
 	private Span explanation;
 
 	public ErrorView() {

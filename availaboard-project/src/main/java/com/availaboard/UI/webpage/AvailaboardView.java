@@ -26,6 +26,10 @@ import com.vaadin.flow.theme.lumo.Lumo;
 @Route(value = "", layout = MainLayout.class)
 public class AvailaboardView extends VerticalLayout implements AppShellConfigurator {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -4432887017833022089L;
 	AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
 	public AvailaboardView() {
@@ -43,7 +47,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 	 * Iterates through every subclass of {@link Resource} and creates a
 	 * {@link ResourceGrid} with each of them. It then adds them all to an
 	 * {@link ArrayList}.
-	 * 
+	 *
 	 * @return An {@link ArrayList} of each subclass of {@link Resource} added as a
 	 *         type to a {@link ResourceGrid}.
 	 */

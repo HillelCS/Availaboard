@@ -11,12 +11,12 @@ public class Room extends Resource {
 		return contact;
 	}
 
-	public void setContact(String contact) {
-		this.contact = contact;
-	}
-
 	public String getLocation() {
 		return location;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
 	}
 
 	public void setLocation(String location) {

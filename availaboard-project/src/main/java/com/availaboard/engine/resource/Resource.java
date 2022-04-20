@@ -12,34 +12,34 @@ public class Resource {
 	private int id;
 
 	/**
-	* Sole constructor. (For invocation by subclass 
-	* constructors, typically implicit.)
-	*/
-	protected Resource() { 
-		
-	}
+	 * Sole constructor. (For invocation by subclass constructors, typically
+	 * implicit.)
+	 */
+	protected Resource() {
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
 	}
 
 	public int getId() {
 		return id;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 }

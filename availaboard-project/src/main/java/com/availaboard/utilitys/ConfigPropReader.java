@@ -10,13 +10,13 @@ import java.util.Properties;
  * Reads the config.properties file.
  */
 public class ConfigPropReader {
-	
+
 	/**
-	 * @return An {@link ArrayList} of the <code>username</code>, <code>password</code>, and
-	 * <code>URL</code> for the database.
+	 * @return An {@link ArrayList} of the <code>username</code>,
+	 *         <code>password</code>, and <code>URL</code> for the database.
 	 */
 	public ArrayList<String> getPropValues() {
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<String> result = new ArrayList<>();
 		try {
 			Properties prop = new Properties();
 			File file = new File("src/main/resources/config.properties");

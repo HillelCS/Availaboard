@@ -9,28 +9,28 @@ public class Equipment extends Resource {
 	@ResourceFieldLoader("Contact")
 	private String contact;
 
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
+	public String getContact() {
+		return contact;
 	}
 
 	public String getEquipment_type() {
 		return equipment_type;
 	}
 
-	public void setEquipment_type(String equipment_type) {
-		this.equipment_type = equipment_type;
-	}
-
-	public String getContact() {
-		return contact;
+	public String getModel() {
+		return model;
 	}
 
 	public void setContact(String contact) {
 		this.contact = contact;
+	}
+
+	public void setEquipment_type(String equipment_type) {
+		this.equipment_type = equipment_type;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
 	}
 
 	@Override
