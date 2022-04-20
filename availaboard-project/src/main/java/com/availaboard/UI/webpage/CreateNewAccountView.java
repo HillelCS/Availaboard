@@ -6,7 +6,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
-@Route("/create-account")
+@Route(value = "create-account", layout = MainLayout.class)
 public class CreateNewAccountView extends VerticalLayout {
 
 	

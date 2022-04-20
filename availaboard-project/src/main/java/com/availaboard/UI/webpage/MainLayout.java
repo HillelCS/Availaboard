@@ -52,8 +52,8 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		logoutButton.addClickListener(e -> logout());
 		logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
 
-		availaboardButton = createMenuLink(AvailaboardView.class, "Availaboard Grids", VaadinIcon.GRID.create());
-		loginButton = createMenuLink(LoginView.class, "Login", VaadinIcon.ANGLE_UP.create());
+		availaboardButton = createMenuLink(AvailaboardView.class, "Availaboard Grids");
+		loginButton = createMenuLink(LoginView.class, "Login");
 
 	}
 
@@ -61,12 +61,10 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		AccessControlFactory.getInstance().createAccessControl().signOut();
 	}
 
-	private RouterLink createMenuLink(Class<? extends Component> viewClass, String caption, Icon icon) {
+	private RouterLink createMenuLink(Class<? extends Component> viewClass, String caption) {
 		final RouterLink routerLink = new RouterLink(null, viewClass);
 		routerLink.setClassName("menu-link");
-		routerLink.add(icon);
 		routerLink.add(new Span(caption));
-		icon.setSize("24px");
 		return routerLink;
 	}
 
@@ -95,7 +93,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		if (accessControl.isUserSignedIn()) {
 			registerAdminViewIfApplicable(accessControl);
 			attachEvent.getUI().addShortcutListener(() -> logout(), Key.KEY_L, KeyModifier.CONTROL);
-			verticalLayout.add(createMenuLink(AdminView.class, AdminView.VIEW_NAME, VaadinIcon.DOCTOR.create()));
+			verticalLayout.add(createMenuLink(AdminView.class, AdminView.VIEW_NAME));
 			verticalLayout.add(logoutButton);
 		}
 

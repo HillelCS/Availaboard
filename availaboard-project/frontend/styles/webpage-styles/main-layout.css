@@ -4,7 +4,6 @@
     background: var(--lumo-primary-color-50pct);
 }
 
-/* Stack login-screen vertically on narrow screen */
 @media (max-width: 800px) {
 
     .login-screen {
@@ -17,8 +16,6 @@
 }
 
 body {
-
-    /* Used by the menu and form overlays */
     --overlay-box-shadow: 0 0 3px 2px var(--lumo-contrast-10pct);
 }
 
@@ -28,9 +25,12 @@ body {
     font-size: var(--lumo-font-size-l);
 }
 
-.menu-toggle {
-    display: none;
-}
+    .menu-toggle {
+        display: block;
+        height: var(--lumo-button-size);
+        width: var(--lumo-button-size);
+    }
+    
 
 .menu-link:hover {
   background-image: linear-gradient(
@@ -76,15 +76,6 @@ body {
  * Special rules for narrow screens (responsive design rules)
  */
 @media (max-width: 800px), (max-height: 600px) {
-
-	/*
-	 * Make menu toggle visible, and smaller
-	 */
-    .menu-toggle {
-        display: block;
-        height: var(--lumo-button-size);
-        width: var(--lumo-button-size);
-    }
     
     .menu-header {
         padding-left: 0;

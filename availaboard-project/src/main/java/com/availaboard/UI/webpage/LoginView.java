@@ -17,7 +17,7 @@ import com.vaadin.flow.router.RouteConfiguration;
 /**
  * UI content when the user is not logged in yet.
  */
-@Route("login")
+@Route(value = "login", layout = MainLayout.class)
 @PageTitle("Login")
 public class LoginView extends FlexLayout {
 
