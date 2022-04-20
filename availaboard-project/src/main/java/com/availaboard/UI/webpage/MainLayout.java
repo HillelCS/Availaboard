@@ -1,5 +1,6 @@
 package com.availaboard.UI.webpage;
 
+import com.availaboard.UI.webpage.admin.AdminView;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
 import com.vaadin.flow.component.AttachEvent;
@@ -87,8 +88,9 @@ public class MainLayout extends AppLayout implements RouterLayout {
 	@Override
 	protected void onAttach(AttachEvent attachEvent) {
 		VerticalLayout verticalLayout = new VerticalLayout();
-
 		super.onAttach(attachEvent);
+		verticalLayout.add(loginButton);
+		verticalLayout.add(availaboardButton);
 		final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
 		if (accessControl.isUserSignedIn()) {
 			registerAdminViewIfApplicable(accessControl);
@@ -97,8 +99,6 @@ public class MainLayout extends AppLayout implements RouterLayout {
 			verticalLayout.add(logoutButton);
 		}
 
-		verticalLayout.add(loginButton);
-		verticalLayout.add(availaboardButton);
 		verticalLayout.setSizeFull();
 		verticalLayout.setAlignItems(Alignment.START);
 		addToDrawer(verticalLayout);

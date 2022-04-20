@@ -1,12 +1,13 @@
 package com.availaboard.engine.security;
 
-import com.availaboard.UI.webpage.AdminView;
 import com.availaboard.UI.webpage.LoginView;
+import com.availaboard.UI.webpage.admin.AdminView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
 import org.springframework.stereotype.Component;
+import com.availaboard.UI.webpage.admin.*;
 
 @Component
 public class ConfigureUIServiceInitListener implements VaadinServiceInitListener {
@@ -27,7 +28,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 	 * @param event before navigation event with event details
 	 */
 	private void beforeEnter(BeforeEnterEvent event) {
-		if (AdminView.class.equals(event.getNavigationTarget()) && !accessControl.isUserSignedIn()) {
+		if (AbstractAdminView.class.isAssignableFrom(event.getNavigationTarget()) && !accessControl.isUserSignedIn()) {
 			event.rerouteTo(LoginView.class);
 		}
 	}
