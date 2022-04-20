@@ -1,5 +1,6 @@
 package com.availaboard.engine.security;
 
+import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.User;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.availaboard.engine.sql_connection.InvalidCredentialsException;
@@ -19,32 +20,30 @@ public class BasicAccessControl implements AccessControl {
 
 	@Override
 	public String getPrincipalName() {
-		return CurrentUser.get();
+		return CurrentUser.get().getUsername();
 	}
 
 	/**
-	 * Checks if a given user is an administrator.
-	 *
+	 * Checks if a given user is an administrator. S
+	 * 
 	 * @param role The permission of the user being passed in.
 	 */
 
 	@Override
-	public boolean isUserAdmin(String role) {
-		if ("admin".equals(role)) {
-			return "admin".equals(getPrincipalName());
-		}
-		return true;
+	public boolean isUserInRole(Permission permission) {
+		if(CurrentUser.get().getPermissions() == permission) return true;
+		return false;
 	}
 
 	@Override
 	public boolean isUserSignedIn() {
-		return !CurrentUser.get().isEmpty();
+		return !(CurrentUser.get() == null);
 	}
 
 	/**
 	 * Checks if a username and password are valid. If the username and password are
-	 * authenticated then the {@link CurrentUser} is set to the {@link Permission}
-	 * of that {@link User} and the method returns true. If the database throws an
+	 * authenticated then the {@link CurrentUser} is set to the {@link User} with
+	 * that <code>username</code>. If the database throws an
 	 * {@link InvalidCredentialsException} then the method returns false.
 	 *
 	 * @param username the username being passed in by the {@link User} logging in.
@@ -60,7 +59,7 @@ public class BasicAccessControl implements AccessControl {
 		}
 		try {
 			BasicAccessControl.db.authenticate(username, password);
-			CurrentUser.set(BasicAccessControl.db.createUserWithUsername(username).getPermissions().toString());
+			CurrentUser.set(BasicAccessControl.db.createUserWithUsername(username));
 			return true;
 		} catch (InvalidCredentialsException e) {
 			e.printStackTrace();

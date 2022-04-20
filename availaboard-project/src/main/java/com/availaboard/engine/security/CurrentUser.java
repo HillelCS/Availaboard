@@ -1,5 +1,6 @@
 package com.availaboard.engine.security;
 
+import com.availaboard.engine.resource.User;
 import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.server.VaadinService;
 
@@ -24,12 +25,9 @@ public final class CurrentUser {
 	 *
 	 * @throws IllegalStateException if the current session cannot be accessed.
 	 */
-	public static String get() {
-		String currentUser = (String) CurrentUser.getCurrentRequest().getWrappedSession()
+	public static User get() {
+		User currentUser = (User) CurrentUser.getCurrentRequest().getWrappedSession()
 				.getAttribute(CurrentUser.CURRENT_USER_SESSION_ATTRIBUTE_KEY);
-		if (currentUser == null) {
-			return "";
-		}
 		return currentUser;
 	}
 
@@ -47,7 +45,7 @@ public final class CurrentUser {
 	 *
 	 * @throws IllegalStateException if the current session cannot be accessed.
 	 */
-	public static void set(String currentUser) {
+	public static void set(User currentUser) {
 		if (currentUser == null) {
 			CurrentUser.getCurrentRequest().getWrappedSession()
 					.removeAttribute(CurrentUser.CURRENT_USER_SESSION_ATTRIBUTE_KEY);

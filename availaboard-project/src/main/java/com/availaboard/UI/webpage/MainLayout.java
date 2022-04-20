@@ -1,6 +1,7 @@
 package com.availaboard.UI.webpage;
 
 import com.availaboard.UI.webpage.admin.AdminView;
+import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
 import com.vaadin.flow.component.AttachEvent;
@@ -100,7 +101,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 	}
 
 	private void registerAdminViewIfApplicable(AccessControl accessControl) {
-		if (accessControl.isUserAdmin(AccessControl.ADMIN_ROLE_NAME)
+		if (accessControl.isUserInRole(Permission.Admin)
 				&& !RouteConfiguration.forSessionScope().isRouteRegistered(AdminView.class)) {
 			RouteConfiguration.forSessionScope().setRoute(AdminView.VIEW_NAME, AdminView.class, MainLayout.class);
 		}
