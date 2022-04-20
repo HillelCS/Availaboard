@@ -1,5 +1,6 @@
 package com.availaboard.engine.security;
 
+import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.User;
 import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.server.VaadinService;
@@ -15,9 +16,9 @@ import com.vaadin.flow.server.VaadinService;
 public final class CurrentUser {
 
 	/**
-	 * The attribute key used to store the username in the session.
+	 * The attribute key is generated based off of the current session ID.
 	 */
-	public static final String CURRENT_USER_SESSION_ATTRIBUTE_KEY = CurrentUser.class.getCanonicalName();
+	public static final String CURRENT_USER_SESSION_ATTRIBUTE_KEY = CurrentUser.getCurrentRequest().getWrappedSession().getId();
 
 	/**
 	 * Returns the current {@link User} stored in the current session, null if no {@link User} is stored.
@@ -27,6 +28,11 @@ public final class CurrentUser {
 	public static User get() {
 		User currentUser = (User) CurrentUser.getCurrentRequest().getWrappedSession()
 				.getAttribute(CurrentUser.CURRENT_USER_SESSION_ATTRIBUTE_KEY);
+		if (currentUser == null) {
+			currentUser = new User();
+			currentUser.setPermissions(Permission.User);
+			return currentUser;
+		}
 		return currentUser;
 	}
 
