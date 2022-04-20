@@ -24,9 +24,9 @@ public class BasicAccessControl implements AccessControl {
 	}
 
 	/**
-	 * Checks if a given user is an administrator. S
+	 * Checks if the {@link CurrentUser} is in a {@link Permission}.
 	 * 
-	 * @param role The permission of the user being passed in.
+	 * @param role The {@link Permission} that the {@link CurrentUser} is being checked against.
 	 */
 
 	@Override
@@ -49,7 +49,7 @@ public class BasicAccessControl implements AccessControl {
 	 * @param username the username being passed in by the {@link User} logging in.
 	 * @param password the password being passed in by the {@link User} logging in.
 	 * @throws InvalidCredentialsException if the username and/or password are
-	 *                                     invalid.
+	 * invalid.
 	 */
 
 	@Override

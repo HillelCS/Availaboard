@@ -5,7 +5,7 @@ import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.server.VaadinService;
 
 /**
- * Class for retrieving and setting the name of the current user of the current
+ * Class for retrieving and setting the current {@link User} of the current
  * session (without using JAAS). All methods of this class require that a
  * {@link VaadinRequest} is bound to the current thread.
  *
@@ -20,8 +20,7 @@ public final class CurrentUser {
 	public static final String CURRENT_USER_SESSION_ATTRIBUTE_KEY = CurrentUser.class.getCanonicalName();
 
 	/**
-	 * Returns the name of the current user stored in the current session, or an
-	 * empty string if no user name is stored.
+	 * Returns the current {@link User} stored in the current session, null if no {@link User} is stored.
 	 *
 	 * @throws IllegalStateException if the current session cannot be accessed.
 	 */
@@ -40,8 +39,9 @@ public final class CurrentUser {
 	}
 
 	/**
-	 * Sets the name of the current user and stores it in the current session. Using
-	 * a {@code null} username will remove the username from the session.
+	 * Set's the {@link CurrentUser} session as a {@link User} being passed in. If
+	 * the {@link User} passed in is {@code null} it removed the {@link User} from the current
+	 * session.
 	 *
 	 * @throws IllegalStateException if the current session cannot be accessed.
 	 */
