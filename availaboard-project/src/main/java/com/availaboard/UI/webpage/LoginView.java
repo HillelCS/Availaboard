@@ -28,6 +28,7 @@ public class LoginView extends FlexLayout {
 		buildUI();
 	}
 
+	
 	private void buildUI() {
 		setSizeFull();
 		LoginForm loginForm = new LoginForm();
@@ -38,8 +39,6 @@ public class LoginView extends FlexLayout {
 		centeringLayout.setJustifyContentMode(JustifyContentMode.CENTER);
 		centeringLayout.setAlignItems(Alignment.CENTER);
 		centeringLayout.add(loginForm);
-
-
 		add(centeringLayout);
 	}
 

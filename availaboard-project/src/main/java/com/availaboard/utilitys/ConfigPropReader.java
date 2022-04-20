@@ -6,12 +6,14 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
+/**
+ * Reads the config.properties file.
+ */
 public class ConfigPropReader {
-	/*
-	 * Loads an ArrayList of the username, password
-	 * and URL needed to login to a database. 
-	 * AvailaboardSQLConnection uses it. The method grabs
-	 * the information from config.properties.
+	
+	/**
+	 * @return An {@link ArrayList} of the <code>username</code>, <code>password</code>, and
+	 * <code>URL</code> for the database.
 	 */
 	public ArrayList<String> getPropValues() {
 		ArrayList<String> result = new ArrayList<String>();

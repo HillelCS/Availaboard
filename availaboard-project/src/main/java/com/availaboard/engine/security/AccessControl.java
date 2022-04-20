@@ -2,6 +2,9 @@ package com.availaboard.engine.security;
 
 import java.io.Serializable;
 
+/**
+ * Regulates {@link User} sessions. 
+ */
 
 public interface AccessControl extends Serializable {
 
@@ -11,7 +14,7 @@ public interface AccessControl extends Serializable {
 
     boolean isUserSignedIn();
 
-    boolean isUserInRole(String role);
+    boolean isUserAdmin(String role);
 
     String getPrincipalName();
 

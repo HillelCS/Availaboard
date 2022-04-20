@@ -1,7 +1,5 @@
 package com.availaboard.engine.resource;
 
-import javax.persistence.Entity;
-
 public class User extends Resource {
 
 	@ResourceFieldLoader("First Name")
@@ -15,19 +13,7 @@ public class User extends Resource {
 
 	private String password;
 
-	@FieldExcludedFromDatabase
 	private Permission permissions;
-
-	@FieldExcludedFromDatabase
-	private boolean isLoggedIn;
-
-	public boolean isLoggedIn() {
-		return isLoggedIn;
-	}
-
-	public void setLoggedIn(boolean isLoggedIn) {
-		this.isLoggedIn = isLoggedIn;
-	}
 
 	public String getUsername() {
 		return username;

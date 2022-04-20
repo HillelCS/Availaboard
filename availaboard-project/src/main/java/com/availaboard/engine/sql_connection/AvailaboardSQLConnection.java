@@ -16,19 +16,29 @@ import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.resource.User;
 import com.availaboard.utilitys.ConfigPropReader;
 
+/**
+ * Connects to the Availaboard database. Uses the {@link ConfigPropReader} to
+ * get the information needed to connect.
+ */
 public class AvailaboardSQLConnection {
 
-	ConfigPropReader config = new ConfigPropReader();
-	public final String username = config.getPropValues().get(0).replaceAll("^\"|\"$", "");
-	private final String password = config.getPropValues().get(1).replaceAll("^\"|\"$", "");
-	private final String url = config.getPropValues().get(2).replaceAll("^\"|\"$", "");
+	private static final ConfigPropReader config = new ConfigPropReader();
+	private static final String username = config.getPropValues().get(0).replaceAll("^\"|\"$", "");
+	private static final String password = config.getPropValues().get(1).replaceAll("^\"|\"$", "");
+	private static final String url = config.getPropValues().get(2).replaceAll("^\"|\"$", "");
 
-	/*
-	 * Loads all resources from the database. When calling the method pass in a
-	 * class and a type and it will look for that class name in the database and
-	 * load the appropriate type of object. It returns a Collection of all the
-	 * Objects of the type <E> returned.
-	 *
+	/**
+	 * Loads all {@link Resource} in the database of a given type (<code>E</code>).
+	 * Iterates through every <code>ResourceID</code> in the <code>E</code> table
+	 * and creates an <code>E</code> object from that ID. It then adds all of them
+	 * to an {@link ArrayList} and returns.
+	 * 
+	 * @param <E>  The type of Object that the method is grabbing and returning from
+	 *             the database.
+	 * @param type The type of Object that the method is grabbing and returning from
+	 *             the database.
+	 * @return An {@link ArrayList} of the type <code>E</code> loaded from the
+	 *         database.
 	 */
 	public <E extends Resource> Collection<E> loadResources(Class<E> type) {
 		ArrayList<E> arr = new ArrayList<>();
@@ -41,31 +51,28 @@ public class AvailaboardSQLConnection {
 			while (rs.next()) {
 				arr.add(createResourceWithID(rs.getInt(1), type));
 			}
+			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return arr;
 	}
 
-	/*
-	 * Third attempt at this method.
-	 *
-	 * @param ID is the ResourceID
-	 *
-	 * @param type is the object being passed in
-	 *
-	 * This method creates a new instance of the class being passed in by using a
-	 * plain Resource object and constructing a new instance of the object being
-	 * passed in with class.forName(). The E variable requires the object to be an
-	 * instance of the Resource so it is guaranteed not to throw an exception. Then,
-	 * the method iterates through each field of the class being passed in. It
-	 * selects the column value in the database that has the same name as the field
-	 * in the class. It then set's the field to the value in the database of that
-	 * ResourceID. Finally, it sets the status and name values. The Resource is
-	 * casted to (E) and returned.
-	 *
+	/**
+	 * Creates and returns a {@link Resource} Object based off a <code>Class</code>
+	 * and a <code>ResourceID</code>. The Method iterates through every field of the
+	 * class reflectively and sets each of them to the value of a column with an
+	 * identical name. It then manually sets the {@link Status} and
+	 * <code>Name</code> of the {@link Resource} .
+	 * 
+	 * @param <E>  The type of Object that the method is grabbing and returning from
+	 *             the database.
+	 * @param ID   The ID used to identify which <code>E</code> should be grabbed
+	 *             from the database.
+	 * @param type The type of Object that the method is grabbing and returning from
+	 *             the database.
+	 * @return A <code>E</code> Object with every field set from the database.
 	 */
-	@SuppressWarnings("unchecked")
 	public <E extends Resource> E createResourceWithID(int ID, Class<E> type) {
 		try {
 			final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
@@ -93,6 +100,7 @@ public class AvailaboardSQLConnection {
 				res.setStatus(Status.valueOf(rs.getString(1)));
 				res.setName(rs.getString(2));
 			}
+			con.close();
 			return (E) res;
 		} catch (IllegalArgumentException | SQLException | IllegalAccessException | InstantiationException
 				| InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
@@ -101,17 +109,23 @@ public class AvailaboardSQLConnection {
 		return null;
 	}
 
-	/*
-	 * A useful method that sets a a field with the value being passed in. The
-	 * reason for this is so that when a field is an enum it automatically set's the
-	 * returned value to an Enum type.
+	/**
+	 * Sets the value of a <code>Field</code>. The reason there is a Method for this
+	 * action is because since the values are being set reflectively if the value is
+	 * an <code>Enum</code> then the program breaks down because an
+	 * <code>Enum</code> value can not be set by a <code>String</code> without
+	 * <code>Enum.valueOf</code>
+	 * 
+	 * @param res   The {@link Resource} Object that contains the <code>Field</code>
+	 *              that will be set.
+	 * @param value The value that the <code>Field</code> will be set to.
+	 * @param field The <code>Field</code> that the Method will set.
 	 */
+
 	public void setType(Resource res, String value, Field field) {
 		try {
 			if (field.getType() instanceof Class && ((Class<?>) field.getType()).isEnum()) {
 				field.set(res, Enum.valueOf((Class<Enum>) field.getType(), value));
-			} else if (field.getType().equals(boolean.class)) {
-				field.set(res, Boolean.parseBoolean(value));
 			} else {
 				field.set(res, value);
 			}
@@ -123,6 +137,14 @@ public class AvailaboardSQLConnection {
 		}
 	}
 
+	/**
+	 * Gets a <code>ResourceID</code> from the database with a
+	 * <code>Username</code>.
+	 * 
+	 * @param username The <code>Username</code> used to find the
+	 *                 <code>ResourceID</code>.
+	 * @return The <code>ResourceID</code> of a <code>Resource</code>.
+	 */
 	private int getResourceIDFromUsername(String username) {
 		try {
 			String query = "SELECT ResourceID FROM user WHERE username = ?";
@@ -134,20 +156,34 @@ public class AvailaboardSQLConnection {
 			if (rs.next()) {
 				return rs.getInt(1);
 			}
+			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
+	/**
+	 * Creates a {@link User} from a <code>Username</code>. Uses
+	 * {@link #createResourceWithID} and {@link #getResourceIDFromUsername} to
+	 * create it.
+	 * 
+	 * @param username used to create the {@link User} Object.
+	 * @return A new {@link User}.
+	 */
 	public User createUserWithUsername(String username) {
 		return createResourceWithID(getResourceIDFromUsername(username), User.class);
 	}
 
-	/*
-	 * A simple login method. If both the username and password exist in the same
-	 * row the program does nothing. If both the username and password do not exist
-	 * the in the same row the program throws a InvalidCredentialsException.
+	/**
+	 * Check's if a <code>username</code> and <code> password </code> are valid. If
+	 * they are not the method throws a {@link InvalidCredentialsException}.
+	 * 
+	 * @param username Passed into database to check if exists.
+	 * @param password Passed into database to check if exists.
+	 * @throws InvalidCredentialsException Thrown if both a <code>username</code>
+	 *                                     and <code> password </code> don't exist
+	 *                                     in the same row.
 	 */
 	public void authenticate(String username, String password) throws InvalidCredentialsException {
 		try {
@@ -163,18 +199,22 @@ public class AvailaboardSQLConnection {
 					throw new InvalidCredentialsException();
 				}
 			}
+			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	/*
-	 * Set's a field in a Resource object to that value sitting in the database.
+	/**
+	 * Updates a <code>Field</code> in a {@link Resource} object to the
+	 * corresponding column in the database.
+	 * 
+	 * @param res   The {@link Resource} that will be updated.
+	 * @param field The <code>Field</code> that will be updated.
 	 */
-	public void setFieldFromDatabase(Resource res, Field field) {
+	public void updateFieldToDatabase(Resource res, Field field) {
 		try {
 			final Connection con = DriverManager.getConnection(this.url, this.username, this.password);
 			String query = String.format("select %s from %s where ResourceID = ?", field.getName(),
@@ -187,14 +227,20 @@ public class AvailaboardSQLConnection {
 			if (rs.next()) {
 				setType(res, rs.getString(1), field);
 			}
-
+			con.close();
 		} catch (IllegalArgumentException | SQLException | SecurityException e) {
 			e.printStackTrace();
 		}
 	}
 
-	/*
-	 * Updates a row in the database to the value sitting in a Resource object
+	/**
+	 * Updates a column in the database to the corresponding <code>Field</code> in
+	 * the {@link Resource}.
+	 * 
+	 * @param res   The {@link Resource} that has a value in a <code>Field</code>
+	 *              that will be used to update the database.
+	 * @param field A <code>Field</code> that has a value that will be used to
+	 *              update the database.
 	 */
 	public void updateRowInDatabase(Resource res, Field field) {
 		try {
@@ -206,7 +252,7 @@ public class AvailaboardSQLConnection {
 			st.setString(1, field.get(res).toString());
 			st.setInt(2, res.getId());
 			st.executeUpdate();
-
+			con.close();
 		} catch (IllegalArgumentException | SQLException | IllegalAccessException | SecurityException e) {
 			e.printStackTrace();
 		}

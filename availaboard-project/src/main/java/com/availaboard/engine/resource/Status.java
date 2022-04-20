@@ -1,10 +1,9 @@
 package com.availaboard.engine.resource;
 
+/**
+ * Possible status of a <code>Resource</code> Object.
+ */
+
 public enum Status {
-	/*
-	 * Possible status of a Resource
-	 */
 	AVAILABLE, BUSY;
 }
-
-

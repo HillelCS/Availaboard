@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConfigureUIServiceInitListener implements VaadinServiceInitListener {
 
-	AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
+	private AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
 
 	@Override
 	public void serviceInit(ServiceInitEvent event) {

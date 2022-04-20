@@ -28,6 +28,7 @@ import com.vaadin.flow.server.VaadinService;
  * The main layout. Contains the navigation menu.
  */
 @CssImport("./styles/webpage-styles/main-layout.css")
+@CssImport(value = "./styles/webpage-styles/menu-buttons.css", themeFor = "vaadin-button")
 public class MainLayout extends AppLayout implements RouterLayout {
 
 	private final Button logoutButton;
@@ -35,15 +36,9 @@ public class MainLayout extends AppLayout implements RouterLayout {
 	private final RouterLink loginButton;
 
 	public MainLayout() {
-
-		// Header of the menu (the navbar)
-
-		// menu toggle
 		final DrawerToggle drawerToggle = new DrawerToggle();
 		drawerToggle.addClassName("menu-toggle");
 		addToNavbar(drawerToggle);
-
-		// image, logo
 		final HorizontalLayout top = new HorizontalLayout();
 		top.setDefaultVerticalComponentAlignment(Alignment.CENTER);
 		top.setClassName("menu-header");
@@ -53,8 +48,6 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		top.add(title);
 		addToNavbar(top);
 
-		// Create logout button but don't add it yet; admin view might be added
-		// in between (see #onAttach())
 		logoutButton = createMenuButton("Logout", VaadinIcon.SIGN_OUT.create());
 		logoutButton.addClickListener(e -> logout());
 		logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
@@ -87,12 +80,9 @@ public class MainLayout extends AppLayout implements RouterLayout {
 	}
 
 	private void registerAdminViewIfApplicable(AccessControl accessControl) {
-		// register the admin view dynamically only for any admin user logged in
-		if (accessControl.isUserInRole(AccessControl.ADMIN_ROLE_NAME)
+		if (accessControl.isUserAdmin(AccessControl.ADMIN_ROLE_NAME)
 				&& !RouteConfiguration.forSessionScope().isRouteRegistered(AdminView.class)) {
 			RouteConfiguration.forSessionScope().setRoute(AdminView.VIEW_NAME, AdminView.class, MainLayout.class);
-			// as logout will purge the session route registry, no need to
-			// unregister the view on logout
 		}
 	}
 
@@ -101,20 +91,14 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		VerticalLayout verticalLayout = new VerticalLayout();
 
 		super.onAttach(attachEvent);
-
-		// add the admin view menu item if user has admin role
 		final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
 		if (accessControl.isUserSignedIn()) {
-			// Create extra navigation target for admins
 			registerAdminViewIfApplicable(accessControl);
-			// The link can only be created now, because the RouterLink checks
-			// that the target is valid.
 			attachEvent.getUI().addShortcutListener(() -> logout(), Key.KEY_L, KeyModifier.CONTROL);
 			verticalLayout.add(createMenuLink(AdminView.class, AdminView.VIEW_NAME, VaadinIcon.DOCTOR.create()));
 			verticalLayout.add(logoutButton);
 		}
 
-		// Finally, add logout button for all users
 		verticalLayout.add(loginButton);
 		verticalLayout.add(availaboardButton);
 		verticalLayout.setSizeFull();

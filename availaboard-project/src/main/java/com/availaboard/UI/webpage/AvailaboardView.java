@@ -28,27 +28,24 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
 	AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
-	/*
-	 * Uses a stream to add all of the grids to the layout and centers them. Also
-	 * uses layouts to properly position everything on the grid.
-	 */
 	public AvailaboardView() {
+		addGridsToLayout();
+	}
 
+	private void addGridsToLayout() {
 		getResourceGrids().stream().forEach(grid -> {
 			add(grid);
 			setHorizontalComponentAlignment(Alignment.CENTER, grid);
 		});
 	}
 
-	/*
-	 * Returns a list of the grids. It does this automatically by getting every
-	 * subclass of Resource and creating a Grid with it. It then adds all of them to
-	 * an ArrayList and returns. NoSuchMethodException happens every time because
-	 * the ClassPathScanningCandidateComponentProvider iterates through the
-	 * superclass too, except the superclass was made private so it can't create a
-	 * grid for it. Supposedly it could, but if it did it would break the code
-	 * because the Resource object does not extend itself which is a requirement for
-	 * basically everything. A component is simply a class that extends Resource.
+	/**
+	 * Iterates through every subclass of {@link Resource} and creates a
+	 * {@link ResourceGrid} with each of them. It then adds them all to an
+	 * {@link ArrayList}.
+	 * 
+	 * @return An {@link ArrayList} of each subclass of {@link Resource} added as a
+	 *         type to a {@link ResourceGrid}.
 	 */
 	private ArrayList<Grid<Resource>> getResourceGrids() {
 		ArrayList<Grid<Resource>> arr = new ArrayList<>();
@@ -62,11 +59,11 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 				ResourceGrid<Resource> grid = new ResourceGrid<>(res.getClass());
 				Grid<Resource> resGrid = grid.loadGrid(res.getClass());
 				arr.add(resGrid);
-			} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | SecurityException | InstantiationException e) {
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
 
+			} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | SecurityException | InstantiationException
+					| NoSuchMethodException e) {
+//				e.printStackTrace();
 			}
 		}
 		return arr;

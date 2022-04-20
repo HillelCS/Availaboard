@@ -23,34 +23,41 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+/**
+ * Used to instantiate grid with the type <code>E</code>. The {@link Grid} contains a <code>Name</code>
+ * and a <code>Status</code> column. It also has a pop-up window displaying information
+ * about the {@link Resource} for each item.
+ * 
+ *
+ * @param <E> The <code>Class</code> that is used to tell the {@link Grid} which
+ *            Fields must be loaded.
+ */
 @CssImport("./styles/webpage-styles/availaboard-grid.css")
 public class ResourceGrid<E extends Resource> extends Grid {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -4590209736315740168L;
-	AvailaboardSQLConnection db = new AvailaboardSQLConnection();
+
+	private AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
 	private Class<? extends Resource> type;
 
+	/**
+	 * Used to set the type of {@link Resource} the {@link Grid} needs to load.
+	 * 
+	 * @param type The type of {@link Resource} that the {@link Grid} use's to load
+	 *             the {@link Resource}'s.
+	 */
 	public ResourceGrid(Class<? extends Resource> type) {
 		this.type = type;
 	}
 
-	/*
-	 * Returns the grid for the Availaboard. The type of object that will be loaded
-	 * is specified in the constructor. It automatically adds to columns, Name and
-	 * Status. Since all objects being passed in have to extend from the Resource
-	 * object they will have those fields. Each columns have corresponding methods
-	 * to make sure they do the functionality needed. The Name class takes the user
-	 * to a unique web page based off of the UserID. The Status column uses a method
-	 * to change the color of the Status to Red, if the text is "Busy" or green if
-	 * the text is "Available." Finally, the items are loaded to the grid with the
-	 * grid.setItems() method. They are loaded from the database,
-	 * (AvailaboardSQLConnection) and casted to a collection because the grid
-	 * requires a collection object, but the database method returns an arraylist.
-	 * The type of the object is passed as a parameter which will then load the
-	 * right type of object from the database.
+	/**
+	 * Creates a new {@link Grid} with two columns; <code>Name</code> and
+	 * <code>Status</code>. Then it loads all of the {@link Resource}'s and add's
+	 * them to the grid.
+	 * 
+	 * @param res The type of {@link Resource} that the {@link Grid} use's to load
+	 *            the {@link Resource}'s.
+	 * @return A {@link Grid} with two columns and all of the {@link Resource} of
+	 *         type <code>E</code> added.
 	 */
 
 	public Grid<E> loadGrid(Class<? extends Resource> res) {
@@ -78,8 +85,16 @@ public class ResourceGrid<E extends Resource> extends Grid {
 
 	}
 
-	/*
-	 * Adds a CSS class to the label depending off of if it is available or busy.
+	/**
+	 * Changes the color of the <code>Status</code> column by adding a
+	 * <code> CSS Class </code> depending on whether it is <code>Busy</code> or
+	 * <code>Available</code>. (Green if <code>Available</code>, red if
+	 * <code>Busy</code>.
+	 * 
+	 * @param res The {@link Resource} used to see if it's {@link Status} is
+	 *            <code>Busy</code> or <code>Available</code>
+	 * @return A {@link Label} with text set to the {@link Status} of the
+	 *         {@link Resource} and corresponding color.
 	 */
 	private Label statusLabel(Resource res) {
 		Label label = new Label();
@@ -89,9 +104,12 @@ public class ResourceGrid<E extends Resource> extends Grid {
 		return label;
 	}
 
-	/*
-	 * Create a button for a pop-up window. Uses a createDialogLayout method to show
-	 * the pop-up window.
+	/**
+	 * Shows {@link Dialog} with all the {@link Resource} information.
+	 * 
+	 * @param res The {@link Resource} that's information is added to a
+	 *            {@link Dialog}.
+	 * @return A {@link Button} that opens a {@link Dialog} when clicked.
 	 */
 	private Button popUpResource(Resource res) {
 		Dialog dialog = new Dialog();
@@ -99,25 +117,24 @@ public class ResourceGrid<E extends Resource> extends Grid {
 		VerticalLayout dialogLayout = createDialogLayout(dialog, res);
 		dialog.add(dialogLayout);
 		dialog.setModal(true);
-
 		dialog.setDraggable(true);
-
 		Button button = new Button(res.getName(), e -> dialog.open());
 		button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
 		return button;
 	}
 
-	/*
-	 * Creates a pop-up window. This method creates a vertical layout that can be
-	 * added onto a pop-up window. The method loads all of the fields of the class
-	 * and their respective names which are statically created in the classes with
-	 * the @ResourceFieldLoader interface. All of the fields are then added to a
-	 * Vertical Layout and returned.
+	/**
+	 * <p> A {@link VerticalLayout} created to be added to a {@link Dialog}. 
+	 * The Method iterates through every <code> Field </code> in the {@link Resource}
+	 * with the {@link ResourceFieldLoader} and displays the <code>Value</code> ("nickname")
+	 * <code> Field </code> in it, followed by a colon then the <code>Field</code> value.
+	 * 
+	 * @param dialog The {@link Dialog} that this specific {@link VerticalLayout} should be added to.
+	 * @param res The {@link Resource} with the fields that will be added to the {@link VerticalLayout}.
+	 * @return A {@link VerticalLayout} with all the {@link ResourceFieldLoader}'s <code> Field </code> names and value's
+	 * added.
 	 */
-	private static VerticalLayout createDialogLayout(Dialog dialog, Resource resourceObj) {
-		AvailaboardSQLConnection db = new AvailaboardSQLConnection();
-		Resource res = db.createResourceWithID(resourceObj.getId(), resourceObj.getClass());
-
+	private VerticalLayout createDialogLayout(Dialog dialog, Resource res) {
 		H2 headline = new H2(res.getName());
 		headline.getStyle().set("margin", "0").set("font-size", "2.5em").set("font-weight", "bold");
 		HorizontalLayout header = new HorizontalLayout(headline);
