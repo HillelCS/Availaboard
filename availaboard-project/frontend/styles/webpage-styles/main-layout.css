@@ -15,6 +15,7 @@
     }
 }
 
+
 body {
     --overlay-box-shadow: 0 0 3px 2px var(--lumo-contrast-10pct);
 }
@@ -25,33 +26,28 @@ body {
     font-size: var(--lumo-font-size-l);
 }
 
-    .menu-toggle {
-        display: block;
-        height: var(--lumo-button-size);
-        width: var(--lumo-button-size);
-    }
+.menu-toggle {
+   display: block;
+   height: var(--lumo-button-size);
+   width: var(--lumo-button-size);
+ }
     
-
 .menu-link:hover {
-  background-image: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(var(--link-color), .6) 30%,
-    rgba(var(--link-color), .7) 50%,
-    rgba(var(--link-color), .6) 70%,
-    transparent 100%
-  );
+  text-decoration: none;
+  border-bottom-color: #fff9;
 }
+
 
 .menu-link {
 	display: block;
-    padding: 10px 0;
+    padding: 3px;
     transition: transform 300ms;
     
     font-family: var(--lumo-font-family);
     font-size: var(--lumo-font-size-m);
     font-weight: 500;
     color: var(--lumo-secondary-text-color);
+    border-bottom: 3px solid #fff3;
 }
 
 .menu-link span {
@@ -86,8 +82,6 @@ body {
 
     .product-form {
         width: 100%;
-
-        /* Prevent text-fields from overflowing on narrow screens */
         --vaadin-text-field-default-width: 6em;
     }
 }
