@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.ErrorParameter;
@@ -23,16 +24,15 @@ public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFo
 	 *
 	 */
 	private static final long serialVersionUID = 2387496440562208964L;
+	private HorizontalLayout horizontalLayout = new HorizontalLayout();;
 	private Span explanation;
 
 	public ErrorView() {
 		final H1 header = new H1("Looks like you're chasing cats my friend!");
-		final H2 headBackText = new H2("Maybe you want to head back to the main page?");
-	    final RouterLink availaboardButton = new RouterLink("Availability", AvailaboardView.class);
-	    availaboardButton.setClassName("availaboard-link");
-	  
+		final RouterLink availaboardButton = new RouterLink("Maybe you want to head back to the Main Page?",
+				AvailaboardView.class);
+
 		add(header);
-		add(headBackText);
 		add(availaboardButton);
 
 		explanation = new Span();
