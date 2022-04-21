@@ -13,12 +13,12 @@ import com.vaadin.flow.server.VaadinService;
  *
  * @see VaadinService#getCurrentRequest()
  */
-public final class CurrentUser {
+final class CurrentUser {
 
 	/**
 	 * The attribute key is generated based off of the current session ID.
 	 */
-	public static final String CURRENT_USER_SESSION_ATTRIBUTE_KEY = CurrentUser.getCurrentRequest().getWrappedSession().getId();
+	private static final String CURRENT_USER_SESSION_ATTRIBUTE_KEY = CurrentUser.getCurrentRequest().getWrappedSession().getId();
 
 	/**
 	 * Returns the current {@link User} stored in the current session, null if no {@link User} is stored.
@@ -61,6 +61,9 @@ public final class CurrentUser {
 		}
 	}
 
+	/**
+	 * Constructor is private because a new CurrentUser should not be able to be instantiated.
+	 */
 	private CurrentUser() {
 	}
 }

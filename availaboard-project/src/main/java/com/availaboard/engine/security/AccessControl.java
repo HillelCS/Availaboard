@@ -10,8 +10,6 @@ import com.availaboard.engine.resource.Permission;
 
 public interface AccessControl extends Serializable {
 
-	String getPrincipalName();
-
 	boolean isUserInRole(Permission permission);
 
 	boolean isUserSignedIn();

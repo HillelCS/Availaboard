@@ -69,9 +69,8 @@ public class MainLayout extends AppLayout implements RouterLayout {
 	}
 
 	private RouterLink createMenuLink(Class<? extends Component> viewClass, String caption) {
-		final RouterLink routerLink = new RouterLink(null, viewClass);
+		final RouterLink routerLink = new RouterLink(caption, viewClass);
 		routerLink.setClassName("menu-link");
-		routerLink.add(new Span(caption));
 		return routerLink;
 	}
 
@@ -86,11 +85,14 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		verticalLayout.add(loginButton);
 		verticalLayout.add(availaboardButton);
 		final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
+
 		if (accessControl.isUserSignedIn()) {
-			registerAdminViewIfApplicable(accessControl);
 			attachEvent.getUI().addShortcutListener(() -> logout(), Key.KEY_L, KeyModifier.CONTROL);
-			verticalLayout.add(createMenuLink(AdminView.class, AdminView.VIEW_NAME));
 			verticalLayout.add(logoutButton);
+			if (accessControl.isUserInRole(Permission.Admin)) {
+				registerAdminViewIfApplicable(accessControl);
+				verticalLayout.add(createMenuLink(AdminView.class, AdminView.VIEW_NAME));
+			}
 		}
 
 		verticalLayout.setSizeFull();

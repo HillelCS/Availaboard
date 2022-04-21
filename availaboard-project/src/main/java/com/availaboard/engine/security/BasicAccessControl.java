@@ -18,10 +18,6 @@ public class BasicAccessControl implements AccessControl {
 	private static final long serialVersionUID = 824667217356429947L;
 	private static AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
-	@Override
-	public String getPrincipalName() {
-		return CurrentUser.get().getUsername();
-	}
 
 	/**
 	 * Checks if the {@link CurrentUser} is in a {@link Permission}.
@@ -37,7 +33,7 @@ public class BasicAccessControl implements AccessControl {
 
 	@Override
 	public boolean isUserSignedIn() {
-		return !(CurrentUser.get() == null);
+		return CurrentUser.get().isSignedIn();
 	}
 
 	/**
@@ -60,6 +56,7 @@ public class BasicAccessControl implements AccessControl {
 		try {
 			BasicAccessControl.db.authenticate(username, password);
 			CurrentUser.set(BasicAccessControl.db.createUserWithUsername(username));
+			CurrentUser.get().setSignedIn(true);
 			return true;
 		} catch (InvalidCredentialsException e) {
 			e.printStackTrace();

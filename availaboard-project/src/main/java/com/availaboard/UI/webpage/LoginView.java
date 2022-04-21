@@ -1,5 +1,6 @@
 package com.availaboard.UI.webpage;
 
+import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
 import com.vaadin.flow.component.login.LoginForm;
@@ -40,7 +41,11 @@ public class LoginView extends FlexLayout {
 
 	private void login(LoginForm.LoginEvent event) {
 		if (accessControl.signIn(event.getUsername(), event.getPassword())) {
-			getUI().get().navigate("/admin");
+			if(accessControl.isUserInRole(Permission.Admin)) {
+				getUI().get().navigate("/admin");
+			} else {
+				getUI().get().navigate("/");
+			}
 		} else {
 			event.getSource().setError(true);
 		}
