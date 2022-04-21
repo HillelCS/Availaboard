@@ -28,7 +28,6 @@ import com.vaadin.flow.router.RouterLink;
  * The main layout. Contains the navigation menu.
  */
 @CssImport("./styles/webpage-styles/main-layout.css")
-@CssImport(value = "./styles/webpage-styles/menu-buttons.css", themeFor = "vaadin-button")
 public class MainLayout extends AppLayout implements RouterLayout {
 
 	/**
