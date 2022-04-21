@@ -1,6 +1,5 @@
 package com.availaboard.engine.security;
 
-import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.User;
 import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.server.VaadinService;
@@ -18,17 +17,18 @@ final class CurrentUser {
 	/**
 	 * The attribute key is generated based off of the current session ID.
 	 */
-	private static final String CURRENT_USER_SESSION_ATTRIBUTE_KEY = CurrentUser.getCurrentRequest().getWrappedSession().getId();
+	private static final String CURRENT_USER_SESSION_ATTRIBUTE_KEY = CurrentUser.getCurrentRequest().getWrappedSession()
+			.getId();
 
 	/**
-	 * Returns the current {@link User} stored in the current session, null if no {@link User} is stored.
+	 * Returns the current {@link User} stored in the current session, null if no
+	 * {@link User} is stored.
 	 *
 	 * @throws IllegalStateException if the current session cannot be accessed.
 	 */
 	public static User get() {
-		User currentUser = (User) CurrentUser.getCurrentRequest().getWrappedSession()
+		return (User) CurrentUser.getCurrentRequest().getWrappedSession()
 				.getAttribute(CurrentUser.CURRENT_USER_SESSION_ATTRIBUTE_KEY);
-		return currentUser;
 	}
 
 	private static VaadinRequest getCurrentRequest() {
@@ -41,8 +41,8 @@ final class CurrentUser {
 
 	/**
 	 * Set's the {@link CurrentUser} session as a {@link User} being passed in. If
-	 * the {@link User} passed in is {@code null} it removed the {@link User} from the current
-	 * session.
+	 * the {@link User} passed in is {@code null} it removed the {@link User} from
+	 * the current session.
 	 *
 	 * @throws IllegalStateException if the current session cannot be accessed.
 	 */
@@ -57,7 +57,8 @@ final class CurrentUser {
 	}
 
 	/**
-	 * Constructor is private because a new CurrentUser should not be able to be instantiated.
+	 * Constructor is private because a new CurrentUser should not be able to be
+	 * instantiated.
 	 */
 	private CurrentUser() {
 	}

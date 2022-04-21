@@ -20,7 +20,7 @@ public class AdminView extends VerticalLayout implements ViewAuthorization {
 	public AdminView() {
 
 	}
-	
+
 	/**
 	 * Requires an Admin {@link Permission} to access the view.
 	 */

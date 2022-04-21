@@ -14,7 +14,6 @@ public class User extends Resource {
 	private String password;
 
 	private Permission permissions;
-	
 
 	public String getEmail() {
 		return email;

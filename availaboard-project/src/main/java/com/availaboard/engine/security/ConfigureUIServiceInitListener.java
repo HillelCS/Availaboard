@@ -32,14 +32,6 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 		}
 	}
 
-	@Override
-	public void serviceInit(ServiceInitEvent event) {
-		event.getSource().addUIInitListener(uiEvent -> {
-			final UI ui = uiEvent.getUI();
-			ui.addBeforeEnterListener(this::beforeEnter);
-		});
-	}
-
 	/**
 	 * Checks if a {@link User} is authorized to view the page they are trying to
 	 * access. It does this by first checking if the user is signed in and the page
@@ -48,38 +40,35 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 	 * {@link ViewAuthorization#getRequiredPermission()} is equal to the
 	 * {@link CurrentUser}'s {@link Permission}. If that sequence of events succeeds
 	 * the method returns <code>True</code>.
-	 * 
+	 *
 	 * @param target The view the {@link User} is trying to access.
 	 * @return <code>True</code> if the {@link CurrentUser} has sufficient
 	 *         permissions to access the page they are trying to go to.
 	 *         <code>False</code> if otherwise.
 	 */
 	private boolean isUserAuthorized(Class<?> target) {
-		if (ViewAuthorization.class.isAssignableFrom(target)) {
-			if (accessControl.isUserSignedIn()) {
-				try {
-					ViewAuthorization auth = (ViewAuthorization) target.getDeclaredConstructor().newInstance();
-					if (auth.getRequiredPermission()
-							.anyMatch(Permission -> Permission == CurrentUser.get().getPermissions())) {
-						return true;
-					}
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					e.printStackTrace();
-				} catch (SecurityException e) {
-					e.printStackTrace();
-				}
-			}
-		} else {
+		if (!ViewAuthorization.class.isAssignableFrom(target)) {
 			return true;
 		}
+		if (accessControl.isUserSignedIn()) {
+			try {
+				ViewAuthorization auth = (ViewAuthorization) target.getDeclaredConstructor().newInstance();
+				if (auth.getRequiredPermission()
+						.anyMatch(Permission -> Permission == CurrentUser.get().getPermissions())) {
+					return true;
+				}
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
+	}
+
+	@Override
+	public void serviceInit(ServiceInitEvent event) {
+		event.getSource().addUIInitListener(uiEvent -> {
+			final UI ui = uiEvent.getUI();
+			ui.addBeforeEnterListener(this::beforeEnter);
+		});
 	}
 }

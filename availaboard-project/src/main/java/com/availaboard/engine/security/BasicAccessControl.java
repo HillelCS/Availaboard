@@ -18,23 +18,24 @@ public class BasicAccessControl implements AccessControl {
 	private static final long serialVersionUID = 824667217356429947L;
 	private static AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
-
-
 	/**
 	 * Checks if the {@link CurrentUser} is in a {@link Permission}.
-	 * 
-	 * @param role The {@link Permission} that the {@link CurrentUser} is being checked against.
+	 *
+	 * @param role The {@link Permission} that the {@link CurrentUser} is being
+	 *             checked against.
 	 */
 
 	@Override
 	public boolean isUserInRole(Permission permission) {
-		if(CurrentUser.get().getPermissions() == permission) return true;
+		if (CurrentUser.get().getPermissions() == permission) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean isUserSignedIn() {
-		return !(CurrentUser.get() == null);
+		return (CurrentUser.get() != null);
 	}
 
 	/**
@@ -46,7 +47,7 @@ public class BasicAccessControl implements AccessControl {
 	 * @param username the username being passed in by the {@link User} logging in.
 	 * @param password the password being passed in by the {@link User} logging in.
 	 * @throws InvalidCredentialsException if the username and/or password are
-	 * invalid.
+	 *                                     invalid.
 	 */
 
 	@Override

@@ -3,7 +3,6 @@ package com.availaboard.UI.webpage;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -24,7 +23,7 @@ public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFo
 	 *
 	 */
 	private static final long serialVersionUID = 2387496440562208964L;
-	private HorizontalLayout horizontalLayout = new HorizontalLayout();;
+	private HorizontalLayout horizontalLayout = new HorizontalLayout();
 	private Span explanation;
 
 	public ErrorView() {

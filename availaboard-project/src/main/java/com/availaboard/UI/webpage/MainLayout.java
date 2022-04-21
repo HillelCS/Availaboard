@@ -14,9 +14,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -81,7 +78,6 @@ public class MainLayout extends AppLayout implements RouterLayout {
 	protected void onAttach(AttachEvent attachEvent) {
 		final VerticalLayout verticalLayout = new VerticalLayout();
 		super.onAttach(attachEvent);
-		verticalLayout.add(loginButton);
 		verticalLayout.add(availaboardButton);
 		final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
 
@@ -91,8 +87,9 @@ public class MainLayout extends AppLayout implements RouterLayout {
 				verticalLayout.add(createMenuLink(AdminView.class, AdminView.VIEW_NAME));
 			}
 			attachEvent.getUI().addShortcutListener(() -> logout(), Key.KEY_L, KeyModifier.CONTROL);
-			verticalLayout.add(logoutButton);
-		 }
+		} else {
+			verticalLayout.add(loginButton);
+		}
 
 		verticalLayout.setSizeFull();
 		verticalLayout.setAlignItems(Alignment.START);

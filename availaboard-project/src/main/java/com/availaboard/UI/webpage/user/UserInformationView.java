@@ -8,7 +8,8 @@ import com.availaboard.engine.resource.Permission;
 public class UserInformationView implements ViewAuthorization {
 
 	/**
-	 * Requires a User {@link Permission} or an {@link Permission} to access the view.
+	 * Requires a User {@link Permission} or an {@link Permission} to access the
+	 * view.
 	 */
 	@Override
 	public Stream<Permission> getRequiredPermission() {

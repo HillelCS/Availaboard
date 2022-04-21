@@ -27,7 +27,7 @@ body {
 }
 
 .menu-toggle {
-	padding-right: 0px;
+padding-right: 0px;
    display: block;
    height: var(--lumo-button-size);
    width: var(--lumo-button-size);
