@@ -15,7 +15,7 @@ public class AdminView extends VerticalLayout implements ViewAuthorization {
 	 *
 	 */
 	private static final long serialVersionUID = -118322660015469075L;
-	public static final String VIEW_NAME = "admin";
+	public static final String VIEW_NAME = "Admin View";
 
 	public AdminView() {
 

@@ -79,20 +79,20 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
 	@Override
 	protected void onAttach(AttachEvent attachEvent) {
-		VerticalLayout verticalLayout = new VerticalLayout();
+		final VerticalLayout verticalLayout = new VerticalLayout();
 		super.onAttach(attachEvent);
 		verticalLayout.add(loginButton);
 		verticalLayout.add(availaboardButton);
 		final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
 
 		if (accessControl.isUserSignedIn()) {
-			attachEvent.getUI().addShortcutListener(() -> logout(), Key.KEY_L, KeyModifier.CONTROL);
-			verticalLayout.add(logoutButton);
 			if (accessControl.isUserInRole(Permission.Admin)) {
 				registerAdminViewIfApplicable(accessControl);
 				verticalLayout.add(createMenuLink(AdminView.class, AdminView.VIEW_NAME));
 			}
-		}
+			attachEvent.getUI().addShortcutListener(() -> logout(), Key.KEY_L, KeyModifier.CONTROL);
+			verticalLayout.add(logoutButton);
+		 }
 
 		verticalLayout.setSizeFull();
 		verticalLayout.setAlignItems(Alignment.START);

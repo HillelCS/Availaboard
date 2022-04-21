@@ -22,11 +22,12 @@ body {
 
 .menu-header {
     padding: 11px 16px;
-    padding-left: 32px;
+    padding-left: 0px;
     font-size: var(--lumo-font-size-l);
 }
 
 .menu-toggle {
+	padding-right: 0px;
    display: block;
    height: var(--lumo-button-size);
    width: var(--lumo-button-size);
