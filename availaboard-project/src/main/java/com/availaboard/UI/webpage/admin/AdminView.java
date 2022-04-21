@@ -1,11 +1,13 @@
 package com.availaboard.UI.webpage.admin;
 
+import com.availaboard.UI.ViewAuthorization;
 import com.availaboard.UI.webpage.MainLayout;
+import com.availaboard.engine.resource.Permission;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "/admin", layout = MainLayout.class)
-public class AdminView extends VerticalLayout implements AbstractAdminView {
+public class AdminView extends VerticalLayout implements ViewAuthorization {
 
 	/**
 	 *
@@ -15,5 +17,13 @@ public class AdminView extends VerticalLayout implements AbstractAdminView {
 
 	public AdminView() {
 
+	}
+	
+	/**
+	 * Requires an Admin {@link Permission}
+	 */
+	@Override
+	public Permission getRequiredPermission() {
+		return Permission.Admin;
 	}
 }

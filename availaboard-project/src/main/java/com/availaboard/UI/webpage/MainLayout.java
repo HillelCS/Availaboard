@@ -56,7 +56,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		logoutButton.addClickListener(e -> logout());
 		logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
 
-		availaboardButton = createMenuLink(AvailaboardView.class, "Availaboard Grids");
+		availaboardButton = createMenuLink(AvailaboardView.class, "Availability");
 		loginButton = createMenuLink(LoginView.class, "Login");
 
 	}
@@ -100,6 +100,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		addToDrawer(verticalLayout);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void registerAdminViewIfApplicable(AccessControl accessControl) {
 		if (accessControl.isUserInRole(Permission.Admin)
 				&& !RouteConfiguration.forSessionScope().isRouteRegistered(AdminView.class)) {

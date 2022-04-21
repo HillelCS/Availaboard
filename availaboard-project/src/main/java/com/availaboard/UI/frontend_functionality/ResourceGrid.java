@@ -161,6 +161,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
 		dialog.setDraggable(true);
 		Button button = new Button(res.getName(), e -> dialog.open());
 		button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+		button.addClassName("popup-button");
 		return button;
 	}
 
