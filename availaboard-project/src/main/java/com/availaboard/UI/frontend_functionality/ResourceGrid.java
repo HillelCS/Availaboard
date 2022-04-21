@@ -124,9 +124,9 @@ public class ResourceGrid<E extends Resource> extends Grid {
 		try {
 			Grid<E> grid = new Grid<>();
 			Column<E> nameColumn = grid.addComponentColumn(E -> popUpResource(E)).setHeader("Name").setWidth("50%")
-					.setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER);
+					.setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
 			Column<E> statusColumn = grid.addComponentColumn(E -> statusLabel(E)).setHeader("Status").setWidth("50%")
-					.setFlexGrow(0).setTextAlign(ColumnTextAlign.CENTER);
+					.setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
 			grid.addClassName("availaboard-grid");
 			grid.setAllRowsVisible(true);
 			grid.setItems((Collection<E>) (db.loadResources(type)));
