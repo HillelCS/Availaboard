@@ -32,10 +32,4 @@ public class Equipment extends Resource {
 	public void setModel(String model) {
 		this.model = model;
 	}
-
-	@Override
-	public String toString() {
-		return "Equipment";
-	}
-
 }

@@ -28,11 +28,6 @@ final class CurrentUser {
 	public static User get() {
 		User currentUser = (User) CurrentUser.getCurrentRequest().getWrappedSession()
 				.getAttribute(CurrentUser.CURRENT_USER_SESSION_ATTRIBUTE_KEY);
-		if (currentUser == null) {
-			currentUser = new User();
-			currentUser.setPermissions(Permission.User);
-			return currentUser;
-		}
 		return currentUser;
 	}
 

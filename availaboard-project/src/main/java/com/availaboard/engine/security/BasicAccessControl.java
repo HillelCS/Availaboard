@@ -19,6 +19,7 @@ public class BasicAccessControl implements AccessControl {
 	private static AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
 
+
 	/**
 	 * Checks if the {@link CurrentUser} is in a {@link Permission}.
 	 * 
@@ -33,7 +34,7 @@ public class BasicAccessControl implements AccessControl {
 
 	@Override
 	public boolean isUserSignedIn() {
-		return CurrentUser.get().isSignedIn();
+		return !(CurrentUser.get() == null);
 	}
 
 	/**
@@ -56,7 +57,6 @@ public class BasicAccessControl implements AccessControl {
 		try {
 			BasicAccessControl.db.authenticate(username, password);
 			CurrentUser.set(BasicAccessControl.db.createUserWithUsername(username));
-			CurrentUser.get().setSignedIn(true);
 			return true;
 		} catch (InvalidCredentialsException e) {
 			e.printStackTrace();

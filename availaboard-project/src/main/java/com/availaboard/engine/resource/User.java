@@ -15,8 +15,6 @@ public class User extends Resource {
 
 	private Permission permissions;
 	
-	@FieldExcludedFromDatabase
-	private boolean isSignedIn;
 
 	public String getEmail() {
 		return email;
@@ -64,18 +62,5 @@ public class User extends Resource {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	@Override
-	public String toString() {
-		return "User";
-	}
-
-	public boolean isSignedIn() {
-		return isSignedIn;
-	}
-
-	public void setSignedIn(boolean isSignedIn) {
-		this.isSignedIn = isSignedIn;
 	}
 }

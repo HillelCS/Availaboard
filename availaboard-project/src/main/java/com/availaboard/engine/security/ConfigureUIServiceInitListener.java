@@ -25,7 +25,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 	 * @param event before navigation event with event details
 	 */
 	private void beforeEnter(BeforeEnterEvent event) {
-		if (AbstractAdminView.class.isAssignableFrom(event.getNavigationTarget()) && !accessControl.isUserInRole(Permission.Admin)) {
+		if (AbstractAdminView.class.isAssignableFrom(event.getNavigationTarget()) && !accessControl.isUserSignedIn() && !accessControl.isUserInRole(Permission.Admin)) {
 			event.rerouteTo(LoginView.class);
 		}
 	}
