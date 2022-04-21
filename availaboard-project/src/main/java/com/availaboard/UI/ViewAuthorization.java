@@ -1,5 +1,7 @@
 package com.availaboard.UI;
 
+import java.util.stream.Stream;
+
 import com.availaboard.engine.resource.Permission;
 
 /**
@@ -7,10 +9,6 @@ import com.availaboard.engine.resource.Permission;
  * to access the View. Implementations of it specify which views must have what
  * permissions.
  */
-public interface ViewAuthorization {
-	
-	/**
-	 * @return The {@link Permission} required to access the implementors view.
-	 */
-	  Permission getRequiredPermission();
+public abstract interface ViewAuthorization {
+	 abstract Stream<Permission> getRequiredPermission();
 }

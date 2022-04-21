@@ -1,5 +1,7 @@
 package com.availaboard.UI.webpage.admin;
 
+import java.util.stream.Stream;
+
 import com.availaboard.UI.ViewAuthorization;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
@@ -20,10 +22,10 @@ public class AdminView extends VerticalLayout implements ViewAuthorization {
 	}
 	
 	/**
-	 * Requires an Admin {@link Permission}
+	 * Requires an Admin {@link Permission} to access the view.
 	 */
 	@Override
-	public Permission getRequiredPermission() {
-		return Permission.Admin;
+	public Stream<Permission> getRequiredPermission() {
+		return Stream.of(Permission.Admin);
 	}
 }

@@ -27,7 +27,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 	 * @param event before navigation event with event details
 	 */
 	private void beforeEnter(BeforeEnterEvent event) {
-		if (isUserAuthorized(event.getNavigationTarget())) {
+		if (!isUserAuthorized(event.getNavigationTarget())) {
 			event.rerouteTo(LoginView.class);
 		}
 	}
@@ -55,25 +55,30 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 	 *         <code>False</code> if otherwise.
 	 */
 	private boolean isUserAuthorized(Class<?> target) {
-		if (accessControl.isUserSignedIn() && ViewAuthorization.class.isAssignableFrom(target)) {
-			try {
-				ViewAuthorization auth = (ViewAuthorization) target.getDeclaredConstructor().newInstance();
-				if (auth.getRequiredPermission() == CurrentUser.get().getPermissions()) {
-					return true;
+		if (ViewAuthorization.class.isAssignableFrom(target)) {
+			if (accessControl.isUserSignedIn()) {
+				try {
+					ViewAuthorization auth = (ViewAuthorization) target.getDeclaredConstructor().newInstance();
+					if (auth.getRequiredPermission()
+							.anyMatch(Permission -> Permission == CurrentUser.get().getPermissions())) {
+						return true;
+					}
+				} catch (InstantiationException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					e.printStackTrace();
 				}
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				e.printStackTrace();
 			}
+		} else {
+			return true;
 		}
 		return false;
 	}
