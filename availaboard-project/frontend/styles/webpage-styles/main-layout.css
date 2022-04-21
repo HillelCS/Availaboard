@@ -31,6 +31,19 @@ body {
    height: var(--lumo-button-size);
    width: var(--lumo-button-size);
  }
+ 
+ .menu-toggle:hover::before {
+    opacity: 0;
+}
+
+.menu-toggle[focus-ring] {
+  box-shadow: 0 0 0 0;
+}
+
+ .menu-toggle:click {
+    outline: none;
+    color: red;
+}
     
 .menu-link:hover {
   text-decoration: none;
