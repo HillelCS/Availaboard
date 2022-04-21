@@ -52,7 +52,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		top.add(title);
 		addToNavbar(top);
 
-		logoutButton = createMenuButton("Logout", VaadinIcon.SIGN_OUT.create());
+		logoutButton = createMenuButton("Logout");
 		logoutButton.addClickListener(e -> logout());
 		logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
 
@@ -61,12 +61,10 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
 	}
 
-	private Button createMenuButton(String caption, Icon icon) {
+	private Button createMenuButton(String caption) {
 		final Button routerButton = new Button(caption);
 		routerButton.setClassName("menu-link");
 		routerButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-		routerButton.setIcon(icon);
-		icon.setSize("24px");
 		return routerButton;
 	}
 
