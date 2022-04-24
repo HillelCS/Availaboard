@@ -83,7 +83,7 @@ public class AvailaboardSQLConnection {
 			res.setId(ID);
 			final Table table = res.getClass().getAnnotation(Table.class);
 			for (Field field : res.getClass().getDeclaredFields()) {
-				if (!(field.isAnnotationPresent(Column.class))) {
+				if ((field.isAnnotationPresent(Column.class))) {
 					field.setAccessible(true);
 					final Column column = field.getAnnotation(Column.class);
 					String query = String.format("select %s from %s where ResourceID = ?", column.value(),

@@ -15,7 +15,7 @@ public class AdminView extends VerticalLayout implements ViewAuthorization {
 	 *
 	 */
 	private static final long serialVersionUID = -118322660015469075L;
-	public static final String VIEWNAME = "admin";
+	public static final String VIEWNAME = "Admin";
 
 	public AdminView() {
 
@@ -30,7 +30,7 @@ public class AdminView extends VerticalLayout implements ViewAuthorization {
 	}
 
 	@Override
-	public String viewName() {
+	public String getViewName() {
 		return AdminView.VIEWNAME;
 	}
 }

@@ -1,5 +1,7 @@
 package com.availaboard.engine.security;
 
+import java.util.stream.Stream;
+
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.User;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
@@ -69,5 +71,15 @@ public class BasicAccessControl implements AccessControl {
 	public void signOut() {
 		VaadinSession.getCurrent().getSession().invalidate();
 		UI.getCurrent().navigate("");
+	}
+
+	@Override
+	public boolean isUserInRole(Stream<Permission> stream) {
+		return stream.anyMatch(permission -> {
+			if (CurrentUser.get().getPermissions() == permission) {
+				return true;
+			}
+			return false;
+		});
 	}
 }

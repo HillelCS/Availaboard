@@ -53,11 +53,11 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 		if (accessControl.isUserSignedIn()) {
 			try {
 				ViewAuthorization auth = (ViewAuthorization) target.getDeclaredConstructor().newInstance();
-				if (auth.getRequiredPermission()
-						.anyMatch(Permission -> Permission == CurrentUser.get().getPermissions())) {
+				if (accessControl.isUserInRole(auth.getRequiredPermission())) {
 					return true;
 				}
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 			}
 		}

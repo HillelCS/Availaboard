@@ -4,10 +4,11 @@ import java.util.stream.Stream;
 
 import com.availaboard.UI.ViewAuthorization;
 import com.availaboard.engine.resource.Permission;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
 @Route(UserInformationView.VIEWNAME)
-public class UserInformationView implements ViewAuthorization {
+public class UserInformationView extends VerticalLayout implements ViewAuthorization {
 
 	public static final String VIEWNAME = "user-information";
 	/**
@@ -20,7 +21,7 @@ public class UserInformationView implements ViewAuthorization {
 	}
 	
 	@Override
-	public String viewName() {
+	public String getViewName() {
 		return UserInformationView.VIEWNAME;
 	}
 
