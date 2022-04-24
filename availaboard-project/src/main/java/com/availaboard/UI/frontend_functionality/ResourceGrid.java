@@ -21,6 +21,7 @@ import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -82,6 +83,8 @@ public class ResourceGrid<E extends Resource> extends Grid {
 		header.getStyle().set("border-bottom", "1px solid var(--lumo-contrast-20pct)").set("cursor", "move");
 		header.getStyle().set("padding", "var(--lumo-space-m) var(--lumo-space-l)").set("margin",
 				"calc(var(--lumo-space-s) * -1) calc(var(--lumo-space-l) * -1) 0");
+		
+		
 
 		VerticalLayout fieldLayout = new VerticalLayout();
 		Field[] resourceFields = res.getClass().getDeclaredFields();
@@ -93,6 +96,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
 					ResourceFieldLoader fieldLoader = field.getAnnotation(ResourceFieldLoader.class);
 					Label label = new Label(fieldLoader.value() + ": " + field.get(res));
 					fieldLayout.add(label);
+				
 				} catch (IllegalArgumentException | IllegalAccessException e1) {
 					e1.printStackTrace();
 				}
@@ -127,7 +131,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
 	public Grid<E> loadGrid(Class<? extends Resource> res) {
 		try {
 			Grid<E> grid = new Grid<>();
-			Column<E> nameColumn = grid.addComponentColumn(E -> popUpResource(E)).setHeader("Name").setWidth("50%")
+			Column<E> nameColumn = grid.addComponentColumn(E -> dialogPopupButton(E)).setHeader("Name").setWidth("50%")
 					.setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
 			Column<E> statusColumn = grid.addComponentColumn(E -> statusLabel(E)).setHeader("Status").setWidth("50%")
 					.setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
@@ -156,7 +160,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
 	 *            {@link Dialog}.
 	 * @return A {@link Button} that opens a {@link Dialog} when clicked.
 	 */
-	private Button popUpResource(Resource res) {
+	private Button dialogPopupButton(Resource res) {
 		Dialog dialog = new Dialog();
 		dialog.getElement().setAttribute("aria-label", res.getName());
 		VerticalLayout dialogLayout = createDialogLayout(dialog, res);
@@ -164,6 +168,19 @@ public class ResourceGrid<E extends Resource> extends Grid {
 		dialog.setModal(true);
 		dialog.setDraggable(true);
 		Button button = new Button(res.getName(), e -> dialog.open());
+		button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+		button.addClassName("popup-button");
+		return button;
+	}
+	
+	private Button adminPopupButton(Resource res) {
+		Dialog dialog = new Dialog();
+		dialog.getElement().setAttribute("aria-label", res.getName());
+		VerticalLayout dialogLayout = createDialogLayout(dialog, res);
+		dialog.add(dialogLayout);
+		dialog.setModal(true);
+		dialog.setDraggable(true);
+		Button button = new Button(VaadinIcon.EDIT.create(), e -> dialog.open());
 		button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
 		button.addClassName("popup-button");
 		return button;

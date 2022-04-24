@@ -11,7 +11,12 @@ import com.vaadin.flow.router.Route;
 @Route(value = UserInformationView.VIEWNAME, layout = MainLayout.class)
 public class UserInformationView extends VerticalLayout implements ViewAuthorization {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -8469495034991926228L;
 	public static final String VIEWNAME = "user-information";
+
 	/**
 	 * Requires a User {@link Permission} or an {@link Permission} to access the
 	 * view.
@@ -20,7 +25,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 	public Stream<Permission> getRequiredPermission() {
 		return Stream.of(Permission.User, Permission.Admin);
 	}
-	
+
 	@Override
 	public String getViewName() {
 		return UserInformationView.VIEWNAME;
