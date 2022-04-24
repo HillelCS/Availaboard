@@ -1,6 +1,7 @@
 package com.availaboard.UI.webpage;
 
 import com.availaboard.UI.webpage.admin.AdminView;
+import com.availaboard.UI.webpage.user.UserInformationView;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
@@ -44,6 +45,8 @@ public class LoginView extends FlexLayout {
 		if (accessControl.signIn(event.getUsername(), event.getPassword())) {
 			if (accessControl.isUserInRole(Permission.Admin)) {
 				getUI().get().navigate(AdminView.VIEWNAME);
+			} else if (accessControl.isUserInRole(Permission.User)) {
+				getUI().get().navigate(UserInformationView.VIEWNAME);
 			} else {
 				getUI().get().navigate("/");
 			}
