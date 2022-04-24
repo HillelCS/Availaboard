@@ -8,14 +8,14 @@ import com.availaboard.engine.resource.Permission;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "/admin", layout = MainLayout.class)
+@Route(value = AdminView.VIEWNAME, layout = MainLayout.class)
 public class AdminView extends VerticalLayout implements ViewAuthorization {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = -118322660015469075L;
-	public static final String VIEW_NAME = "Admin View";
+	public static final String VIEWNAME = "admin";
 
 	public AdminView() {
 
@@ -27,5 +27,10 @@ public class AdminView extends VerticalLayout implements ViewAuthorization {
 	@Override
 	public Stream<Permission> getRequiredPermission() {
 		return Stream.of(Permission.Admin);
+	}
+
+	@Override
+	public String viewName() {
+		return AdminView.VIEWNAME;
 	}
 }

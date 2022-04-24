@@ -11,4 +11,5 @@ import com.availaboard.engine.resource.Permission;
  */
 public interface ViewAuthorization {
 	Stream<Permission> getRequiredPermission();
+	 String viewName();
 }
