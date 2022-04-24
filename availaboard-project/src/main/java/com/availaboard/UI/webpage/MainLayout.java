@@ -103,5 +103,4 @@ public class MainLayout extends AppLayout implements RouterLayout {
 			RouteConfiguration.forSessionScope().setRoute(AdminView.VIEW_NAME, AdminView.class, MainLayout.class);
 		}
 	}
-
 }

@@ -15,7 +15,7 @@ public class ConfigPropReader {
 	 * @return An {@link ArrayList} of the <code>username</code>,
 	 *         <code>password</code>, and <code>URL</code> for the database.
 	 */
-	public ArrayList<String> getPropValues() {
+	public static ArrayList<String> getPropValues() {
 		ArrayList<String> result = new ArrayList<>();
 		try {
 			Properties prop = new Properties();

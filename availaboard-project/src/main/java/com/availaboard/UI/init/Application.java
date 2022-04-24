@@ -16,5 +16,6 @@ import com.vaadin.flow.spring.annotation.EnableVaadin;
 public class Application extends SpringBootServletInitializer {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
+		
 	}
 }
