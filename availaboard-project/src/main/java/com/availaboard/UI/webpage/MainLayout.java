@@ -102,6 +102,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 				verticalLayout.add(routerLink);
 			});
 
+			verticalLayout.add(logoutButton);
 			attachEvent.getUI().addShortcutListener(() -> logout(), Key.KEY_L, KeyModifier.CONTROL);
 
 		} else {
@@ -114,9 +115,10 @@ public class MainLayout extends AppLayout implements RouterLayout {
 	}
 
 	/**
-	 * Get's every class that implements the {@link ViewAuthorization} interface and has a 
-	 * {@link ViewAuthorization#getRequiredPermission()} property that matches the {@link CurrentUser}'s
-	 * {@link Permission} property.
+	 * Get's every class that implements the {@link ViewAuthorization} interface and
+	 * has a {@link ViewAuthorization#getRequiredPermission()} property that matches
+	 * the {@link CurrentUser}'s {@link Permission} property.
+	 * 
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -132,7 +134,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 				ViewAuthorization auth = (ViewAuthorization) Class.forName(component.getBeanClassName())
 						.getDeclaredConstructor().newInstance();
 
-				if(accessControl.isUserInRole(auth.getRequiredPermission())) {
+				if (accessControl.isUserInRole(auth.getRequiredPermission())) {
 					arr.add(this.createMenuLink(
 							(Class<? extends Component>) Class.forName(component.getBeanClassName()),
 							auth.getViewName()));
@@ -151,12 +153,14 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
 	/**
 	 * Registers a View so Users can access it.
+	 * 
 	 * @param accessControl The current accessControl
-	 * @param permissions The permissions required to access that View
-	 * @param cl The view being reigstered
+	 * @param permissions   The permissions required to access that View
+	 * @param cl            The view being reigstered
 	 */
 	@SuppressWarnings("unchecked")
-	private void registerView(AccessControl accessControl, Stream<Permission> permissions, Class<? extends Component> cl) {
+	private void registerView(AccessControl accessControl, Stream<Permission> permissions,
+			Class<? extends Component> cl) {
 		if (accessControl.isUserInRole(permissions) && !RouteConfiguration.forSessionScope().isRouteRegistered(cl)) {
 			try {
 				ViewAuthorization auth = (ViewAuthorization) cl.getDeclaredConstructor().newInstance();
