@@ -3,11 +3,12 @@ package com.availaboard.UI.webpage.user;
 import java.util.stream.Stream;
 
 import com.availaboard.UI.ViewAuthorization;
+import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
-@Route(UserInformationView.VIEWNAME)
+@Route(value = UserInformationView.VIEWNAME, layout = MainLayout.class)
 public class UserInformationView extends VerticalLayout implements ViewAuthorization {
 
 	public static final String VIEWNAME = "user-information";
