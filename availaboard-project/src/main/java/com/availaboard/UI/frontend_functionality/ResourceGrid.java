@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Stream;
 
+import com.availaboard.UI.EditableLabel;
+import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.ResourceFieldLoader;
 import com.availaboard.engine.resource.Status;
@@ -21,7 +23,10 @@ import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -48,6 +53,8 @@ public class ResourceGrid<E extends Resource> extends Grid {
 	private Class<? extends Resource> type;
 
 	private final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
+
+	private String content;
 
 	/**
 	 * Used to set the type of {@link Resource} the {@link Grid} needs to load.
@@ -83,12 +90,12 @@ public class ResourceGrid<E extends Resource> extends Grid {
 		header.getStyle().set("border-bottom", "1px solid var(--lumo-contrast-20pct)").set("cursor", "move");
 		header.getStyle().set("padding", "var(--lumo-space-m) var(--lumo-space-l)").set("margin",
 				"calc(var(--lumo-space-s) * -1) calc(var(--lumo-space-l) * -1) 0");
-		
-		
 
 		VerticalLayout fieldLayout = new VerticalLayout();
 		Field[] resourceFields = res.getClass().getDeclaredFields();
+
 		Stream<Field> stream = Arrays.stream(resourceFields);
+
 		stream.forEach(field -> {
 			if (field.isAnnotationPresent(ResourceFieldLoader.class)) {
 				try {
@@ -96,12 +103,74 @@ public class ResourceGrid<E extends Resource> extends Grid {
 					ResourceFieldLoader fieldLoader = field.getAnnotation(ResourceFieldLoader.class);
 					Label label = new Label(fieldLoader.value() + ": " + field.get(res));
 					fieldLayout.add(label);
-				
+
 				} catch (IllegalArgumentException | IllegalAccessException e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
+
+		/**
+		 * Adds an edit button if the {@link CurrentUser} has {@link Permission#Admin}.
+		 */
+
+		if (accessControl.isUserSignedIn() && accessControl.isUserInRole(Permission.Admin)) {
+			Button adminEditButton = new Button(VaadinIcon.EDIT.create());
+			header.add(adminEditButton);
+			header.setVerticalComponentAlignment(Alignment.END, adminEditButton);
+
+			adminEditButton.addClickListener(event -> {
+				header.remove(adminEditButton);
+				fieldLayout.removeAll();
+				Stream<Field> fieldStream = Arrays.stream(resourceFields);
+				fieldStream.forEach(field -> {
+
+					if (field.isAnnotationPresent(ResourceFieldLoader.class)) {
+						try {
+							field.setAccessible(true);
+							ResourceFieldLoader fieldLoader = field.getAnnotation(ResourceFieldLoader.class);
+							HorizontalLayout horLayout = new HorizontalLayout();
+							Label label = new Label(fieldLoader.value() + ": ");
+							horLayout.add(label);
+
+							content = field.get(res).toString();
+
+							Span informationLabel = new Span(content);
+							TextField textField = new TextField();
+							textField.setValue(content);
+							textField.setVisible(false);
+
+							informationLabel.getElement().addEventListener("dblclick", e -> {
+								informationLabel.setVisible(false);
+								textField.setVisible(true);
+								textField.focus();
+							});
+
+							textField.addValueChangeListener(e -> {
+								textField.setVisible(false);
+								informationLabel.setVisible(true);
+								String newValue = textField.getValue();
+								if (newValue.isEmpty()) {
+									horLayout.remove(informationLabel, textField);
+								} else {
+									informationLabel.setText(newValue);
+								}
+							});
+
+							textField.addBlurListener(e -> {
+								textField.setVisible(false);
+								informationLabel.setVisible(true);
+							});
+
+							horLayout.add(informationLabel, textField);
+							fieldLayout.add(horLayout);
+						} catch (IllegalArgumentException | IllegalAccessException e1) {
+							e1.printStackTrace();
+						}
+					}
+				});
+			});
+		}
 
 		fieldLayout.setSpacing(false);
 		fieldLayout.setPadding(false);
@@ -168,19 +237,6 @@ public class ResourceGrid<E extends Resource> extends Grid {
 		dialog.setModal(true);
 		dialog.setDraggable(true);
 		Button button = new Button(res.getName(), e -> dialog.open());
-		button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-		button.addClassName("popup-button");
-		return button;
-	}
-	
-	private Button adminPopupButton(Resource res) {
-		Dialog dialog = new Dialog();
-		dialog.getElement().setAttribute("aria-label", res.getName());
-		VerticalLayout dialogLayout = createDialogLayout(dialog, res);
-		dialog.add(dialogLayout);
-		dialog.setModal(true);
-		dialog.setDraggable(true);
-		Button button = new Button(VaadinIcon.EDIT.create(), e -> dialog.open());
 		button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
 		button.addClassName("popup-button");
 		return button;

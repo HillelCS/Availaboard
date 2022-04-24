@@ -1,21 +1,21 @@
 package com.availaboard.UI;
 
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
 /**
  * Used to create a Label that is editable on a double click
  *
  */
-public class EditableLabel extends VerticalLayout {
+public class EditableLabel {
 
-	private String content;
-	private Span label = new Span(content);
-	TextField textField = new TextField();
 
-	public EditableLabel(String content) {
-		this.content = content;
+
+	public EditableLabel(HorizontalLayout layout) {
+		String content;
+		Span label = new Span(content);
+		TextField textField = new TextField();
 		textField.setValue(content);
 		textField.setVisible(false);
 
@@ -28,11 +28,11 @@ public class EditableLabel extends VerticalLayout {
 		textField.addValueChangeListener(e -> {
 			textField.setVisible(false);
 			label.setVisible(true);
-			this.content = textField.getValue();
-			if (this.content.isEmpty()) {
-				remove(label, textField);
+			content = textField.getValue();
+			if (content.isEmpty()) {
+				layout.remove(label, textField);
 			} else {
-				label.setText(this.content);
+				label.setText(content);
 			}
 		});
 
@@ -41,14 +41,6 @@ public class EditableLabel extends VerticalLayout {
 			label.setVisible(true);
 		});
 
-		add(label, textField);
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
+		layout.add(label, textField);
 	}
 }
