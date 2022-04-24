@@ -13,11 +13,11 @@ public interface AccessControl extends Serializable {
 
 	boolean isUserInRole(Permission permission);
 
+	boolean isUserInRole(Stream<Permission> stream);
+
 	boolean isUserSignedIn();
 
 	boolean signIn(String username, String password);
 
 	void signOut();
-
-	boolean isUserInRole(Stream<Permission> stream);
 }

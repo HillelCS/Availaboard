@@ -45,7 +45,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
 	private AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
 	private Class<? extends Resource> type;
-	
+
 	private final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
 
 	/**

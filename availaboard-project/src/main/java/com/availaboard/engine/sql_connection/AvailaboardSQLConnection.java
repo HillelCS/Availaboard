@@ -11,11 +11,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.availaboard.engine.resource.Resource;
-import com.availaboard.engine.resource.ResourceFieldLoader;
 import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.resource.User;
 import com.availaboard.utilitys.ConfigPropReader;
-import com.mysql.cj.jdbc.MysqlDataSource;
 
 /**
  * Connects to the Availaboard database. Uses the {@link ConfigPropReader} to

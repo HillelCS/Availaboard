@@ -6,17 +6,11 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AssignableTypeFilter;
-import org.springframework.core.type.filter.TypeFilter;
 
 import com.availaboard.UI.ViewAuthorization;
-import com.availaboard.UI.frontend_functionality.ResourceGrid;
-import com.availaboard.UI.webpage.admin.AdminView;
 import com.availaboard.engine.resource.Permission;
-import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
 import com.vaadin.flow.component.AttachEvent;
@@ -28,7 +22,6 @@ import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -87,6 +80,41 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		return routerLink;
 	}
 
+	/**
+	 * Get's every class that implements the {@link ViewAuthorization} interface and
+	 * has a {@link ViewAuthorization#getRequiredPermission()} property that matches
+	 * the {@link CurrentUser}'s {@link Permission} property.
+	 *
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private Stream<RouterLink> getAllAuthorizedViews() {
+		ArrayList<RouterLink> arr = new ArrayList<>();
+		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+		provider.addIncludeFilter(new AssignableTypeFilter(ViewAuthorization.class));
+
+		Set<BeanDefinition> components = provider.findCandidateComponents("com/availaboard/UI/webpage");
+		for (BeanDefinition component : components) {
+			try {
+				ViewAuthorization auth = (ViewAuthorization) Class.forName(component.getBeanClassName())
+						.getDeclaredConstructor().newInstance();
+
+				if (accessControl.isUserInRole(auth.getRequiredPermission())) {
+					arr.add(createMenuLink((Class<? extends Component>) Class.forName(component.getBeanClassName()),
+							auth.getViewName()));
+					registerView(accessControl, auth.getRequiredPermission(),
+							(Class<? extends Component>) Class.forName(component.getBeanClassName()));
+				}
+
+			} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | SecurityException | InstantiationException
+					| NoSuchMethodException e) {
+				e.printStackTrace();
+			}
+		}
+		return arr.stream();
+	}
+
 	private void logout() {
 		AccessControlFactory.getInstance().createAccessControl().signOut();
 	}
@@ -115,44 +143,8 @@ public class MainLayout extends AppLayout implements RouterLayout {
 	}
 
 	/**
-	 * Get's every class that implements the {@link ViewAuthorization} interface and
-	 * has a {@link ViewAuthorization#getRequiredPermission()} property that matches
-	 * the {@link CurrentUser}'s {@link Permission} property.
-	 * 
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	private Stream<RouterLink> getAllAuthorizedViews() {
-		ArrayList<RouterLink> arr = new ArrayList<>();
-		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
-		provider.addIncludeFilter(new AssignableTypeFilter(ViewAuthorization.class));
-
-		Set<BeanDefinition> components = provider.findCandidateComponents("com/availaboard/UI/webpage");
-		for (BeanDefinition component : components) {
-			try {
-				ViewAuthorization auth = (ViewAuthorization) Class.forName(component.getBeanClassName())
-						.getDeclaredConstructor().newInstance();
-
-				if (accessControl.isUserInRole(auth.getRequiredPermission())) {
-					arr.add(this.createMenuLink(
-							(Class<? extends Component>) Class.forName(component.getBeanClassName()),
-							auth.getViewName()));
-					registerView(accessControl, auth.getRequiredPermission(),
-							(Class<? extends Component>) Class.forName(component.getBeanClassName()));
-				}
-
-			} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | SecurityException | InstantiationException
-					| NoSuchMethodException e) {
-				e.printStackTrace();
-			}
-		}
-		return arr.stream();
-	}
-
-	/**
 	 * Registers a View so Users can access it.
-	 * 
+	 *
 	 * @param accessControl The current accessControl
 	 * @param permissions   The permissions required to access that View
 	 * @param cl            The view being reigstered
@@ -164,22 +156,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 			try {
 				ViewAuthorization auth = (ViewAuthorization) cl.getDeclaredConstructor().newInstance();
 				RouteConfiguration.forSessionScope().setRoute(auth.getViewName(), cl, MainLayout.class);
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SecurityException e) {
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

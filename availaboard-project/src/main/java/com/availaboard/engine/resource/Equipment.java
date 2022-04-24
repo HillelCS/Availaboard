@@ -33,7 +33,7 @@ public class Equipment extends Resource {
 	}
 
 	public void setEquipment_type(String equipment_type) {
-		this.equipmentType = equipment_type;
+		equipmentType = equipment_type;
 	}
 
 	public void setModel(String model) {

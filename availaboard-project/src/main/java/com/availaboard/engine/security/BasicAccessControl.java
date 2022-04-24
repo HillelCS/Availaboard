@@ -36,6 +36,16 @@ public class BasicAccessControl implements AccessControl {
 	}
 
 	@Override
+	public boolean isUserInRole(Stream<Permission> stream) {
+		return stream.anyMatch(permission -> {
+			if (CurrentUser.get().getPermissions() == permission) {
+				return true;
+			}
+			return false;
+		});
+	}
+
+	@Override
 	public boolean isUserSignedIn() {
 		return (CurrentUser.get() != null);
 	}
@@ -71,15 +81,5 @@ public class BasicAccessControl implements AccessControl {
 	public void signOut() {
 		VaadinSession.getCurrent().getSession().invalidate();
 		UI.getCurrent().navigate("");
-	}
-
-	@Override
-	public boolean isUserInRole(Stream<Permission> stream) {
-		return stream.anyMatch(permission -> {
-			if (CurrentUser.get().getPermissions() == permission) {
-				return true;
-			}
-			return false;
-		});
 	}
 }
