@@ -42,12 +42,12 @@ public class LoginView extends FlexLayout {
 
 	private void login(LoginForm.LoginEvent event) {
 		if (accessControl.signIn(event.getUsername(), event.getPassword())) {
-			UI.getCurrent().getPage().reload();;
 			if (accessControl.isUserInRole(Permission.Admin)) {
 				getUI().get().navigate(AdminView.VIEWNAME);
 			} else {
 				getUI().get().navigate("/");
 			}
+			UI.getCurrent().getPage().reload();
 		} else {
 			event.getSource().setError(true);
 		}
