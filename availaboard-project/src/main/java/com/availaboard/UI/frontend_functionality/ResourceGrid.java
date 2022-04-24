@@ -13,6 +13,7 @@ import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -82,6 +83,9 @@ public class ResourceGrid<E extends Resource> extends Grid {
 	 *         <code> Field </code> names and value's added.
 	 */
 	private VerticalLayout createDialogLayout(Dialog dialog, Resource res) {
+
+		VerticalLayout dialogLayout = new VerticalLayout();
+
 		H2 headline = new H2(res.getName());
 		headline.getStyle().set("margin", "0").set("font-size", "2.5em").set("font-weight", "bold");
 		HorizontalLayout header = new HorizontalLayout(headline);
@@ -116,11 +120,12 @@ public class ResourceGrid<E extends Resource> extends Grid {
 
 		if (accessControl.isUserSignedIn() && accessControl.isUserInRole(Permission.Admin)) {
 			Button adminEditButton = new Button(VaadinIcon.EDIT.create());
-			header.add(adminEditButton);
-			header.setVerticalComponentAlignment(Alignment.END, adminEditButton);
+			adminEditButton.addClassName("admin-edit-button");
+			HorizontalLayout adminEditLayout = new HorizontalLayout(adminEditButton);
+			adminEditLayout.addClassName("admin-edit-button-layout");
 
 			adminEditButton.addClickListener(event -> {
-				header.remove(adminEditButton);
+				dialogLayout.remove(adminEditLayout);
 				fieldLayout.removeAll();
 				Stream<Field> fieldStream = Arrays.stream(resourceFields);
 				fieldStream.forEach(field -> {
@@ -136,33 +141,35 @@ public class ResourceGrid<E extends Resource> extends Grid {
 							content = field.get(res).toString();
 
 							Span informationLabel = new Span(content);
-							TextField textField = new TextField();
-							textField.setValue(content);
-							textField.setVisible(false);
+							informationLabel.addClassName("information-label");
+							TextField informationTextField = new TextField();
+							informationTextField.addClassName("information-textfield");
+							informationTextField.setValue(content);
+							informationTextField.setVisible(false);
 
 							informationLabel.getElement().addEventListener("dblclick", e -> {
 								informationLabel.setVisible(false);
-								textField.setVisible(true);
-								textField.focus();
+								informationTextField.setVisible(true);
+								informationTextField.focus();
 							});
 
-							textField.addValueChangeListener(e -> {
-								textField.setVisible(false);
+							informationTextField.addValueChangeListener(e -> {
+								informationTextField.setVisible(false);
 								informationLabel.setVisible(true);
-								String newValue = textField.getValue();
+								String newValue = informationTextField.getValue();
 								if (newValue.isEmpty()) {
-									horLayout.remove(informationLabel, textField);
+									horLayout.remove(informationLabel, informationTextField);
 								} else {
 									informationLabel.setText(newValue);
 								}
 							});
 
-							textField.addBlurListener(e -> {
-								textField.setVisible(false);
+							informationTextField.addBlurListener(e -> {
+								informationTextField.setVisible(false);
 								informationLabel.setVisible(true);
 							});
 
-							horLayout.add(informationLabel, textField);
+							horLayout.add(informationLabel, informationTextField);
 							fieldLayout.add(horLayout);
 						} catch (IllegalArgumentException | IllegalAccessException e1) {
 							e1.printStackTrace();
@@ -170,6 +177,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
 					}
 				});
 			});
+			dialogLayout.add(adminEditLayout);
 		}
 
 		fieldLayout.setSpacing(false);
@@ -177,8 +185,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
 
 		Button finishedButton = new Button("Done", e -> dialog.close());
 		HorizontalLayout buttonLayout = new HorizontalLayout(finishedButton);
-
-		VerticalLayout dialogLayout = new VerticalLayout(header, fieldLayout, buttonLayout);
+		dialogLayout.add(header, fieldLayout, buttonLayout);
 		dialogLayout.setPadding(false);
 
 		dialogLayout.getStyle().set("width", "350px").set("max-width", "450px");
