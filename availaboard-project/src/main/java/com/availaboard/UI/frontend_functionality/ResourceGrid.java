@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.ResourceFieldLoader;
 import com.availaboard.engine.resource.Status;
+import com.availaboard.engine.security.AccessControl;
+import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -43,6 +45,8 @@ public class ResourceGrid<E extends Resource> extends Grid {
 	private AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
 	private Class<? extends Resource> type;
+	
+	private final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
 
 	/**
 	 * Used to set the type of {@link Resource} the {@link Grid} needs to load.

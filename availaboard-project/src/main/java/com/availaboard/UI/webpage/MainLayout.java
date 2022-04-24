@@ -50,6 +50,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 	private final Button logoutButton;
 	private final RouterLink availaboardButton;
 	private final RouterLink loginButton;
+	private final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
 
 	public MainLayout() {
 		final DrawerToggle drawerToggle = new DrawerToggle();
@@ -92,7 +93,6 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
 	@Override
 	protected void onAttach(AttachEvent attachEvent) {
-		final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
 		final VerticalLayout verticalLayout = new VerticalLayout();
 		super.onAttach(attachEvent);
 		verticalLayout.add(availaboardButton);
@@ -123,7 +123,6 @@ public class MainLayout extends AppLayout implements RouterLayout {
 	 */
 	@SuppressWarnings("unchecked")
 	private Stream<RouterLink> getAllAuthorizedViews() {
-		final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
 		ArrayList<RouterLink> arr = new ArrayList<>();
 		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
 		provider.addIncludeFilter(new AssignableTypeFilter(ViewAuthorization.class));
