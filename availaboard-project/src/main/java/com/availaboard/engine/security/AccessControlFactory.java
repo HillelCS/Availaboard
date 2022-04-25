@@ -23,6 +23,7 @@ public class AccessControlFactory {
 	 * Constructor declared private because sessions should be created statically.
 	 */
 	private AccessControlFactory() {
+
 	}
 
 	/**

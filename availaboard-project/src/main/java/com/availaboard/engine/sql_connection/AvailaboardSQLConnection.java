@@ -263,7 +263,7 @@ public class AvailaboardSQLConnection {
 		try {
 			Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
 					AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
-			String query = String.format("insert into %s (%s) values ? where ResourceID = ?", table.value(),
+			String query = String.format("UPDATE %s SET %s = ? WHERE (`ResourceID` = ?);", table.value(),
 					column.value());
 
 			PreparedStatement st = con.prepareStatement(query);

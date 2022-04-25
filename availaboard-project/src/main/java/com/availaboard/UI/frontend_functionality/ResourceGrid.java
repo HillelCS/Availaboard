@@ -12,7 +12,6 @@ import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -25,7 +24,6 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -160,6 +158,12 @@ public class ResourceGrid<E extends Resource> extends Grid {
 									horLayout.remove(informationLabel, informationTextField);
 								} else {
 									informationLabel.setText(newValue);
+									try {
+										field.set(res, newValue);
+									} catch (IllegalArgumentException | IllegalAccessException e1) {
+										e1.printStackTrace();
+									}
+									db.updateRowInDatabase(res, field);
 								}
 							});
 
