@@ -33,12 +33,12 @@ public class CreateNewAccountView extends VerticalLayout {
 
 	public CreateNewAccountView() {
 
-		TextField usernameField = new TextField();
-		PasswordField passwordField = new PasswordField();
-		PasswordField confirmPasswordField = new PasswordField();
-		TextField firstNameField = new TextField();
-		TextField lastNameField = new TextField();
-		TextField emailField = new TextField();
+		TextField usernameField = new TextField("Username");
+		PasswordField passwordField = new PasswordField("Password");
+		PasswordField confirmPasswordField = new PasswordField("Confirm Password");
+		TextField firstNameField = new TextField("First Name");
+		TextField lastNameField = new TextField("Last Name");
+		TextField emailField = new TextField("Email");
 
 		accessControl = AccessControlFactory.getInstance().createAccessControl();
 
@@ -65,14 +65,10 @@ public class CreateNewAccountView extends VerticalLayout {
 			}
 		});
 
-		layout.addFormItem(usernameField, "Username");
-		layout.addFormItem(passwordField, "Password");
-		layout.addFormItem(confirmPasswordField, "Confirm Password");
-		layout.addFormItem(firstNameField, "First Name");
-		layout.addFormItem(lastNameField, "Last Name");
-		layout.addFormItem(emailField, "Email");
-
-		layout.setResponsiveSteps(new ResponsiveStep("0", 1));
+		layout.add(firstNameField, lastNameField, emailField, usernameField, passwordField, confirmPasswordField);
+		layout.setResponsiveSteps(new ResponsiveStep("0", 1), new ResponsiveStep("500px", 2));
+		layout.setColspan(usernameField, 2);
+		layout.setColspan(emailField, 2);
 
 		add(createNewAccountLabel);
 		add(layout);
