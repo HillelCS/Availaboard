@@ -35,16 +35,6 @@ CREATE TABLE `equipment` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `equipment`
---
-
-LOCK TABLES `equipment` WRITE;
-/*!40000 ALTER TABLE `equipment` DISABLE KEYS */;
-INSERT INTO `equipment` VALUES ('I-pad SE 14 gen','I-pad','Heather Jacobson',5,1);
-/*!40000 ALTER TABLE `equipment` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `resource`
 --
 
@@ -60,15 +50,6 @@ CREATE TABLE `resource` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `resource`
---
-
-LOCK TABLES `resource` WRITE;
-/*!40000 ALTER TABLE `resource` DISABLE KEYS */;
-INSERT INTO `resource` VALUES ('Sam','BUSY',1,NULL),('John','AVAILABLE',2,NULL),('Heather','BUSY',3,NULL),('Atrium','AVAILABLE',4,NULL),('Heathers I-pad','AVAILABLE',5,NULL),('Kenny','AVAILABLE',6,NULL),('Sobi','BUSY',7,NULL);
-/*!40000 ALTER TABLE `resource` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `room`
@@ -88,15 +69,6 @@ CREATE TABLE `room` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `room`
---
-
-LOCK TABLES `room` WRITE;
-/*!40000 ALTER TABLE `room` DISABLE KEYS */;
-INSERT INTO `room` VALUES ('Rabbi Swigard','Upper west building',4,1);
-/*!40000 ALTER TABLE `room` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `user`
@@ -125,11 +97,6 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('Samuel','Jacobson','samjacobson990@gmail.com','samiam','Can\'tGuessThis',1,1,'Admin'),('John','Kaufthal','jkauhftal@khauftal.com','EscapeRoomArtist','Microsoft123',2,2,'User'),('Heather','Jacobson','hljacobson@gmail.com','MotherOfFour','Welcome123',3,3,'User'),('Kenny','Jacobson','kennyjacobs@gmail.com','GreatUncle','Uncle321',6,4,'Admin');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
