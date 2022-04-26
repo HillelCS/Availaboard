@@ -7,12 +7,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.resource.User;
+import com.availaboard.engine.security.AccessControl;
+import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.utilitys.ConfigPropReader;
 
 /**
@@ -46,7 +49,7 @@ public class AvailaboardSQLConnection {
 			st.setString(2, password);
 			ResultSet rs = st.executeQuery();
 
-			if (rs.next() && (rs.getInt(1) != 1)) {
+			if ((rs.next() && ((rs.getInt(1) != 1)))) {
 				throw new InvalidCredentialsException();
 			}
 			st.close();
@@ -277,23 +280,78 @@ public class AvailaboardSQLConnection {
 		}
 	}
 
-	public void insertResourceIntoDatabase(Resource res) {
+	/**
+	 * Checks if a <code>Username</code> exists in the database.
+	 * 
+	 * @param username The <code>username</code> being against the database for if
+	 *                 it exists or not.
+	 */
+	public boolean doesUsernameExist(String username) {
 		try {
 			Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
 					AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+
+			String query = "SELECT COUNT(1) FROM user WHERE username = ?;";
+			PreparedStatement st = con.prepareStatement(query);
+			st.setString(1, username);
+			ResultSet rs = st.executeQuery();
+
+			if (rs.next() && (rs.getInt(1) == 1)) {
+				return true;
+			}
+			st.close();
+			rs.close();
+			con.close();
+		} catch (SQLException | SecurityException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	/**
+	 * Inserts a {@link Resource} subclass into the database.
+	 * 
+	 * 
+	 * @param res The {@link Resource} that is being inserted into the database.
+	 */
+	public void insertResourceIntoDatabase(Resource res) {
+		int key = 0;
+		try {
+			if (doesUsernameExist(username)) {
+				throw new UsernameExistsException();
+			}
+			Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+					AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
 			final Table table = res.getClass().getAnnotation(Table.class);
+
+			String query = String.format("INSERT INTO `availaboard`.`resource` (`name`, `status`) VALUES (?, ?);");
+			PreparedStatement st = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			st.setString(1, res.getName());
+			st.setString(2, res.getStatus().toString());
+			st.executeUpdate();
+			ResultSet rs = st.getGeneratedKeys();
+
+			if (rs.next()) {
+				key = rs.getInt(1);
+			}
+
+			query = String.format("INSERT INTO %s (ResourceID) VALUES (?)", table.value());
+
+			st = con.prepareStatement(query);
+			st.setInt(1, key);
+			st.executeUpdate();
+
+			res.setId(key);
+
 			for (Field field : res.getClass().getDeclaredFields()) {
 				if ((field.isAnnotationPresent(Column.class))) {
 					field.setAccessible(true);
-					final Column column = field.getAnnotation(Column.class);
-					String query = String.format("insert into %s (%s) values ?", table.value(), column.value());
-					PreparedStatement st = con.prepareStatement(query);
-					st.setString(1, field.get(res).toString());
-					st.executeUpdate();
+					updateRowInDatabase(res, field);
 				}
 			}
+
 			con.close();
-		} catch (IllegalArgumentException | SQLException | IllegalAccessException | SecurityException e) {
+		} catch (IllegalArgumentException | SQLException | SecurityException e) {
 			e.printStackTrace();
 		}
 	}
