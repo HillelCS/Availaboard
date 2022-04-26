@@ -276,4 +276,25 @@ public class AvailaboardSQLConnection {
 			e.printStackTrace();
 		}
 	}
+
+	public void insertResourceIntoDatabase(Resource res) {
+		try {
+			Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+					AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+			final Table table = res.getClass().getAnnotation(Table.class);
+			for (Field field : res.getClass().getDeclaredFields()) {
+				if ((field.isAnnotationPresent(Column.class))) {
+					field.setAccessible(true);
+					final Column column = field.getAnnotation(Column.class);
+					String query = String.format("insert into %s (%s) values ?", table.value(), column.value());
+					PreparedStatement st = con.prepareStatement(query);
+					st.setString(1, field.get(res).toString());
+					st.executeUpdate();
+				}
+			}
+			con.close();
+		} catch (IllegalArgumentException | SQLException | IllegalAccessException | SecurityException e) {
+			e.printStackTrace();
+		}
+	}
 }

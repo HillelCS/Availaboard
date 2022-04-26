@@ -38,10 +38,14 @@ public class CreateNewAccountView extends VerticalLayout {
 				tempUser.setFirstName(firstNameField.getValue());
 				tempUser.setLastName(lastNameField.getValue());
 				tempUser.setEmail(emailField.getValue());
+				
+				
 			} else {
 				// Set error message
 			}
 		});
+		
+		layout.addFormItem(usernameField, "Username");
 
 		add(createNewAccountLabel);
 		add(layout);
