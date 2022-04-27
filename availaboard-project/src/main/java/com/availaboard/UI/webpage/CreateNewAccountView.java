@@ -9,15 +9,18 @@ import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.availaboard.engine.sql_connection.UsernameExistsException;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
 import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep.LabelsPosition;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
+@CssImport("./styles/webpage-styles/create-new-account-view.css")
 @Route(value = "create-account", layout = MainLayout.class)
 public class CreateNewAccountView extends VerticalLayout {
 
@@ -30,8 +33,12 @@ public class CreateNewAccountView extends VerticalLayout {
 	private FormLayout layout = new FormLayout();
 	private H1 createNewAccountLabel = new H1("Create A New Account");
 	private AccessControl accessControl;
+	private final Label usernameExistsErrorLabel = new Label("This username already exists");
 
 	public CreateNewAccountView() {
+
+		usernameExistsErrorLabel.setVisible(false);
+		usernameExistsErrorLabel.addClassName("invalidUsernameLabel");
 
 		TextField usernameField = new TextField("Username");
 		PasswordField passwordField = new PasswordField("Password");
@@ -58,7 +65,7 @@ public class CreateNewAccountView extends VerticalLayout {
 					accessControl.signIn(usernameField.getValue(), passwordField.getValue());
 					getUI().get().navigate(UserInformationView.VIEWNAME);
 				} catch (UsernameExistsException e) {
-					// Set username exists error message here
+					usernameExistsErrorLabel.setVisible(true);
 				}
 			} else {
 				// Set password and confirm password fields are not the same error here
@@ -70,6 +77,7 @@ public class CreateNewAccountView extends VerticalLayout {
 		layout.setColspan(usernameField, 2);
 		layout.setColspan(emailField, 2);
 
+		add(usernameExistsErrorLabel);
 		add(createNewAccountLabel);
 		add(layout);
 		add(submitButton);
