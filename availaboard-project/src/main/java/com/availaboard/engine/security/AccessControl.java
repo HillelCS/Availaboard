@@ -11,13 +11,13 @@ import com.availaboard.engine.resource.Permission;
 
 public interface AccessControl extends Serializable {
 
-	boolean isUserInRole(Permission permission);
+    boolean isUserInRole(Permission permission);
 
-	boolean isUserInRole(Stream<Permission> stream);
+    boolean isUserInRole(Stream<Permission> stream);
 
-	boolean isUserSignedIn();
+    boolean isUserSignedIn();
 
-	boolean signIn(String username, String password);
+    boolean signIn(String username, String password);
 
-	void signOut();
+    void signOut();
 }

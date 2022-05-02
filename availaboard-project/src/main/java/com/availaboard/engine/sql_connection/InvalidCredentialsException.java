@@ -6,9 +6,9 @@ package com.availaboard.engine.sql_connection;
  */
 public class InvalidCredentialsException extends Exception {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 6170024768854127626L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 6170024768854127626L;
 
 }

@@ -12,9 +12,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface ResourceFieldLoader {
-	/**
-	 * @return The "nickname" to be used when showing this field in the
-	 *         <code>UI</code>.
-	 */
-	String value();
+    /**
+     * @return The "nickname" to be used when showing this field in the
+     * <code>UI</code>.
+     */
+    String value();
+
 }

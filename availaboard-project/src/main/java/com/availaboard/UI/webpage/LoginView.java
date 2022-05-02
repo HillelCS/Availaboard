@@ -18,41 +18,41 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Login")
 public class LoginView extends FlexLayout {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -6633815459114206330L;
-	private AccessControl accessControl;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -6633815459114206330L;
+    private AccessControl accessControl;
 
-	public LoginView() {
-		accessControl = AccessControlFactory.getInstance().createAccessControl();
-		buildUI();
-	}
+    public LoginView() {
+        accessControl = AccessControlFactory.getInstance().createAccessControl();
+        buildUI();
+    }
 
-	private void buildUI() {
-		setSizeFull();
-		LoginForm loginForm = new LoginForm();
-		loginForm.addLoginListener(this::login);
-		FlexLayout centeringLayout = new FlexLayout();
-		centeringLayout.setSizeFull();
-		centeringLayout.setJustifyContentMode(JustifyContentMode.CENTER);
-		centeringLayout.setAlignItems(Alignment.CENTER);
-		centeringLayout.add(loginForm);
-		add(centeringLayout);
-	}
+    private void buildUI() {
+        setSizeFull();
+        LoginForm loginForm = new LoginForm();
+        loginForm.addLoginListener(this::login);
+        FlexLayout centeringLayout = new FlexLayout();
+        centeringLayout.setSizeFull();
+        centeringLayout.setJustifyContentMode(JustifyContentMode.CENTER);
+        centeringLayout.setAlignItems(Alignment.CENTER);
+        centeringLayout.add(loginForm);
+        add(centeringLayout);
+    }
 
-	private void login(LoginForm.LoginEvent event) {
-		if (accessControl.signIn(event.getUsername(), event.getPassword())) {
-			if (accessControl.isUserInRole(Permission.Admin)) {
-				getUI().get().navigate(AdminView.VIEWNAME);
-			} else if (accessControl.isUserInRole(Permission.User)) {
-				getUI().get().navigate(UserInformationView.VIEWNAME);
-			} else {
-				getUI().get().navigate("/");
-			}
-			UI.getCurrent().getPage().reload();
-		} else {
-			event.getSource().setError(true);
-		}
-	}
+    private void login(LoginForm.LoginEvent event) {
+        if (accessControl.signIn(event.getUsername(), event.getPassword())) {
+            if (accessControl.isUserInRole(Permission.Admin)) {
+                getUI().get().navigate(AdminView.VIEWNAME);
+            } else if (accessControl.isUserInRole(Permission.User)) {
+                getUI().get().navigate(UserInformationView.VIEWNAME);
+            } else {
+                getUI().get().navigate("/");
+            }
+            UI.getCurrent().getPage().reload();
+        } else {
+            event.getSource().setError(true);
+        }
+    }
 }

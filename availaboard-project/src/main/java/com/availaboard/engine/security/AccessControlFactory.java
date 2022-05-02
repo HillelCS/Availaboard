@@ -6,32 +6,31 @@ package com.availaboard.engine.security;
  */
 public class AccessControlFactory {
 
-	private static final AccessControlFactory INSTANCE = new AccessControlFactory();
+    private static final AccessControlFactory INSTANCE = new AccessControlFactory();
+    private final AccessControl accessControl = new BasicAccessControl();
 
-	/**
-	 * Creates a new instance of a {@link BasicAccessControl}.
-	 *
-	 * @return A new instance of a {@link BasicAccessControl}.
-	 */
-	public static AccessControlFactory getInstance() {
-		return AccessControlFactory.INSTANCE;
-	}
+    /**
+     * Constructor declared private because sessions should be created statically.
+     */
+    private AccessControlFactory() {
 
-	private final AccessControl accessControl = new BasicAccessControl();
+    }
 
-	/**
-	 * Constructor declared private because sessions should be created statically.
-	 */
-	private AccessControlFactory() {
+    /**
+     * Creates a new instance of a {@link BasicAccessControl}.
+     *
+     * @return A new instance of a {@link BasicAccessControl}.
+     */
+    public static AccessControlFactory getInstance() {
+        return AccessControlFactory.INSTANCE;
+    }
 
-	}
-
-	/**
-	 * Used to create a new {@link accessControl}
-	 *
-	 * @return A new {@link accessControl} Object.
-	 */
-	public AccessControl createAccessControl() {
-		return accessControl;
-	}
+    /**
+     * Used to create a new {@link accessControl}
+     *
+     * @return A new {@link accessControl} Object.
+     */
+    public AccessControl createAccessControl() {
+        return accessControl;
+    }
 }

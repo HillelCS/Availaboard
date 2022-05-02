@@ -12,6 +12,7 @@ import org.junit.Rule;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+
 /**
  * Base class for TestBench IntegrationTests on chrome.
  * <p>
@@ -28,10 +29,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
  */
 public abstract class AbstractViewTest extends ParallelTest {
     private static final int SERVER_PORT = 8080;
-
+    /**
+     * Property set to true when running on a test hub.
+     */
+    private static final String USE_HUB_PROPERTY = "test.use.hub";
     private final String route;
     private final By rootSelector;
-
     @Rule
     public ScreenshotOnFailureRule rule = new ScreenshotOnFailureRule(this,
             false);
@@ -49,54 +52,6 @@ public abstract class AbstractViewTest extends ParallelTest {
     public static void setupClass() {
         WebDriverManager.chromedriver().setup();
     }
-
-    @Before
-    public void setup() throws Exception {
-        if (isUsingHub()) {
-            super.setup();
-        } else {
-            setDriver(TestBench.createDriver(new ChromeDriver()));
-        }
-        getDriver().get(getURL(route));
-    }
-
-    /**
-     * Convenience method for getting the root element of the view based on
-     * the selector passed to the constructor.
-     *
-     * @return the root element
-     */
-    protected WebElement getRootElement() {
-        return findElement(rootSelector);
-    }
-
-    /**
-     * Asserts that the given {@code element} is rendered using a theme
-     * identified by {@code themeClass}. If the theme is not found, JUnit
-     * assert will fail the test case.
-     *
-     * @param element       web element to check for the theme
-     * @param themeClass    theme class (such as {@code Lumo.class}
-     */
-    protected void assertThemePresentOnElement(
-            WebElement element, Class<? extends AbstractTheme> themeClass) {
-        String themeName = themeClass.getSimpleName().toLowerCase();
-        Boolean hasStyle = (Boolean) executeScript("" +
-                "var styles = Array.from(arguments[0]._template.content" +
-                ".querySelectorAll('style'))" +
-                ".filter(style => style.textContent.indexOf('" +
-                themeName + "') > -1);" +
-                "return styles.length > 0;", element);
-
-        Assert.assertTrue("Element '" + element.getTagName() + "' should have" +
-                        " had theme '" + themeClass.getSimpleName() + "'.",
-                hasStyle);
-    }
-
-    /**
-     * Property set to true when running on a test hub.
-     */
-    private static final String USE_HUB_PROPERTY = "test.use.hub";
 
     /**
      * Returns deployment host name concatenated with route.
@@ -127,5 +82,48 @@ public abstract class AbstractViewTest extends ParallelTest {
      */
     private static String getDeploymentHostname() {
         return isUsingHub() ? System.getenv("HOSTNAME") : "localhost";
+    }
+
+    @Before
+    public void setup() throws Exception {
+        if (isUsingHub()) {
+            super.setup();
+        } else {
+            setDriver(TestBench.createDriver(new ChromeDriver()));
+        }
+        getDriver().get(getURL(route));
+    }
+
+    /**
+     * Convenience method for getting the root element of the view based on
+     * the selector passed to the constructor.
+     *
+     * @return the root element
+     */
+    protected WebElement getRootElement() {
+        return findElement(rootSelector);
+    }
+
+    /**
+     * Asserts that the given {@code element} is rendered using a theme
+     * identified by {@code themeClass}. If the theme is not found, JUnit
+     * assert will fail the test case.
+     *
+     * @param element    web element to check for the theme
+     * @param themeClass theme class (such as {@code Lumo.class}
+     */
+    protected void assertThemePresentOnElement(
+            WebElement element, Class<? extends AbstractTheme> themeClass) {
+        String themeName = themeClass.getSimpleName().toLowerCase();
+        Boolean hasStyle = (Boolean) executeScript("" +
+                "var styles = Array.from(arguments[0]._template.content" +
+                ".querySelectorAll('style'))" +
+                ".filter(style => style.textContent.indexOf('" +
+                themeName + "') > -1);" +
+                "return styles.length > 0;", element);
+
+        Assert.assertTrue("Element '" + element.getTagName() + "' should have" +
+                        " had theme '" + themeClass.getSimpleName() + "'.",
+                hasStyle);
     }
 }
