@@ -275,7 +275,7 @@ public class AvailaboardSQLConnection {
             st.executeUpdate();
             st.close();
             con.close();
-        } catch (IllegalArgumentException | SQLException | IllegalAccessException | SecurityException e) {
+        } catch (SQLIntegrityConstraintViolationException | IllegalArgumentException | SQLException | IllegalAccessException | SecurityException e) {
             e.printStackTrace();
         }
     }
