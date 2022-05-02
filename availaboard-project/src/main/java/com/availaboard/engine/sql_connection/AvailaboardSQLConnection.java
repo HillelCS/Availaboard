@@ -292,14 +292,20 @@ public class AvailaboardSQLConnection {
 			Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
 					AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
 
-			String query = "SELECT COUNT(*) FROM user WHERE username = ?;";
+			// Uses alias to store the count as variable
+			String query = "SELECT COUNT(1) AS total FROM user WHERE username = ?;";
 			PreparedStatement st = con.prepareStatement(query);
 			st.setString(1, username);
 			ResultSet rs = st.executeQuery();
-
-			if (rs.next() && (rs.getInt(1) > 0)) {
-				return true;
+			if (rs.next()) {
+				int count = rs.getInt("total");
+				System.out.println("testing123totalwoo");
+				if (count == 1) {
+					System.out.println("true");
+					return true;
+				}
 			}
+
 			st.close();
 			rs.close();
 			con.close();
@@ -320,8 +326,9 @@ public class AvailaboardSQLConnection {
 		int key = 0;
 		try {
 			if (doesUsernameExist(username)) {
+				System.out.println("Exists");
 				throw new UsernameExistsException();
-			} 
+			} else {
 				Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
 						AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
 				final Table table = res.getClass().getAnnotation(Table.class);
@@ -351,7 +358,8 @@ public class AvailaboardSQLConnection {
 						updateRowInDatabase(res, field);
 					}
 				}
-				con.close();		
+				con.close();
+			}
 		} catch (IllegalArgumentException | SQLException | SecurityException e) {
 			e.printStackTrace();
 		}
