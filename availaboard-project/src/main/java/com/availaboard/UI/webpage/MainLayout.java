@@ -43,6 +43,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 	private final Button logoutButton;
 	private final RouterLink availaboardButton;
 	private final RouterLink loginButton;
+	private final RouterLink createAccountButton;
 	private final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
 
 	public MainLayout() {
@@ -64,6 +65,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
 		availaboardButton = createMenuLink(AvailaboardView.class, "Availability");
 		loginButton = createMenuLink(LoginView.class, "Login");
+		createAccountButton = createMenuLink(CreateNewAccountView.class, "Create New Account");
 
 	}
 
@@ -74,7 +76,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 		return routerButton;
 	}
 
-	private RouterLink createMenuLink(Class<? extends Component> viewClass, String caption) {
+	private RouterLink createMenuLink(final Class<? extends Component> viewClass, final String caption) {
 		final RouterLink routerLink = new RouterLink(caption, viewClass);
 		routerLink.setClassName("menu-link");
 		return routerLink;
@@ -135,6 +137,7 @@ public class MainLayout extends AppLayout implements RouterLayout {
 
 		} else {
 			verticalLayout.add(loginButton);
+			verticalLayout.add(createAccountButton);
 		}
 
 		verticalLayout.setSizeFull();
@@ -156,7 +159,8 @@ public class MainLayout extends AppLayout implements RouterLayout {
 			try {
 				ViewAuthorization auth = (ViewAuthorization) cl.getDeclaredConstructor().newInstance();
 				RouteConfiguration.forSessionScope().setRoute(auth.getViewName(), cl, MainLayout.class);
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
