@@ -67,7 +67,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 			} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | SecurityException | InstantiationException
 					| NoSuchMethodException e) {
-//				e.printStackTrace();
+
 			}
 		}
 		return arr;
