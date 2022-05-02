@@ -23,13 +23,14 @@ public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFo
      *
      */
     private static final long serialVersionUID = 2387496440562208964L;
-    private HorizontalLayout horizontalLayout = new HorizontalLayout();
-    private Span explanation;
+    private static final HorizontalLayout horizontalLayout = new HorizontalLayout();
+    private static Span explanation;
+    private static final H1 header = new H1("You got lost!");
+    private static final RouterLink availaboardButton = new RouterLink("Maybe you want to head back to the Main Page?",
+            AvailaboardView.class);
 
     public ErrorView() {
-        final H1 header = new H1("Looks like you're chasing cats my friend!");
-        final RouterLink availaboardButton = new RouterLink("Maybe you want to head back to the Main Page?",
-                AvailaboardView.class);
+    
 
         add(header);
         add(availaboardButton);

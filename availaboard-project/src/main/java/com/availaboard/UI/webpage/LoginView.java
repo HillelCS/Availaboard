@@ -23,6 +23,9 @@ public class LoginView extends FlexLayout {
      */
     private static final long serialVersionUID = -6633815459114206330L;
     private AccessControl accessControl;
+    
+    private static final LoginForm loginForm = new LoginForm();
+    private static final FlexLayout centeringLayout = new FlexLayout();
 
     public LoginView() {
         accessControl = AccessControlFactory.getInstance().createAccessControl();
@@ -31,9 +34,7 @@ public class LoginView extends FlexLayout {
 
     private void buildUI() {
         setSizeFull();
-        LoginForm loginForm = new LoginForm();
         loginForm.addLoginListener(this::login);
-        FlexLayout centeringLayout = new FlexLayout();
         centeringLayout.setSizeFull();
         centeringLayout.setJustifyContentMode(JustifyContentMode.CENTER);
         centeringLayout.setAlignItems(Alignment.CENTER);

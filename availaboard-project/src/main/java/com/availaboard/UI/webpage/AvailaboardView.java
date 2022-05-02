@@ -30,7 +30,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
      *
      */
     private static final long serialVersionUID = -4432887017833022089L;
-    AvailaboardSQLConnection db = new AvailaboardSQLConnection();
+    private final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
     public AvailaboardView() {
         addGridsToLayout();

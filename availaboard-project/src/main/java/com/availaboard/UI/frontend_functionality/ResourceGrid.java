@@ -45,7 +45,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
      */
     private static final long serialVersionUID = -2025064138726788718L;
     private final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
-    private AvailaboardSQLConnection db = new AvailaboardSQLConnection();
+    private final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
     private Class<? extends Resource> type;
     private String content;
 
