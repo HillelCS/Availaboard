@@ -69,5 +69,6 @@ public class User extends Resource {
 
     public void setUsername(String username) {
         this.username = username;
+        super.setName(username);
     }
 }

@@ -297,13 +297,8 @@ public class AvailaboardSQLConnection {
 			PreparedStatement st = con.prepareStatement(query);
 			st.setString(1, username);
 			ResultSet rs = st.executeQuery();
-			if (rs.next()) {
-				int count = rs.getInt("total");
-				System.out.println("testing123totalwoo");
-				if (count == 1) {
-					System.out.println("true");
-					return true;
-				}
+			if (rs.next() && rs.getInt("total") == 1) {
+				return true;
 			}
 
 			st.close();
@@ -325,8 +320,7 @@ public class AvailaboardSQLConnection {
 	public void insertResourceIntoDatabase(Resource res) throws UsernameExistsException {
 		int key = 0;
 		try {
-			if (doesUsernameExist(username)) {
-				System.out.println("Exists");
+			if (doesUsernameExist(res.getName())) {
 				throw new UsernameExistsException();
 			} else {
 				Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,

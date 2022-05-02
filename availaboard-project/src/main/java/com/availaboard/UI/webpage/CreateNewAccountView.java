@@ -62,7 +62,6 @@ public class CreateNewAccountView extends VerticalLayout {
 				tempUser.setEmail(emailField.getValue());
 				tempUser.setPermissions(Permission.User);
 				tempUser.setStatus(Status.AVAILABLE);
-				tempUser.setName(firstNameField.getValue());
 				try {
 					db.insertResourceIntoDatabase(tempUser);
 					accessControl.signIn(usernameField.getValue(), passwordField.getValue());
