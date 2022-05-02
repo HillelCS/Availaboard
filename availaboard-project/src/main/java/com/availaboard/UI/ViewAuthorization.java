@@ -2,6 +2,8 @@ package com.availaboard.UI;
 
 import java.util.stream.Stream;
 
+import org.springframework.stereotype.Component;
+
 import com.availaboard.engine.resource.Permission;
 
 /**
