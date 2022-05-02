@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.availaboard.engine.resource"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.availaboard.engine.resource"},{"l":"com.availaboard.engine.security"},{"l":"com.availaboard.engine.sql_connection"},{"l":"com.availaboard.UI"},{"l":"com.availaboard.UI.frontend_functionality"},{"l":"com.availaboard.UI.init"},{"l":"com.availaboard.UI.webpage.admin"},{"l":"com.availaboard.UI.webpage.user"},{"l":"com.availaboard.utilitys"}];updateSearchResults();
