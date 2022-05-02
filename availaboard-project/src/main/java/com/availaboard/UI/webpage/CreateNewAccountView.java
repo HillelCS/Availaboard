@@ -24,32 +24,35 @@ import com.vaadin.flow.router.Route;
 @Route(value = "create-account", layout = MainLayout.class)
 public class CreateNewAccountView extends VerticalLayout {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1778993837532264134L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1778993837532264134L;
 
-	AvailaboardSQLConnection db = new AvailaboardSQLConnection();
-	private FormLayout layout = new FormLayout();
-	private H1 createNewAccountLabel = new H1("Create A New Account");
-	private AccessControl accessControl;
-	private final Label usernameExistsErrorLabel = new Label("This username already exists");
+    private static final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
+    private static final FormLayout layout = new FormLayout();
+    private static final H1 createNewAccountLabel = new H1("Create A New Account");
+    private AccessControl accessControl;
+    private static final Label usernameExistsErrorLabel = new Label("This username already exists");
 
-	public CreateNewAccountView() {
+    private static final TextField usernameField = new TextField("Username");
+    private static final PasswordField passwordField = new PasswordField("Password");
+    private static final PasswordField confirmPasswordField = new PasswordField("Confirm Password");
+    private static final TextField firstNameField = new TextField("First Name");
+    private static final TextField lastNameField = new TextField("Last Name");
+    private static final TextField emailField = new TextField("Email");
 
-		usernameExistsErrorLabel.setVisible(false);
-		usernameExistsErrorLabel.addClassName("invalidUsernameLabel");
+    /**
+     * A button that gets all the fields values and creates a {@link User} Object
+     * with it. It then inserts the {@link User} Object into the <code>database</code> and
+     * signs the {@link CurrentUser} in as the {@link User} Object created.
+     */
+    private static Button submitButton;
 
-		TextField usernameField = new TextField("Username");
-		PasswordField passwordField = new PasswordField("Password");
-		PasswordField confirmPasswordField = new PasswordField("Confirm Password");
-		TextField firstNameField = new TextField("First Name");
-		TextField lastNameField = new TextField("Last Name");
-		TextField emailField = new TextField("Email");
 
-		accessControl = AccessControlFactory.getInstance().createAccessControl();
+    public CreateNewAccountView() {
 
-		Button submitButton = new Button("Create an account", event -> {
+		submitButton = new Button("Create an account", event -> {
 			if (passwordField.getValue().equals(confirmPasswordField.getValue())) {
 				User tempUser = new User();
 				tempUser.setUsername(usernameField.getValue());
@@ -72,14 +75,20 @@ public class CreateNewAccountView extends VerticalLayout {
 			}
 		});
 
-		layout.add(firstNameField, lastNameField, emailField, usernameField, passwordField, confirmPasswordField);
-		layout.setResponsiveSteps(new ResponsiveStep("0", 1), new ResponsiveStep("500px", 2));
-		layout.setColspan(usernameField, 2);
-		layout.setColspan(emailField, 2);
+        usernameExistsErrorLabel.setVisible(false);
+        usernameExistsErrorLabel.addClassName("invalidUsernameLabel");
 
-		add(usernameExistsErrorLabel);
-		add(createNewAccountLabel);
-		add(layout);
-		add(submitButton);
-	}
+
+        accessControl = AccessControlFactory.getInstance().createAccessControl();
+
+        layout.add(firstNameField, lastNameField, emailField, usernameField, passwordField, confirmPasswordField);
+        layout.setResponsiveSteps(new ResponsiveStep("0", 1), new ResponsiveStep("500px", 2));
+        layout.setColspan(usernameField, 2);
+        layout.setColspan(emailField, 2);
+
+        add(usernameExistsErrorLabel);
+        add(createNewAccountLabel);
+        add(layout);
+        add(submitButton);
+    }
 }

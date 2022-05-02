@@ -314,7 +314,7 @@ public class AvailaboardSQLConnection {
 	 * 
 	 * @param res The {@link Resource} that is being inserted into the database.
 	 */
-	public void insertResourceIntoDatabase(Resource res) {
+	public void insertResourceIntoDatabase(Resource res) throws UsernameExistsException {
 		int key = 0;
 		try {
 			if (doesUsernameExist(username)) {
