@@ -26,50 +26,50 @@ import com.vaadin.flow.theme.lumo.Lumo;
 @Route(value = "", layout = MainLayout.class)
 public class AvailaboardView extends VerticalLayout implements AppShellConfigurator {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -4432887017833022089L;
-	AvailaboardSQLConnection db = new AvailaboardSQLConnection();
+    /**
+     *
+     */
+    private static final long serialVersionUID = -4432887017833022089L;
+    AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
-	public AvailaboardView() {
-		addGridsToLayout();
-	}
+    public AvailaboardView() {
+        addGridsToLayout();
+    }
 
-	private void addGridsToLayout() {
-		getResourceGrids().stream().forEach(grid -> {
-			add(grid);
-			setHorizontalComponentAlignment(Alignment.CENTER, grid);
-		});
-	}
+    private void addGridsToLayout() {
+        getResourceGrids().stream().forEach(grid -> {
+            add(grid);
+            setHorizontalComponentAlignment(Alignment.CENTER, grid);
+        });
+    }
 
-	/**
-	 * Iterates through every subclass of {@link Resource} and creates a
-	 * {@link ResourceGrid} with each of them. It then adds them all to an
-	 * {@link ArrayList}.
-	 *
-	 * @return An {@link ArrayList} of each subclass of {@link Resource} added as a
-	 *         type to a {@link ResourceGrid}.
-	 */
-	private ArrayList<Grid<Resource>> getResourceGrids() {
-		ArrayList<Grid<Resource>> arr = new ArrayList<>();
-		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
-		provider.addIncludeFilter(new AssignableTypeFilter(Resource.class));
+    /**
+     * Iterates through every subclass of {@link Resource} and creates a
+     * {@link ResourceGrid} with each of them. It then adds them all to an
+     * {@link ArrayList}.
+     *
+     * @return An {@link ArrayList} of each subclass of {@link Resource} added as a
+     * type to a {@link ResourceGrid}.
+     */
+    private ArrayList<Grid<Resource>> getResourceGrids() {
+        ArrayList<Grid<Resource>> arr = new ArrayList<>();
+        ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+        provider.addIncludeFilter(new AssignableTypeFilter(Resource.class));
 
-		Set<BeanDefinition> components = provider.findCandidateComponents("com/availaboard/engine/resource");
-		for (BeanDefinition component : components) {
-			try {
-				Resource res = (Resource) Class.forName(component.getBeanClassName()).getConstructor().newInstance();
-				ResourceGrid<Resource> grid = new ResourceGrid<>(res.getClass());
-				Grid<Resource> resGrid = grid.loadGrid(res.getClass());
-				arr.add(resGrid);
+        Set<BeanDefinition> components = provider.findCandidateComponents("com/availaboard/engine/resource");
+        for (BeanDefinition component : components) {
+            try {
+                Resource res = (Resource) Class.forName(component.getBeanClassName()).getConstructor().newInstance();
+                ResourceGrid<Resource> grid = new ResourceGrid<>(res.getClass());
+                Grid<Resource> resGrid = grid.loadGrid(res.getClass());
+                arr.add(resGrid);
 
-			} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | SecurityException | InstantiationException
-					| NoSuchMethodException e) {
+            } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException
+                     | InvocationTargetException | SecurityException | InstantiationException
+                     | NoSuchMethodException e) {
 
-			}
-		}
-		return arr;
-	}
+            }
+        }
+        return arr;
+    }
 }

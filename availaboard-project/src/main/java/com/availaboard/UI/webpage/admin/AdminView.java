@@ -11,26 +11,26 @@ import com.vaadin.flow.router.Route;
 @Route(value = AdminView.VIEWNAME, layout = MainLayout.class)
 public class AdminView extends VerticalLayout implements ViewAuthorization {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -118322660015469075L;
-	public static final String VIEWNAME = "Admin";
+    public static final String VIEWNAME = "Admin";
+    /**
+     *
+     */
+    private static final long serialVersionUID = -118322660015469075L;
 
-	public AdminView() {
-	
-	}
+    public AdminView() {
 
-	/**
-	 * Requires an Admin {@link Permission} to access the view.
-	 */
-	@Override
-	public Stream<Permission> getRequiredPermission() {
-		return Stream.of(Permission.Admin);
-	}
+    }
 
-	@Override
-	public String getViewName() {
-		return AdminView.VIEWNAME;
-	}
+    /**
+     * Requires an Admin {@link Permission} to access the view.
+     */
+    @Override
+    public Stream<Permission> getRequiredPermission() {
+        return Stream.of(Permission.Admin);
+    }
+
+    @Override
+    public String getViewName() {
+        return AdminView.VIEWNAME;
+    }
 }

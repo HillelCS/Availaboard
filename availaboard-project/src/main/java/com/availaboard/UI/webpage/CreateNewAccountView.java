@@ -32,48 +32,46 @@ public class CreateNewAccountView extends VerticalLayout {
     private static final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
     private static final FormLayout layout = new FormLayout();
     private static final H1 createNewAccountLabel = new H1("Create A New Account");
-    private AccessControl accessControl;
     private static final Label usernameExistsErrorLabel = new Label("This username already exists");
-
     private static final TextField usernameField = new TextField("Username");
     private static final PasswordField passwordField = new PasswordField("Password");
     private static final PasswordField confirmPasswordField = new PasswordField("Confirm Password");
     private static final TextField firstNameField = new TextField("First Name");
     private static final TextField lastNameField = new TextField("Last Name");
     private static final TextField emailField = new TextField("Email");
-
     /**
      * A button that gets all the fields values and creates a {@link User} Object
      * with it. It then inserts the {@link User} Object into the <code>database</code> and
      * signs the {@link CurrentUser} in as the {@link User} Object created.
      */
     private static Button submitButton;
+    private AccessControl accessControl;
 
 
     public CreateNewAccountView() {
 
-		submitButton = new Button("Create an account", event -> {
-			if (passwordField.getValue().equals(confirmPasswordField.getValue())) {
-				User tempUser = new User();
-				tempUser.setUsername(usernameField.getValue());
-				tempUser.setPassword(passwordField.getValue());
-				tempUser.setFirstName(firstNameField.getValue());
-				tempUser.setLastName(lastNameField.getValue());
-				tempUser.setEmail(emailField.getValue());
-				tempUser.setPermissions(Permission.User);
-				tempUser.setStatus(Status.AVAILABLE);
-				tempUser.setName(firstNameField.getValue());
-				try {
-					db.insertResourceIntoDatabase(tempUser);
-					accessControl.signIn(usernameField.getValue(), passwordField.getValue());
-					getUI().get().navigate(UserInformationView.VIEWNAME);
-				} catch (UsernameExistsException e) {
-					usernameExistsErrorLabel.setVisible(true);
-				}
-			} else {
-				// Set password and confirm password fields are not the same error here
-			}
-		});
+        submitButton = new Button("Create an account", event -> {
+            if (passwordField.getValue().equals(confirmPasswordField.getValue())) {
+                User tempUser = new User();
+                tempUser.setUsername(usernameField.getValue());
+                tempUser.setPassword(passwordField.getValue());
+                tempUser.setFirstName(firstNameField.getValue());
+                tempUser.setLastName(lastNameField.getValue());
+                tempUser.setEmail(emailField.getValue());
+                tempUser.setPermissions(Permission.User);
+                tempUser.setStatus(Status.AVAILABLE);
+                tempUser.setName(firstNameField.getValue());
+                try {
+                    db.insertResourceIntoDatabase(tempUser);
+                    accessControl.signIn(usernameField.getValue(), passwordField.getValue());
+                    getUI().get().navigate(UserInformationView.VIEWNAME);
+                } catch (UsernameExistsException e) {
+                    usernameExistsErrorLabel.setVisible(true);
+                }
+            } else {
+                // Set password and confirm password fields are not the same error here
+            }
+        });
 
         usernameExistsErrorLabel.setVisible(false);
         usernameExistsErrorLabel.addClassName("invalidUsernameLabel");

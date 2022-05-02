@@ -12,8 +12,8 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Table {
-	/**
-	 * @return The table name
-	 */
-	String value();
+    /**
+     * @return The table name
+     */
+    String value();
 }

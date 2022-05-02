@@ -10,7 +10,7 @@ import com.availaboard.engine.resource.Permission;
  * permissions.
  */
 public interface ViewAuthorization {
-	Stream<Permission> getRequiredPermission();
+    Stream<Permission> getRequiredPermission();
 
-	String getViewName();
+    String getViewName();
 }

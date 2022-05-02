@@ -9,57 +9,56 @@ import com.vaadin.flow.server.VaadinService;
  * session (without using JAAS). All methods of this class require that a
  * {@link VaadinRequest} is bound to the current thread.
  *
- *
  * @see VaadinService#getCurrentRequest()
  */
 final class CurrentUser {
 
-	/**
-	 * The attribute key is generated based off of the current session ID.
-	 */
-	private static final String CURRENT_USER_SESSION_ATTRIBUTE_KEY = CurrentUser.getCurrentRequest().getWrappedSession()
-			.getId();
+    /**
+     * The attribute key is generated based off of the current session ID.
+     */
+    private static final String CURRENT_USER_SESSION_ATTRIBUTE_KEY = CurrentUser.getCurrentRequest().getWrappedSession()
+            .getId();
 
-	/**
-	 * Returns the current {@link User} stored in the current session, null if no
-	 * {@link User} is stored.
-	 *
-	 * @throws IllegalStateException if the current session cannot be accessed.
-	 */
-	public static User get() {
-		return (User) CurrentUser.getCurrentRequest().getWrappedSession()
-				.getAttribute(CurrentUser.CURRENT_USER_SESSION_ATTRIBUTE_KEY);
-	}
+    /**
+     * Constructor is private because a new CurrentUser should not be able to be
+     * instantiated.
+     */
+    private CurrentUser() {
+    }
 
-	private static VaadinRequest getCurrentRequest() {
-		VaadinRequest request = VaadinService.getCurrentRequest();
-		if (request == null) {
-			throw new IllegalStateException("No request bound to current thread.");
-		}
-		return request;
-	}
+    /**
+     * Returns the current {@link User} stored in the current session, null if no
+     * {@link User} is stored.
+     *
+     * @throws IllegalStateException if the current session cannot be accessed.
+     */
+    public static User get() {
+        return (User) CurrentUser.getCurrentRequest().getWrappedSession()
+                .getAttribute(CurrentUser.CURRENT_USER_SESSION_ATTRIBUTE_KEY);
+    }
 
-	/**
-	 * Set's the {@link CurrentUser} session as a {@link User} being passed in. If
-	 * the {@link User} passed in is {@code null} it removed the {@link User} from
-	 * the current session.
-	 *
-	 * @throws IllegalStateException if the current session cannot be accessed.
-	 */
-	public static void set(User currentUser) {
-		if (currentUser == null) {
-			CurrentUser.getCurrentRequest().getWrappedSession()
-					.removeAttribute(CurrentUser.CURRENT_USER_SESSION_ATTRIBUTE_KEY);
-		} else {
-			CurrentUser.getCurrentRequest().getWrappedSession()
-					.setAttribute(CurrentUser.CURRENT_USER_SESSION_ATTRIBUTE_KEY, currentUser);
-		}
-	}
+    private static VaadinRequest getCurrentRequest() {
+        VaadinRequest request = VaadinService.getCurrentRequest();
+        if (request == null) {
+            throw new IllegalStateException("No request bound to current thread.");
+        }
+        return request;
+    }
 
-	/**
-	 * Constructor is private because a new CurrentUser should not be able to be
-	 * instantiated.
-	 */
-	private CurrentUser() {
-	}
+    /**
+     * Set's the {@link CurrentUser} session as a {@link User} being passed in. If
+     * the {@link User} passed in is {@code null} it removed the {@link User} from
+     * the current session.
+     *
+     * @throws IllegalStateException if the current session cannot be accessed.
+     */
+    public static void set(User currentUser) {
+        if (currentUser == null) {
+            CurrentUser.getCurrentRequest().getWrappedSession()
+                    .removeAttribute(CurrentUser.CURRENT_USER_SESSION_ATTRIBUTE_KEY);
+        } else {
+            CurrentUser.getCurrentRequest().getWrappedSession()
+                    .setAttribute(CurrentUser.CURRENT_USER_SESSION_ATTRIBUTE_KEY, currentUser);
+        }
+    }
 }

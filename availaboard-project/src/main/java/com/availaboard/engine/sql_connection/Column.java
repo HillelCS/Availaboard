@@ -8,13 +8,12 @@ import java.lang.annotation.Target;
 
 /**
  * Indicates the Field is a Column
- *
  */
 @Retention(RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Column {
-	/**
-	 * @return The column name
-	 */
-	String value();
+    /**
+     * @return The column name
+     */
+    String value();
 }
