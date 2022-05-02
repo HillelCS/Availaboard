@@ -22,7 +22,7 @@ public class Equipment extends Resource {
 
 	public String getEquipmentType() {
 		return equipmentType;
-	}
+	} 
 
 	public String getModel() {
 		return model;

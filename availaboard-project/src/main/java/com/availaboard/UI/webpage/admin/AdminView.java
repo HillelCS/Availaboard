@@ -18,7 +18,7 @@ public class AdminView extends VerticalLayout implements ViewAuthorization {
 	public static final String VIEWNAME = "Admin";
 
 	public AdminView() {
-
+	
 	}
 
 	/**

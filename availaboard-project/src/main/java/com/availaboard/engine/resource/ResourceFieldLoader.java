@@ -17,4 +17,5 @@ public @interface ResourceFieldLoader {
 	 *         <code>UI</code>.
 	 */
 	String value();
+	
 }
