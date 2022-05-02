@@ -82,9 +82,8 @@ public class CreateNewAccountView extends VerticalLayout {
 		layout.setResponsiveSteps(new ResponsiveStep("0", 1), new ResponsiveStep("500px", 2));
 		layout.setColspan(usernameField, 2);
 		layout.setColspan(emailField, 2);
-
-		add(usernameExistsErrorLabel);
 		add(createNewAccountLabel);
+		add(usernameExistsErrorLabel);
 		add(layout);
 		add(submitButton);
 	}
