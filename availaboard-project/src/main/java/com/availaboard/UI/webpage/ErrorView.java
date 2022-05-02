@@ -19,29 +19,23 @@ import com.vaadin.flow.router.RouterLink;
 @ParentLayout(MainLayout.class)
 public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFoundException> {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 2387496440562208964L;
-    private static final HorizontalLayout horizontalLayout = new HorizontalLayout();
-    private static Span explanation;
-    private static final H1 header = new H1("You got lost!");
-    private static final RouterLink availaboardButton = new RouterLink("Maybe you want to head back to the Main Page?",
-            AvailaboardView.class);
+	private static final long serialVersionUID = 2387496440562208964L;
+	private static Span explanation;
+	private static final H1 header = new H1("You got lost!");
+	private static final RouterLink availaboardButton = new RouterLink("Maybe you want to head back to the Main Page?",
+			AvailaboardView.class);
 
-    public ErrorView() {
-    
+	public ErrorView() {
+		add(header);
+		add(availaboardButton);
 
-        add(header);
-        add(availaboardButton);
+		explanation = new Span();
+		add(explanation);
+	}
 
-        explanation = new Span();
-        add(explanation);
-    }
-
-    @Override
-    public int setErrorParameter(BeforeEnterEvent event, ErrorParameter<NotFoundException> parameter) {
-        explanation.setText("Could not navigate to '" + event.getLocation().getPath() + "'.");
-        return HttpServletResponse.SC_NOT_FOUND;
-    }
+	@Override
+	public int setErrorParameter(BeforeEnterEvent event, ErrorParameter<NotFoundException> parameter) {
+		explanation.setText("Could not navigate to '" + event.getLocation().getPath() + "'.");
+		return HttpServletResponse.SC_NOT_FOUND;
+	}
 }
