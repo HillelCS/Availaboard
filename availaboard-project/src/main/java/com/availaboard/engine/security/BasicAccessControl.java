@@ -1,13 +1,13 @@
 package com.availaboard.engine.security;
 
-import java.util.stream.Stream;
-
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.User;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.availaboard.engine.sql_connection.InvalidCredentialsException;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinSession;
+
+import java.util.stream.Stream;
 
 /**
  * Implementation of the {@link AccessControl} interface.

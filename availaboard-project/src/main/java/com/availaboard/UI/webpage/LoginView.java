@@ -5,7 +5,6 @@ import com.availaboard.UI.webpage.user.UserInformationView;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -23,7 +22,7 @@ public class LoginView extends FlexLayout {
      */
     private static final long serialVersionUID = -6633815459114206330L;
     private final AccessControl accessControl;
-    
+
     private final LoginForm loginForm = new LoginForm();
     private final FlexLayout centeringLayout = new FlexLayout();
 

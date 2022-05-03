@@ -1,12 +1,12 @@
 package com.availaboard.UI.webpage.user;
 
-import java.util.stream.Stream;
-
 import com.availaboard.UI.ViewAuthorization;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+
+import java.util.stream.Stream;
 
 @Route(value = UserInformationView.VIEWNAME, layout = MainLayout.class)
 public class UserInformationView extends VerticalLayout implements ViewAuthorization {
@@ -30,9 +30,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     public String getViewName() {
         return UserInformationView.VIEWNAME;
     }
-
-
-
 
 
 }

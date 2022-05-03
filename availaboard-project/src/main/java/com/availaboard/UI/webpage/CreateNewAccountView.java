@@ -13,7 +13,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.formlayout.FormLayout.ResponsiveStep;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
@@ -84,7 +83,7 @@ public class CreateNewAccountView extends VerticalLayout {
 
         FormLayout layout = new FormLayout();
         layout.add(firstNameField, lastNameField, emailField, usernameField, passwordField, confirmPasswordField);
-        layout.setResponsiveSteps(new ResponsiveStep("0", 1), new ResponsiveStep("500px", 2));
+        layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1), new FormLayout.ResponsiveStep("500px", 2));
         layout.setColspan(usernameField, 2);
         layout.setColspan(emailField, 2);
         H1 createNewAccountLabel = new H1("Create A New Account");

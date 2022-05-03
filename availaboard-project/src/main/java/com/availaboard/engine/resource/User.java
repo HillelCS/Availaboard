@@ -24,51 +24,51 @@ public class User extends Resource {
     private Permission permissions;
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
     public Permission getPermissions() {
-        return permissions;
+        return this.permissions;
     }
 
-    public void setPermissions(Permission permissions) {
+    public void setPermissions(final Permission permissions) {
         this.permissions = permissions;
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
-        super.setName(username);
+        this.setName(username);
     }
 }

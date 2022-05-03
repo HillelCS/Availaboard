@@ -1,10 +1,5 @@
 package com.availaboard.UI.frontend_functionality;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.stream.Stream;
-
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.ResourceFieldLoader;
@@ -24,9 +19,14 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Stream;
 
 /**
  * Used to instantiate grid with the type <code>E</code>. The {@link Grid}

@@ -15,10 +15,13 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.*;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.RouteConfiguration;
+import com.vaadin.flow.router.RouterLink;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AssignableTypeFilter;
@@ -32,7 +35,7 @@ import java.util.stream.Stream;
  * The main layout. Contains the navigation menu.
  */
 @CssImport("./styles/webpage-styles/main-layout.css")
-public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterObserver {
+public class MainLayout extends AppLayout implements BeforeEnterObserver {
 
     /**
      *
@@ -50,7 +53,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         drawerToggle.addClassName("menu-toggle");
         addToNavbar(drawerToggle);
         final HorizontalLayout top = new HorizontalLayout();
-        top.setDefaultVerticalComponentAlignment(Alignment.CENTER);
+        top.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         top.setClassName("menu-header");
 
         final Label title = new Label("Availaboard");
@@ -108,7 +111,8 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
                 }
 
             } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException |
-                     InvocationTargetException | SecurityException | InstantiationException | NoSuchMethodException e) {
+                     InvocationTargetException | SecurityException | InstantiationException |
+                     NoSuchMethodException e) {
                 e.printStackTrace();
             }
         }
@@ -164,7 +168,7 @@ public class MainLayout extends AppLayout implements RouterLayout, BeforeEnterOb
         }
 
         verticalLayout.setSizeFull();
-        verticalLayout.setAlignItems(Alignment.START);
+        verticalLayout.setAlignItems(FlexComponent.Alignment.START);
 
         addToDrawer(verticalLayout);
     }

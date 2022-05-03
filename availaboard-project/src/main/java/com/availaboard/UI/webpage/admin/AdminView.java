@@ -1,12 +1,12 @@
 package com.availaboard.UI.webpage.admin;
 
-import java.util.stream.Stream;
-
 import com.availaboard.UI.ViewAuthorization;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+
+import java.util.stream.Stream;
 
 @Route(value = AdminView.VIEWNAME, layout = MainLayout.class)
 public class AdminView extends VerticalLayout implements ViewAuthorization {

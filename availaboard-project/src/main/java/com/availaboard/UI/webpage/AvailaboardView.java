@@ -1,13 +1,5 @@
 package com.availaboard.UI.webpage;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Set;
-
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AssignableTypeFilter;
-
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
@@ -19,6 +11,13 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.core.type.filter.AssignableTypeFilter;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Set;
 
 @PageTitle("Availaboard")
 @CssImport("./styles/webpage-styles/availaboard.css")
