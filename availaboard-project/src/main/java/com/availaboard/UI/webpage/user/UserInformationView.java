@@ -31,5 +31,11 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
         return UserInformationView.VIEWNAME;
     }
 
+    private final Label usernameLabel = new Label();
+
+    public UserInformationView() {
+
+    }
+
 
 }

@@ -20,6 +20,11 @@ public class BasicAccessControl implements AccessControl {
     private static final long serialVersionUID = 824667217356429947L;
     private static final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
+    @Override
+    public User getCurrentUser() {
+        return CurrentUser.get();
+    }
+
     /**
      * Checks if the {@link CurrentUser} is in a {@link Permission}.
      *
