@@ -1,5 +1,6 @@
 package com.availaboard.UI.webpage;
 
+import com.availaboard.UI.designpattern.ViewConfiguration;
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
@@ -23,7 +24,7 @@ import java.util.Set;
 @CssImport("./styles/webpage-styles/availaboard.css")
 @Theme(themeClass = Lumo.class, variant = Lumo.DARK)
 @Route(value = "", layout = MainLayout.class)
-public class AvailaboardView extends VerticalLayout implements AppShellConfigurator {
+public class AvailaboardView extends VerticalLayout implements AppShellConfigurator, ViewConfiguration {
 
     /**
      *
@@ -70,5 +71,15 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
             }
         }
         return arr;
+    }
+
+    @Override
+    public void addAll() {
+
+    }
+
+    @Override
+    public String VIEWNAME() {
+        return null;
     }
 }

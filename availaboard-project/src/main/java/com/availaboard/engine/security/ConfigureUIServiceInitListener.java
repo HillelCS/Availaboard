@@ -1,6 +1,6 @@
 package com.availaboard.engine.security;
 
-import com.availaboard.UI.ViewAuthorization;
+import com.availaboard.UI.designpattern.ViewAuthorization;
 import com.availaboard.UI.webpage.LoginView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;

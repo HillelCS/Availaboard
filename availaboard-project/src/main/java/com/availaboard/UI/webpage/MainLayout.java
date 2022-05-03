@@ -1,6 +1,6 @@
 package com.availaboard.UI.webpage;
 
-import com.availaboard.UI.ViewAuthorization;
+import com.availaboard.UI.designpattern.ViewAuthorization;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
