@@ -31,4 +31,8 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
         return UserInformationView.VIEWNAME;
     }
 
+
+
+
+
 }
