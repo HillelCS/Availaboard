@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 /**
  * Implementation of the {@link AccessControl} interface.
  */
-public class BasicAccessControl implements AccessControl {
+class BasicAccessControl implements AccessControl {
 
     /**
      *
@@ -28,8 +28,6 @@ public class BasicAccessControl implements AccessControl {
     /**
      * Checks if the {@link CurrentUser} is in a {@link Permission}.
      *
-     * @param role The {@link Permission} that the {@link CurrentUser} is being
-     *             checked against.
      */
 
     @Override
@@ -39,9 +37,7 @@ public class BasicAccessControl implements AccessControl {
 
     @Override
     public boolean isUserInRole(Stream<Permission> stream) {
-        return stream.anyMatch(permission -> {
-            return CurrentUser.get().getPermissions() == permission;
-        });
+        return stream.anyMatch(permission -> CurrentUser.get().getPermissions() == permission);
     }
 
     @Override
@@ -57,8 +53,8 @@ public class BasicAccessControl implements AccessControl {
      *
      * @param username the username being passed in by the {@link User} logging in.
      * @param password the password being passed in by the {@link User} logging in.
-     * @throws InvalidCredentialsException if the username and/or password are
-     *                                     invalid.
+     *                 {@code @catch} InvalidCredentialsException if the username and/or password are
+     *                 invalid.
      */
 
     @Override

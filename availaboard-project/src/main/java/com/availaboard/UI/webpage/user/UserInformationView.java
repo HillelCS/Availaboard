@@ -3,6 +3,9 @@ package com.availaboard.UI.webpage.user;
 import com.availaboard.UI.ViewAuthorization;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
+import com.availaboard.engine.security.AccessControl;
+import com.availaboard.engine.security.AccessControlFactory;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
@@ -33,8 +36,10 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
     private final Label usernameLabel = new Label();
 
-    public UserInformationView() {
+    private final AccessControl accessControl;
 
+    public UserInformationView() {
+        accessControl = AccessControlFactory.getInstance().createAccessControl();
     }
 
 

@@ -7,11 +7,12 @@ import com.vaadin.flow.server.VaadinService;
 /**
  * Class for retrieving and setting the current {@link User} of the current
  * session (without using JAAS). All methods of this class require that a
- * {@link VaadinRequest} is bound to the current thread.
+ * {@link VaadinRequest} is bound to the current thread. The class is inaccessible
+ * outside it's package to encapsulate it.
  *
  * @see VaadinService#getCurrentRequest()
  */
-public final class CurrentUser {
+final class CurrentUser {
 
     /**
      * The attribute key is generated based off of the current session ID.
