@@ -24,8 +24,8 @@ public class LoginView extends FlexLayout {
     private static final long serialVersionUID = -6633815459114206330L;
     private AccessControl accessControl;
     
-    private static final LoginForm loginForm = new LoginForm();
-    private static final FlexLayout centeringLayout = new FlexLayout();
+    private final LoginForm loginForm = new LoginForm();
+    private final FlexLayout centeringLayout = new FlexLayout();
 
     public LoginView() {
         accessControl = AccessControlFactory.getInstance().createAccessControl();
