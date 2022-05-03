@@ -33,7 +33,6 @@ public class ViewFactory {
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 }
 
