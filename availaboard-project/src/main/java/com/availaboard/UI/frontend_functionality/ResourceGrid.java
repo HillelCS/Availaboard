@@ -106,78 +106,6 @@ public class ResourceGrid<E extends Resource> extends Grid {
             }
         });
 
-        /**
-         * Adds an edit button if the {@link CurrentUser} has {@link Permission#Admin}.
-         */
-
-        if (accessControl.isUserSignedIn() && accessControl.isUserInRole(Permission.Admin)) {
-            Button adminEditButton = new Button(VaadinIcon.EDIT.create());
-            adminEditButton.addClassName("admin-edit-button");
-            HorizontalLayout adminEditLayout = new HorizontalLayout(adminEditButton);
-            adminEditLayout.addClassName("admin-edit-button-layout");
-
-            adminEditButton.addClickListener(event -> {
-                dialogLayout.remove(adminEditLayout);
-                fieldLayout.removeAll();
-                Stream<Field> fieldStream = Arrays.stream(resourceFields);
-                fieldStream.forEach(field -> {
-
-                    if (field.isAnnotationPresent(ResourceFieldLoader.class)) {
-                        try {
-                            field.setAccessible(true);
-                            ResourceFieldLoader fieldLoader = field.getAnnotation(ResourceFieldLoader.class);
-                            HorizontalLayout horLayout = new HorizontalLayout();
-                            Label label = new Label(fieldLoader.value() + ": ");
-                            horLayout.add(label);
-
-                            content = field.get(res).toString();
-
-                            Span informationLabel = new Span(content);
-                            informationLabel.addClassName("information-label");
-                            TextField informationTextField = new TextField();
-                            informationTextField.addClassName("information-textfield");
-                            informationTextField.setValue(content);
-                            informationTextField.setVisible(false);
-
-                            informationLabel.getElement().addEventListener("dblclick", e -> {
-                                informationLabel.setVisible(false);
-                                informationTextField.setVisible(true);
-                                informationTextField.focus();
-                            });
-
-                            informationTextField.addValueChangeListener(e -> {
-                                informationTextField.setVisible(false);
-                                informationLabel.setVisible(true);
-                                String newValue = informationTextField.getValue();
-                                if (newValue.isEmpty()) {
-                                    horLayout.remove(informationLabel, informationTextField);
-                                } else {
-                                    informationLabel.setText(newValue);
-                                    try {
-                                        field.set(res, newValue);
-                                    } catch (IllegalArgumentException | IllegalAccessException e1) {
-                                        e1.printStackTrace();
-                                    }
-                                    db.updateRowInDatabase(res, field);
-                                }
-                            });
-
-                            informationTextField.addBlurListener(e -> {
-                                informationTextField.setVisible(false);
-                                informationLabel.setVisible(true);
-                            });
-
-                            horLayout.add(informationLabel, informationTextField);
-                            fieldLayout.add(horLayout);
-                        } catch (IllegalArgumentException | IllegalAccessException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                });
-            });
-            dialogLayout.add(adminEditLayout);
-        }
-
         fieldLayout.setSpacing(false);
         fieldLayout.setPadding(false);
 
@@ -205,9 +133,9 @@ public class ResourceGrid<E extends Resource> extends Grid {
     public Grid<E> loadGrid(Class<? extends Resource> res) {
         try {
             Grid<E> grid = new Grid<>();
-            Column<E> nameColumn = grid.addComponentColumn(E -> dialogPopupButton(E)).setHeader("Name").setWidth("50%")
+            Column<E> nameColumn = grid.addComponentColumn(this::dialogPopupButton).setHeader("Name").setWidth("50%")
                     .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
-            Column<E> statusColumn = grid.addComponentColumn(E -> statusLabel(E)).setHeader("Status").setWidth("50%")
+            Column<E> statusColumn = grid.addComponentColumn(this::statusLabel).setHeader("Status").setWidth("50%")
                     .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
             grid.addClassName("availaboard-grid");
             grid.setAllRowsVisible(true);
