@@ -1,5 +1,6 @@
 package com.availaboard.UI.webpage;
 
+import com.availaboard.UI.designpattern.ViewConfiguration;
 import com.availaboard.UI.webpage.user.UserInformationView;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Status;
@@ -24,9 +25,11 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
+import java.lang.annotation.Annotation;
+
 @CssImport("./styles/webpage-styles/create-new-account-view.css")
 @Route(value = "create-account", layout = MainLayout.class)
-public class CreateNewAccountView extends VerticalLayout {
+public class CreateNewAccountView extends VerticalLayout implements ViewConfiguration {
 
     /**
      *
@@ -107,5 +110,10 @@ public class CreateNewAccountView extends VerticalLayout {
         notification.add(layout);
 
         return notification;
+    }
+
+    @Override
+    public void addAll() {
+
     }
 }

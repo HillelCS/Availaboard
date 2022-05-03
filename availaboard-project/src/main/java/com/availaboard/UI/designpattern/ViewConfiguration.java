@@ -1,6 +1,8 @@
 package com.availaboard.UI.designpattern;
 
-public interface ViewConfiguration {
+import org.springframework.stereotype.Component;
+
+public interface ViewConfiguration extends ViewType {
     /**
      * Add all the components to the view
      */

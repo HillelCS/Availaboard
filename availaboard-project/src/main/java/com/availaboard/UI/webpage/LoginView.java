@@ -1,5 +1,6 @@
 package com.availaboard.UI.webpage;
 
+import com.availaboard.UI.designpattern.ViewConfiguration;
 import com.availaboard.UI.webpage.admin.AdminView;
 import com.availaboard.UI.webpage.user.UserInformationView;
 import com.availaboard.engine.resource.Permission;
@@ -15,7 +16,7 @@ import com.vaadin.flow.router.Route;
  */
 @Route(value = "login", layout = MainLayout.class)
 @PageTitle("Login")
-public class LoginView extends FlexLayout {
+public class LoginView extends FlexLayout implements ViewConfiguration {
 
     /**
      *
@@ -53,5 +54,10 @@ public class LoginView extends FlexLayout {
         } else {
             event.getSource().setError(true);
         }
+    }
+
+    @Override
+    public void addAll() {
+
     }
 }

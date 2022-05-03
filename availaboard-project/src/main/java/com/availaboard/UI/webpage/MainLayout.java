@@ -1,10 +1,12 @@
 package com.availaboard.UI.webpage;
 
 import com.availaboard.UI.designpattern.ViewAuthorization;
+import com.availaboard.UI.designpattern.ViewConfiguration;
+import com.availaboard.UI.designpattern.ViewFactory;
+import com.availaboard.UI.designpattern.ViewType;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
-import com.availaboard.engine.security.CurrentUser;
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
@@ -36,10 +38,6 @@ import java.util.stream.Stream;
  */
 @CssImport("./styles/webpage-styles/main-layout.css")
 public class MainLayout extends AppLayout implements BeforeEnterObserver {
-
-    /**
-     *
-     */
     private static final long serialVersionUID = -1788874174184456733L;
     private final Button logoutButton;
     private final RouterLink availaboardButton;
@@ -65,9 +63,9 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
         logoutButton.addClickListener(e -> logout());
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
 
-        availaboardButton = createMenuLink(AvailaboardView.class, "Availability");
-        loginButton = createMenuLink(LoginView.class, "Login");
-        createAccountButton = createMenuLink(CreateNewAccountView.class, "Create New Account");
+        availaboardButton = createMenuLink(ViewFactory.createViewConfigInstance(AvailaboardView.class), "Availability");
+        loginButton = createMenuLink(ViewFactory.createViewConfigInstance(LoginView.class), "Login");
+        createAccountButton = createMenuLink(ViewFactory.createViewConfigInstance(CreateNewAccountView.class), "Create New Account");
     }
 
     private Button createMenuButton() {
@@ -77,10 +75,10 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
         return routerButton;
     }
 
-    private RouterLink createMenuLink(final Class<? extends Component> viewClass, final String caption) {
-        final RouterLink routerLink = new RouterLink(caption, viewClass);
-        routerLink.setClassName("menu-link");
-        return routerLink;
+    private RouterLink createMenuLink(ViewType viewClass, final String caption) {
+            final RouterLink routerLink = new RouterLink(caption, (Class<? extends Component>) viewClass.getClass());
+            routerLink.setClassName("menu-link");
+            return routerLink;
     }
 
     /**
@@ -106,7 +104,7 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
                 ViewAuthorization auth = (ViewAuthorization) Class.forName(component.getBeanClassName()).getDeclaredConstructor().newInstance();
 
                 if (accessControl.isUserInRole(auth.getRequiredPermission())) {
-                    arr.add(createMenuLink((Class<? extends Component>) Class.forName(component.getBeanClassName()), auth.getViewName()));
+                    arr.add(createMenuLink(auth, auth.getViewName()));
                     registerView(accessControl, auth.getRequiredPermission(), (Class<? extends Component>) Class.forName(component.getBeanClassName()));
                 }
 

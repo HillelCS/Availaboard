@@ -1,7 +1,6 @@
-package com.availaboard.UI;
+package com.availaboard.UI.designpattern;
 
 import com.availaboard.engine.resource.Permission;
-import com.availaboard.engine.security.CurrentUser;
 
 import java.util.stream.Stream;
 
@@ -10,7 +9,7 @@ import java.util.stream.Stream;
  * access the View. Classes that implement it override the {@link ViewAuthorization #getRequiredPermission()}
  * and adds all the permissions needed to access that class to a {@link Stream}.
  */
-public interface ViewAuthorization {
+public interface ViewAuthorization extends ViewType {
 
     /**
      * @return A {@link Stream} of {@link Permission}'s that the {@link CurrentUser}

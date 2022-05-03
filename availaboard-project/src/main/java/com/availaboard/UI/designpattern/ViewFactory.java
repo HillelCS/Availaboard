@@ -1,13 +1,11 @@
 package com.availaboard.UI.designpattern;
 
-import com.availaboard.UI.webpage.user.UserInformationView;
-
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 
 public class ViewFactory {
 
-    public static final ViewConfiguration createViewConfigInstance(Class<UserInformationView> userInformationViewClass) {
+    public static final ViewConfiguration createViewConfigInstance(Class<? extends ViewConfiguration> cl) {
         try {
             ViewConfiguration viewConfig = (ViewConfiguration) cl.getConstructor().newInstance();
             return viewConfig;
@@ -20,10 +18,9 @@ public class ViewFactory {
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
     @Nullable
-    public static final ViewAuthorization createViewAuthInstance(Class<? extends Class> aClass) {
+    public static final ViewAuthorization createViewAuthInstance(Class<? extends ViewAuthorization> cl) {
         try {
             ViewAuthorization viewAuth = (ViewAuthorization) cl.getConstructor().newInstance();
             return viewAuth;

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Set;
@@ -76,10 +77,5 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
     @Override
     public void addAll() {
 
-    }
-
-    @Override
-    public String VIEWNAME() {
-        return null;
     }
 }
