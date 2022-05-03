@@ -22,7 +22,7 @@ public class LoginView extends FlexLayout {
      *
      */
     private static final long serialVersionUID = -6633815459114206330L;
-    private AccessControl accessControl;
+    private final AccessControl accessControl;
     
     private final LoginForm loginForm = new LoginForm();
     private final FlexLayout centeringLayout = new FlexLayout();
@@ -51,7 +51,6 @@ public class LoginView extends FlexLayout {
             } else {
                 getUI().get().navigate("/");
             }
-            UI.getCurrent().getPage().reload();
         } else {
             event.getSource().setError(true);
         }

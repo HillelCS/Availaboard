@@ -11,7 +11,7 @@ import com.vaadin.flow.server.VaadinService;
  *
  * @see VaadinService#getCurrentRequest()
  */
-final class CurrentUser {
+public final class CurrentUser {
 
     /**
      * The attribute key is generated based off of the current session ID.

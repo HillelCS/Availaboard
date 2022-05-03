@@ -18,7 +18,7 @@ public class BasicAccessControl implements AccessControl {
      *
      */
     private static final long serialVersionUID = 824667217356429947L;
-    private static AvailaboardSQLConnection db = new AvailaboardSQLConnection();
+    private static final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
     /**
      * Checks if the {@link CurrentUser} is in a {@link Permission}.
@@ -29,19 +29,13 @@ public class BasicAccessControl implements AccessControl {
 
     @Override
     public boolean isUserInRole(Permission permission) {
-        if (CurrentUser.get().getPermissions() == permission) {
-            return true;
-        }
-        return false;
+        return CurrentUser.get().getPermissions() == permission;
     }
 
     @Override
     public boolean isUserInRole(Stream<Permission> stream) {
         return stream.anyMatch(permission -> {
-            if (CurrentUser.get().getPermissions() == permission) {
-                return true;
-            }
-            return false;
+            return CurrentUser.get().getPermissions() == permission;
         });
     }
 

@@ -20,7 +20,7 @@ import com.vaadin.flow.router.RouterLink;
 public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFoundException> {
 
 	private static final long serialVersionUID = 2387496440562208964L;
-	private Span explanation;
+	private final Span explanation;
 	private final H1 header = new H1("You got lost!");
 	private final RouterLink availaboardButton = new RouterLink("Maybe you want to head back to the Main Page?",
 			AvailaboardView.class);

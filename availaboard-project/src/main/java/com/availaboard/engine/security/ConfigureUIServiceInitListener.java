@@ -19,7 +19,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 	 */
 	private static final long serialVersionUID = 6272827526606103857L;
 
-	private AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
+	private final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
 
 	/**
 	 * Reroutes the user if (s)he is not authorized to access the view.

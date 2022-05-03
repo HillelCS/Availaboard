@@ -211,7 +211,7 @@ public class AvailaboardSQLConnection {
 
 	public void setType(Resource res, String value, Field field) {
 		try {
-			if ((field.getType() instanceof Class) && ((Class<?>) field.getType()).isEnum()) {
+			if ((field.getType() instanceof Class) && field.getType().isEnum()) {
 				field.set(res, Enum.valueOf((Class<Enum>) field.getType(), value));
 			} else {
 				field.set(res, value);
