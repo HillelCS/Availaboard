@@ -10,65 +10,42 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class ViewFactory {
 
-    public static final String getViewName(final Class<? extends Component> cl) {
+    public static String getViewName(final Class<? extends Component> cl) {
         try {
             final ViewType viewType = (ViewType) cl.getConstructor().newInstance();
             return viewType.viewName();
-        } catch (final InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (final InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (final IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (final NoSuchMethodException e) {
+        } catch (final InvocationTargetException | InstantiationException | IllegalAccessException |
+                       NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
 
 
-    public static final ViewConfiguration createViewConfigInstance(final Class<? extends ViewConfiguration> cl) {
+    public static ViewConfiguration createViewConfigInstance(final Class<? extends ViewConfiguration> cl) {
         try {
-            final ViewConfiguration viewConfig = cl.getConstructor().newInstance();
-            return viewConfig;
-        } catch (final InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (final InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (final IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (final NoSuchMethodException e) {
+            return cl.getConstructor().newInstance();
+        } catch (final InvocationTargetException | InstantiationException | IllegalAccessException |
+                       NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
 
 
-    public static final ViewAuthorization createViewAuthInstance(final Class<? extends ViewAuthorization> cl) {
+    public static ViewAuthorization createViewAuthInstance(final Class<? extends ViewAuthorization> cl) {
         try {
-            final ViewAuthorization viewAuth = cl.getConstructor().newInstance();
-            return viewAuth;
-        } catch (final InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (final InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (final IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (final NoSuchMethodException e) {
+            return cl.getConstructor().newInstance();
+        } catch (final InvocationTargetException | InstantiationException | IllegalAccessException |
+                       NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
 
 
-    public static final ViewType createViewTypeInstance(final Class<? extends ViewType> cl) {
+    public static ViewType createViewTypeInstance(final Class<? extends ViewType> cl) {
         try {
-            final ViewType viewType = cl.getConstructor().newInstance();
-            return viewType;
-        } catch (final InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (final InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (final IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (final NoSuchMethodException e) {
+            return cl.getConstructor().newInstance();
+        } catch (final InvocationTargetException | InstantiationException | IllegalAccessException |
+                       NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
