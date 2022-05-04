@@ -27,7 +27,6 @@ class BasicAccessControl implements AccessControl {
 
     /**
      * Checks if the {@link CurrentUser} is in a {@link Permission}.
-     *
      */
 
     @Override

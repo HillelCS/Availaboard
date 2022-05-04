@@ -19,6 +19,12 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
      *
      */
     private static final long serialVersionUID = -8469495034991926228L;
+    private final Label usernameLabel = new Label();
+    private final AccessControl accessControl;
+
+    public UserInformationView() {
+        accessControl = AccessControlFactory.getInstance().createAccessControl();
+    }
 
     /**
      * Requires a User {@link Permission} or an {@link Permission} to access the
@@ -32,14 +38,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     @Override
     public String getViewName() {
         return UserInformationView.VIEWNAME;
-    }
-
-    private final Label usernameLabel = new Label();
-
-    private final AccessControl accessControl;
-
-    public UserInformationView() {
-        accessControl = AccessControlFactory.getInstance().createAccessControl();
     }
 
 

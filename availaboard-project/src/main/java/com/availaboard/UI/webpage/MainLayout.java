@@ -1,7 +1,6 @@
 package com.availaboard.UI.webpage;
 
 import com.availaboard.UI.designpattern.ViewAuthorization;
-import com.availaboard.UI.designpattern.ViewConfiguration;
 import com.availaboard.UI.designpattern.ViewFactory;
 import com.availaboard.UI.designpattern.ViewType;
 import com.availaboard.engine.resource.Permission;
@@ -76,9 +75,9 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
     }
 
     private RouterLink createMenuLink(ViewType viewClass, final String caption) {
-            final RouterLink routerLink = new RouterLink(caption, (Class<? extends Component>) viewClass.getClass());
-            routerLink.setClassName("menu-link");
-            return routerLink;
+        final RouterLink routerLink = new RouterLink(caption, (Class<? extends Component>) viewClass.getClass());
+        routerLink.setClassName("menu-link");
+        return routerLink;
     }
 
     /**

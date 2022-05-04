@@ -23,33 +23,32 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
      */
     private static final long serialVersionUID = -6633815459114206330L;
     private final AccessControl accessControl;
-
     private final LoginForm loginForm = new LoginForm();
     private final FlexLayout centeringLayout = new FlexLayout();
 
     public LoginView() {
-        accessControl = AccessControlFactory.getInstance().createAccessControl();
-        buildUI();
+        this.accessControl = AccessControlFactory.getInstance().createAccessControl();
+        this.buildUI();
     }
 
     private void buildUI() {
-        setSizeFull();
-        loginForm.addLoginListener(this::login);
-        centeringLayout.setSizeFull();
-        centeringLayout.setJustifyContentMode(JustifyContentMode.CENTER);
-        centeringLayout.setAlignItems(Alignment.CENTER);
-        centeringLayout.add(loginForm);
-        add(centeringLayout);
+        this.setSizeFull();
+        this.loginForm.addLoginListener(this::login);
+        this.centeringLayout.setSizeFull();
+        this.centeringLayout.setJustifyContentMode(JustifyContentMode.CENTER);
+        this.centeringLayout.setAlignItems(Alignment.CENTER);
+        this.centeringLayout.add(this.loginForm);
+        this.add(this.centeringLayout);
     }
 
-    private void login(LoginForm.LoginEvent event) {
-        if (accessControl.signIn(event.getUsername(), event.getPassword())) {
-            if (accessControl.isUserInRole(Permission.Admin)) {
-                getUI().get().navigate(AdminView.VIEWNAME);
-            } else if (accessControl.isUserInRole(Permission.User)) {
-                getUI().get().navigate(UserInformationView.VIEWNAME);
+    private void login(final LoginForm.LoginEvent event) {
+        if (this.accessControl.signIn(event.getUsername(), event.getPassword())) {
+            if (this.accessControl.isUserInRole(Permission.Admin)) {
+                this.getUI().get().navigate(AdminView.VIEWNAME);
+            } else if (this.accessControl.isUserInRole(Permission.User)) {
+                this.getUI().get().navigate(UserInformationView.VIEWNAME);
             } else {
-                getUI().get().navigate("/");
+                this.getUI().get().navigate("/");
             }
         } else {
             event.getSource().setError(true);

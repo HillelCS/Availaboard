@@ -71,7 +71,7 @@ public class AvailaboardSQLConnection {
     public <E extends Resource> E createResourceWithID(int ID, Class<E> type) {
         try {
             Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
-					AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+                    AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
 
             Resource res = (Resource) Class.forName(type.getName()).getConstructor().newInstance();
             res.setId(ID);
@@ -104,8 +104,8 @@ public class AvailaboardSQLConnection {
             con.close();
             return (E) res;
         } catch (IllegalArgumentException | SQLException | IllegalAccessException | InstantiationException
-				 | InvocationTargetException | NoSuchMethodException | SecurityException |
-				 ClassNotFoundException e) {
+                 | InvocationTargetException | NoSuchMethodException | SecurityException |
+                 ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
@@ -171,7 +171,7 @@ public class AvailaboardSQLConnection {
         final Table table = type.getAnnotation(Table.class);
         try {
             Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
-					AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+                    AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
 
             String query = "select ResourceID from " + table.value();
             PreparedStatement st = con.prepareStatement(query);
@@ -227,7 +227,7 @@ public class AvailaboardSQLConnection {
         final Column column = field.getAnnotation(Column.class);
         try {
             Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
-					AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+                    AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
             String query = String.format("select %s from %s where ResourceID = ?", column.value(), table.value());
 
             PreparedStatement st = con.prepareStatement(query);
@@ -259,7 +259,7 @@ public class AvailaboardSQLConnection {
         final Column column = field.getAnnotation(Column.class);
         try {
             Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
-					AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+                    AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
             String query = String.format("UPDATE %s SET %s = ? WHERE (`ResourceID` = ?);", table.value(),
                     column.value());
 
@@ -316,7 +316,7 @@ public class AvailaboardSQLConnection {
                 throw new UsernameExistsException();
             } else {
                 Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
-						AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+                        AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
                 final Table table = res.getClass().getAnnotation(Table.class);
 
                 String query = String.format("INSERT INTO `availaboard`.`resource` (`name`, `status`) VALUES (?, ?);");

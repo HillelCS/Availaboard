@@ -16,7 +16,6 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Set;
@@ -33,14 +32,20 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
     private static final long serialVersionUID = -4432887017833022089L;
     private final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
+    private final VerticalLayout layout = new VerticalLayout();
+
+
     public AvailaboardView() {
         addGridsToLayout();
     }
 
+    /**
+     * Adds all of the {@link ResourceGrid}'s to a {@link VerticalLayout}.
+     */
     private void addGridsToLayout() {
         getResourceGrids().stream().forEach(grid -> {
-            add(grid);
-            setHorizontalComponentAlignment(Alignment.CENTER, grid);
+            layout.add(grid);
+            layout.setHorizontalComponentAlignment(Alignment.CENTER, grid);
         });
     }
 
@@ -76,6 +81,6 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     @Override
     public void addAll() {
-
+        this.add(layout);
     }
 }

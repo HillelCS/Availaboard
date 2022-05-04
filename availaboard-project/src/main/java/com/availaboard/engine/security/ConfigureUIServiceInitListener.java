@@ -56,7 +56,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
                     return true;
                 }
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-					 | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                     | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                 e.printStackTrace();
             }
         }

@@ -7,7 +7,7 @@ public class ViewFactory {
 
     public static final ViewConfiguration createViewConfigInstance(Class<? extends ViewConfiguration> cl) {
         try {
-            ViewConfiguration viewConfig = (ViewConfiguration) cl.getConstructor().newInstance();
+            ViewConfiguration viewConfig = cl.getConstructor().newInstance();
             return viewConfig;
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
@@ -19,10 +19,11 @@ public class ViewFactory {
             throw new RuntimeException(e);
         }
     }
+
     @Nullable
     public static final ViewAuthorization createViewAuthInstance(Class<? extends ViewAuthorization> cl) {
         try {
-            ViewAuthorization viewAuth = (ViewAuthorization) cl.getConstructor().newInstance();
+            ViewAuthorization viewAuth = cl.getConstructor().newInstance();
             return viewAuth;
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
