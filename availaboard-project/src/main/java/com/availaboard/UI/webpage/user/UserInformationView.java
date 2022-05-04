@@ -8,6 +8,8 @@ import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -15,7 +17,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
 import java.util.stream.Stream;
-
+@CssImport("./styles/webpage-styles/user-information-view.css")
 @Route(value = UserInformationView.VIEWNAME, layout = MainLayout.class)
 public class UserInformationView extends VerticalLayout implements ViewAuthorization, ViewConfiguration {
 
