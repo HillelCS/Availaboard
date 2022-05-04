@@ -1,0 +1,18 @@
+{
+  "productionMode": false,
+  "useDeprecatedV14Bootstrapping": false,
+  "eagerServerLoad": false,
+  "npmFolder": "C:\\JavaProjects\\GitHub\\Availaboard\\availaboard-project",
+  "node.version": "v16.14.2",
+  "node.download.root": "https://nodejs.org/dist/",
+  "generatedFolder": "C:\\JavaProjects\\GitHub\\Availaboard\\availaboard-project\\target\\frontend",
+  "frontendFolder": "C:\\JavaProjects\\GitHub\\Availaboard\\availaboard-project\\frontend",
+  "connect.javaSourceFolder": "C:\\JavaProjects\\GitHub\\Availaboard\\availaboard-project\\src\\main\\java",
+  "javaResourceFolder": "C:\\JavaProjects\\GitHub\\Availaboard\\availaboard-project\\src\\main\\resources",
+  "connect.applicationProperties": "C:\\JavaProjects\\GitHub\\Availaboard\\availaboard-project\\src\\main\\resources\\application.properties",
+  "connect.openApiFile": "C:\\JavaProjects\\GitHub\\Availaboard\\availaboard-project\\target\\generated-resources\\openapi.json",
+  "project.frontend.generated": "C:\\JavaProjects\\GitHub\\Availaboard\\availaboard-project\\frontend\\generated",
+  "pnpm.enable": false,
+  "require.home.node": false,
+  "build.folder": "target"
+}
