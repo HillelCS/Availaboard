@@ -1,6 +1,6 @@
 package com.availaboard.engine.security;
 
-import com.availaboard.UI.designpattern.ViewAuthorization;
+import com.availaboard.UI.view_pattern.ViewAuthorization;
 import com.availaboard.UI.webpage.LoginView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -25,7 +25,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
      *
      * @param event before navigation event with event details
      */
-    private void beforeEnter(BeforeEnterEvent event) {
+    private void beforeEnter(final BeforeEnterEvent event) {
         if (!isUserAuthorized(event.getNavigationTarget())) {
             event.rerouteTo(LoginView.class);
         }
@@ -45,18 +45,18 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
      * permissions to access the page they are trying to go to.
      * <code>False</code> if otherwise.
      */
-    private boolean isUserAuthorized(Class<?> target) {
+    private boolean isUserAuthorized(final Class<?> target) {
         if (!ViewAuthorization.class.isAssignableFrom(target)) {
             return true;
         }
         if (accessControl.isUserSignedIn()) {
             try {
-                ViewAuthorization auth = (ViewAuthorization) target.getDeclaredConstructor().newInstance();
+                final ViewAuthorization auth = (ViewAuthorization) target.getDeclaredConstructor().newInstance();
                 if (accessControl.isUserInRole(auth.getRequiredPermission())) {
                     return true;
                 }
-            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                     | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            } catch (final InstantiationException | IllegalAccessException | IllegalArgumentException
+                           | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                 e.printStackTrace();
             }
         }
@@ -64,10 +64,10 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     }
 
     @Override
-    public void serviceInit(ServiceInitEvent event) {
+    public void serviceInit(final ServiceInitEvent event) {
         // Add's a reroute listener to every page in the service initialization
         event.getSource().addUIInitListener(uiEvent -> {
-            final UI ui = uiEvent.getUI();
+            UI ui = uiEvent.getUI();
             ui.addBeforeEnterListener(this::beforeEnter);
         });
     }

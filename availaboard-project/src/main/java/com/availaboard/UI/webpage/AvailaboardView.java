@@ -1,9 +1,8 @@
 package com.availaboard.UI.webpage;
 
-import com.availaboard.UI.designpattern.ViewConfiguration;
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
+import com.availaboard.UI.view_pattern.ViewConfiguration;
 import com.availaboard.engine.resource.Resource;
-import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -30,7 +29,6 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
      *
      */
     private static final long serialVersionUID = -4432887017833022089L;
-    private final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
     private final VerticalLayout layout = new VerticalLayout();
 
@@ -43,7 +41,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
      * Adds all of the {@link ResourceGrid}'s to a {@link VerticalLayout}.
      */
     private void addGridsToLayout() {
-        getResourceGrids().stream().forEach(grid -> {
+        getResourceGrids().forEach(grid -> {
             layout.add(grid);
             layout.setHorizontalComponentAlignment(Alignment.CENTER, grid);
         });
@@ -72,7 +70,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
             } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException
                      | InvocationTargetException | SecurityException | InstantiationException
-                     | NoSuchMethodException e) {
+                     | NoSuchMethodException ignored) {
 
             }
         }
@@ -81,6 +79,6 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     @Override
     public void addAll() {
-        this.add(layout);
+        add(layout);
     }
 }

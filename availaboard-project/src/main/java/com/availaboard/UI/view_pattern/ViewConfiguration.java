@@ -1,4 +1,4 @@
-package com.availaboard.UI.designpattern;
+package com.availaboard.UI.view_pattern;
 
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
@@ -15,7 +15,7 @@ public interface ViewConfiguration extends ViewType, BeforeEnterObserver {
      * @param event before navigation event with event details
      */
     @Override
-    default void beforeEnter(BeforeEnterEvent event) {
+    default void beforeEnter(final BeforeEnterEvent event) {
         addAll();
     }
 }

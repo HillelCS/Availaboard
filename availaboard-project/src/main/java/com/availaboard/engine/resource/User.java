@@ -24,7 +24,7 @@ public class User extends Resource {
     private Permission permissions;
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public void setEmail(final String email) {
@@ -32,7 +32,7 @@ public class User extends Resource {
     }
 
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
     public void setFirstName(final String firstName) {
@@ -40,7 +40,7 @@ public class User extends Resource {
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 
     public void setLastName(final String lastName) {
@@ -48,7 +48,7 @@ public class User extends Resource {
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPassword(final String password) {
@@ -56,7 +56,7 @@ public class User extends Resource {
     }
 
     public Permission getPermissions() {
-        return this.permissions;
+        return permissions;
     }
 
     public void setPermissions(final Permission permissions) {
@@ -64,11 +64,11 @@ public class User extends Resource {
     }
 
     public String getUsername() {
-        return this.username;
+        return username;
     }
 
     public void setUsername(final String username) {
         this.username = username;
-        this.setName(username);
+        setName(username);
     }
 }

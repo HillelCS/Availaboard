@@ -1,6 +1,7 @@
 package com.availaboard.UI.webpage.admin;
 
-import com.availaboard.UI.designpattern.ViewAuthorization;
+import com.availaboard.UI.view_pattern.ViewAuthorization;
+import com.availaboard.UI.view_pattern.ViewConfiguration;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -9,8 +10,7 @@ import com.vaadin.flow.router.Route;
 import java.util.stream.Stream;
 
 @Route(value = AdminView.VIEWNAME, layout = MainLayout.class)
-public class AdminView extends VerticalLayout implements ViewAuthorization {
-
+public class AdminView extends VerticalLayout implements ViewAuthorization, ViewConfiguration {
     public static final String VIEWNAME = "Admin";
     /**
      *
@@ -31,6 +31,11 @@ public class AdminView extends VerticalLayout implements ViewAuthorization {
 
     @Override
     public String getViewName() {
-        return AdminView.VIEWNAME;
+        return VIEWNAME;
+    }
+
+    @Override
+    public void addAll() {
+
     }
 }

@@ -1,6 +1,6 @@
 package com.availaboard.UI.webpage;
 
-import com.availaboard.UI.designpattern.ViewConfiguration;
+import com.availaboard.UI.view_pattern.ViewConfiguration;
 import com.availaboard.UI.webpage.user.UserInformationView;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Status;
@@ -78,22 +78,22 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
 
     public CreateNewAccountView() {
         accessControl = AccessControlFactory.getInstance().createAccessControl();
-        this.layout.add(firstNameField, lastNameField, emailField, usernameField, passwordField, confirmPasswordField);
-        this.layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1), new FormLayout.ResponsiveStep("500px", 2));
-        this.layout.setColspan(usernameField, 2);
-        this.layout.setColspan(emailField, 2);
+        layout.add(firstNameField, lastNameField, emailField, usernameField, passwordField, confirmPasswordField);
+        layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1), new FormLayout.ResponsiveStep("500px", 2));
+        layout.setColspan(usernameField, 2);
+        layout.setColspan(emailField, 2);
     }
 
-    private Notification createErrorNotification(String text) {
-        Notification notification = new Notification();
+    private Notification createErrorNotification(final String text) {
+        final Notification notification = new Notification();
         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        final Div notificationText = new Div(new Text(text));
-        Button closeButton = new Button(new Icon("lumo", "cross"));
+        Div notificationText = new Div(new Text(text));
+        final Button closeButton = new Button(new Icon("lumo", "cross"));
         closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         closeButton.getElement().setAttribute("aria-label", "Close");
         closeButton.addClickListener(event -> notification.close());
 
-        HorizontalLayout layout = new HorizontalLayout(notificationText, closeButton);
+        final HorizontalLayout layout = new HorizontalLayout(notificationText, closeButton);
         layout.setAlignItems(Alignment.CENTER);
 
         notification.add(layout);
@@ -103,8 +103,8 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
 
     @Override
     public void addAll() {
-        add(this.createNewAccountLabel);
-        add(this.layout);
-        add(this.submitButton);
+        add(createNewAccountLabel);
+        add(layout);
+        add(submitButton);
     }
 }

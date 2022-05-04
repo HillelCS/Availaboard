@@ -1,12 +1,11 @@
 package com.availaboard.UI.webpage;
 
-import com.availaboard.UI.designpattern.ViewAuthorization;
-import com.availaboard.UI.designpattern.ViewFactory;
-import com.availaboard.UI.designpattern.ViewType;
+import com.availaboard.UI.view_pattern.ViewAuthorization;
+import com.availaboard.UI.view_pattern.ViewFactory;
+import com.availaboard.UI.view_pattern.ViewType;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
-import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyModifier;
@@ -120,11 +119,6 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
         AccessControlFactory.getInstance().createAccessControl().signOut();
     }
 
-    @Override
-    protected void onAttach(AttachEvent attachEvent) {
-
-    }
-
 
     /**
      * Registers a View so Users can access it.
@@ -148,17 +142,13 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-
         verticalLayout.removeAll();
-
         verticalLayout.add(availaboardButton);
 
         if (accessControl.isUserSignedIn()) {
             getAllAuthorizedViews().forEach(verticalLayout::add);
-
             verticalLayout.add(logoutButton);
             event.getUI().addShortcutListener(this::logout, Key.KEY_L, KeyModifier.CONTROL);
-
         } else {
             verticalLayout.add(loginButton);
             verticalLayout.add(createAccountButton);

@@ -1,6 +1,7 @@
 package com.availaboard.UI.webpage.user;
 
-import com.availaboard.UI.designpattern.ViewAuthorization;
+import com.availaboard.UI.view_pattern.ViewAuthorization;
+import com.availaboard.UI.view_pattern.ViewConfiguration;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
@@ -12,7 +13,7 @@ import com.vaadin.flow.router.Route;
 import java.util.stream.Stream;
 
 @Route(value = UserInformationView.VIEWNAME, layout = MainLayout.class)
-public class UserInformationView extends VerticalLayout implements ViewAuthorization {
+public class UserInformationView extends VerticalLayout implements ViewAuthorization, ViewConfiguration {
 
     public static final String VIEWNAME = "user-information";
     /**
@@ -41,4 +42,8 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     }
 
 
+    @Override
+    public void addAll() {
+
+    }
 }

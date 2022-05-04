@@ -1,6 +1,6 @@
 package com.availaboard.UI.webpage;
 
-import com.availaboard.UI.designpattern.ViewConfiguration;
+import com.availaboard.UI.view_pattern.ViewConfiguration;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -22,13 +22,13 @@ public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFo
 
     @Override
     public void addAll() {
-        this.add(header);
-        this.add(availaboardButton);
-        this.add(explanation);
+        add(header);
+        add(availaboardButton);
+        add(explanation);
     }
 
     @Override
-    public int setErrorParameter(BeforeEnterEvent event, ErrorParameter<NotFoundException> parameter) {
+    public int setErrorParameter(final BeforeEnterEvent event, final ErrorParameter<NotFoundException> parameter) {
         explanation.setText("Could not navigate to '" + event.getLocation().getPath() + "'.");
         return HttpServletResponse.SC_NOT_FOUND;
     }

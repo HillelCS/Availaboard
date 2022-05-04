@@ -1,6 +1,6 @@
 package com.availaboard.UI.webpage;
 
-import com.availaboard.UI.designpattern.ViewConfiguration;
+import com.availaboard.UI.view_pattern.ViewConfiguration;
 import com.availaboard.UI.webpage.admin.AdminView;
 import com.availaboard.UI.webpage.user.UserInformationView;
 import com.availaboard.engine.resource.Permission;
@@ -40,7 +40,7 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
         centeringLayout.add(loginForm);
     }
 
-    private void login(LoginForm.LoginEvent event) {
+    private void login(final LoginForm.LoginEvent event) {
         if (accessControl.signIn(event.getUsername(), event.getPassword())) {
             if (accessControl.isUserInRole(Permission.Admin)) {
                 getUI().get().navigate(AdminView.VIEWNAME);
@@ -56,6 +56,6 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
 
     @Override
     public void addAll() {
-        add(this.centeringLayout);
+        add(centeringLayout);
     }
 }

@@ -1,4 +1,4 @@
-package com.availaboard.UI.designpattern;
+package com.availaboard.UI.view_pattern;
 
 import com.availaboard.engine.resource.Permission;
 
