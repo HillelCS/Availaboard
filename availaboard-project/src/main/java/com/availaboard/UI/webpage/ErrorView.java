@@ -10,7 +10,7 @@ import com.vaadin.flow.router.*;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * View shown when trying to navigate to a view that does not exist using
+ * View shown when trying to navigate to a view that does not exist.
  */
 @ParentLayout(MainLayout.class)
 public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFoundException>, ViewConfiguration {
