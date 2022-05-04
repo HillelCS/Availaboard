@@ -26,11 +26,12 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     private static final long serialVersionUID = -8469495034991926228L;
     private final Label usernameLabel = new Label();
     private final Icon statusIcon;
-
     private final AccessControl accessControl;
 
     public UserInformationView() {
         accessControl = AccessControlFactory.getInstance().createAccessControl();
+
+        // Displays a Check Icon if the CurrentUser is Available and an X Icon if they are not.
         statusIcon = accessControl.getCurrentUser().getStatus() == Status.AVAILABLE ? new Icon(VaadinIcon.CHECK_CIRCLE_O) : new Icon(VaadinIcon.CLOSE_CIRCLE_O);
         setHorizontalComponentAlignment(Alignment.START, usernameLabel, statusIcon);
     }
