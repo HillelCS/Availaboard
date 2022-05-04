@@ -1,7 +1,8 @@
 package com.availaboard.UI.webpage;
 
 import com.availaboard.UI.view_pattern.ViewConfiguration;
-import com.availaboard.UI.webpage.user.UserInformationView;
+import com.availaboard.UI.view_pattern.ViewFactory;
+import com.availaboard.UI.webpage.admin.AdminView;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.resource.User;
@@ -26,8 +27,10 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
 @CssImport("./styles/webpage-styles/create-new-account-view.css")
-@Route(value = "create-account", layout = MainLayout.class)
+@Route(value = CreateNewAccountView.VIEWNAME, layout = MainLayout.class)
 public class CreateNewAccountView extends VerticalLayout implements ViewConfiguration {
+
+    protected static final String VIEWNAME = "create-account-view";
 
     /**
      *
@@ -65,7 +68,7 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
             try {
                 db.insertResourceIntoDatabase(tempUser);
                 accessControl.signIn(usernameField.getValue(), passwordField.getValue());
-                getUI().get().navigate(UserInformationView.VIEWNAME);
+                getUI().get().navigate(ViewFactory.getViewName(AdminView.class));
             } catch (UsernameExistsException e) {
                 // Username exists in database
                 usernameExistsNotification.open();
@@ -106,5 +109,10 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
         add(createNewAccountLabel);
         add(layout);
         add(submitButton);
+    }
+
+    @Override
+    public String viewName() {
+        return CreateNewAccountView.VIEWNAME;
     }
 }

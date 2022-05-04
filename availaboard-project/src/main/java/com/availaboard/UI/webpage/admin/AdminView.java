@@ -11,7 +11,8 @@ import java.util.stream.Stream;
 
 @Route(value = AdminView.VIEWNAME, layout = MainLayout.class)
 public class AdminView extends VerticalLayout implements ViewAuthorization, ViewConfiguration {
-    public static final String VIEWNAME = "Admin";
+
+    protected static final String VIEWNAME = "admin";
     /**
      *
      */
@@ -29,13 +30,14 @@ public class AdminView extends VerticalLayout implements ViewAuthorization, View
         return Stream.of(Permission.Admin);
     }
 
-    @Override
-    public String getViewName() {
-        return VIEWNAME;
-    }
 
     @Override
     public void addAll() {
 
+    }
+
+    @Override
+    public String viewName() {
+        return AdminView.VIEWNAME;
     }
 }

@@ -25,11 +25,11 @@ import java.util.Set;
 @Route(value = "", layout = MainLayout.class)
 public class AvailaboardView extends VerticalLayout implements AppShellConfigurator, ViewConfiguration {
 
+    protected static final String VIEWNAME = "/";
     /**
      *
      */
     private static final long serialVersionUID = -4432887017833022089L;
-
     private final VerticalLayout layout = new VerticalLayout();
 
 
@@ -80,5 +80,10 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
     @Override
     public void addAll() {
         add(layout);
+    }
+
+    @Override
+    public String viewName() {
+        return VIEWNAME;
     }
 }

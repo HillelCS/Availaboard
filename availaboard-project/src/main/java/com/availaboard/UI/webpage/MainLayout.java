@@ -36,6 +36,7 @@ import java.util.stream.Stream;
  */
 @CssImport("./styles/webpage-styles/main-layout.css")
 public class MainLayout extends AppLayout implements BeforeEnterObserver {
+
     private static final long serialVersionUID = -1788874174184456733L;
     private final Button logoutButton;
     private final RouterLink availaboardButton;
@@ -102,7 +103,7 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
                 ViewAuthorization auth = (ViewAuthorization) Class.forName(component.getBeanClassName()).getDeclaredConstructor().newInstance();
 
                 if (accessControl.isUserInRole(auth.getRequiredPermission())) {
-                    arr.add(createMenuLink(auth, auth.getViewName()));
+                    arr.add(createMenuLink(auth, auth.viewName()));
                     registerView(accessControl, auth.getRequiredPermission(), (Class<? extends Component>) Class.forName(component.getBeanClassName()));
                 }
 
@@ -132,7 +133,7 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
         if (accessControl.isUserInRole(permissions) && !RouteConfiguration.forSessionScope().isRouteRegistered(cl)) {
             try {
                 ViewAuthorization auth = (ViewAuthorization) cl.getDeclaredConstructor().newInstance();
-                RouteConfiguration.forSessionScope().setRoute(auth.getViewName(), cl, MainLayout.class);
+                RouteConfiguration.forSessionScope().setRoute(auth.viewName(), cl, MainLayout.class);
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException |
                      InvocationTargetException | NoSuchMethodException | SecurityException e) {
                 e.printStackTrace();

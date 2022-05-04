@@ -10,12 +10,10 @@ import java.util.stream.Stream;
  * and adds all the permissions needed to access that class to a {@link Stream}.
  */
 public interface ViewAuthorization extends ViewType {
-
     /**
      * @return A {@link Stream} of {@link Permission}'s that the {@link CurrentUser}
      * needs to successfully access the View it's navigating to.
      */
     Stream<Permission> getRequiredPermission();
 
-    String getViewName();
 }

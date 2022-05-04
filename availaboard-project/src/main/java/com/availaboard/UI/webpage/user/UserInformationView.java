@@ -15,7 +15,8 @@ import java.util.stream.Stream;
 @Route(value = UserInformationView.VIEWNAME, layout = MainLayout.class)
 public class UserInformationView extends VerticalLayout implements ViewAuthorization, ViewConfiguration {
 
-    public static final String VIEWNAME = "user-information";
+    protected static final String VIEWNAME = "user-information";
+
     /**
      *
      */
@@ -27,6 +28,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
         accessControl = AccessControlFactory.getInstance().createAccessControl();
     }
 
+
     /**
      * Requires a User {@link Permission} or an {@link Permission} to access the
      * view.
@@ -37,13 +39,12 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     }
 
     @Override
-    public String getViewName() {
-        return UserInformationView.VIEWNAME;
-    }
-
-
-    @Override
     public void addAll() {
 
+    }
+
+    @Override
+    public String viewName() {
+        return VIEWNAME;
     }
 }

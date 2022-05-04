@@ -1,6 +1,7 @@
 package com.availaboard.UI.webpage;
 
 import com.availaboard.UI.view_pattern.ViewConfiguration;
+import com.availaboard.UI.view_pattern.ViewType;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -19,6 +20,7 @@ public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFo
     private final H1 header = new H1("You got lost!");
     private final RouterLink availaboardButton = new RouterLink("Maybe you want to head back to the Main Page?",
             AvailaboardView.class);
+    private ViewType path;
 
     @Override
     public void addAll() {
@@ -28,8 +30,14 @@ public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFo
     }
 
     @Override
-    public int setErrorParameter(final BeforeEnterEvent event, final ErrorParameter<NotFoundException> parameter) {
+    public int setErrorParameter(BeforeEnterEvent event, ErrorParameter<NotFoundException> parameter) {
+        path = (ViewType) event.getLocation();
         explanation.setText("Could not navigate to '" + event.getLocation().getPath() + "'.");
         return HttpServletResponse.SC_NOT_FOUND;
+    }
+
+    @Override
+    public String viewName() {
+        return path.viewName();
     }
 }
