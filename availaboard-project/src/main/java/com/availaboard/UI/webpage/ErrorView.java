@@ -1,5 +1,6 @@
 package com.availaboard.UI.webpage;
 
+import com.availaboard.UI.designpattern.ViewConfiguration;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -11,20 +12,19 @@ import javax.servlet.http.HttpServletResponse;
  * View shown when trying to navigate to a view that does not exist using
  */
 @ParentLayout(MainLayout.class)
-public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFoundException> {
+public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFoundException>, ViewConfiguration {
 
     private static final long serialVersionUID = 2387496440562208964L;
-    private final Span explanation;
+    private final Span explanation = new Span();
     private final H1 header = new H1("You got lost!");
     private final RouterLink availaboardButton = new RouterLink("Maybe you want to head back to the Main Page?",
             AvailaboardView.class);
 
-    public ErrorView() {
-        add(header);
-        add(availaboardButton);
-
-        explanation = new Span();
-        add(explanation);
+    @Override
+    public void addAll() {
+        this.add(header);
+        this.add(availaboardButton);
+        this.add(explanation);
     }
 
     @Override

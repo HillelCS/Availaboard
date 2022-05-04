@@ -25,8 +25,6 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
-import java.lang.annotation.Annotation;
-
 @CssImport("./styles/webpage-styles/create-new-account-view.css")
 @Route(value = "create-account", layout = MainLayout.class)
 public class CreateNewAccountView extends VerticalLayout implements ViewConfiguration {
@@ -44,8 +42,8 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
     private final TextField lastNameField = new TextField("Last Name");
     private final TextField emailField = new TextField("Email");
 
-    private final Notification usernameExistsNotification = createErrorNotification("Username already exists!");
-    private final Notification passwordDontMatchNotification = createErrorNotification("Passwords do not match!");
+    private final Notification usernameExistsNotification = this.createErrorNotification("Username already exists!");
+    private final Notification passwordDontMatchNotification = this.createErrorNotification("Passwords do not match!");
     private AccessControl accessControl;
 
     public CreateNewAccountView() {
@@ -58,53 +56,53 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
          * {@link User} Object created.
          */
 
-        Button submitButton = new Button("Create an account", event -> {
-            if (passwordField.getValue().equals(confirmPasswordField.getValue())) {
-                User tempUser = new User();
-                tempUser.setUsername(usernameField.getValue());
-                tempUser.setPassword(passwordField.getValue());
-                tempUser.setFirstName(firstNameField.getValue());
-                tempUser.setLastName(lastNameField.getValue());
-                tempUser.setEmail(emailField.getValue());
+        final Button submitButton = new Button("Create an account", event -> {
+            if (this.passwordField.getValue().equals(this.confirmPasswordField.getValue())) {
+                final User tempUser = new User();
+                tempUser.setUsername(this.usernameField.getValue());
+                tempUser.setPassword(this.passwordField.getValue());
+                tempUser.setFirstName(this.firstNameField.getValue());
+                tempUser.setLastName(this.lastNameField.getValue());
+                tempUser.setEmail(this.emailField.getValue());
                 tempUser.setPermissions(Permission.User);
                 tempUser.setStatus(Status.AVAILABLE);
                 try {
-                    db.insertResourceIntoDatabase(tempUser);
-                    accessControl.signIn(usernameField.getValue(), passwordField.getValue());
-                    getUI().get().navigate(UserInformationView.VIEWNAME);
-                } catch (UsernameExistsException e) {
+                    this.db.insertResourceIntoDatabase(tempUser);
+                    this.accessControl.signIn(this.usernameField.getValue(), this.passwordField.getValue());
+                    this.getUI().get().navigate(UserInformationView.VIEWNAME);
+                } catch (final UsernameExistsException e) {
                     // Username exists in database
-                    usernameExistsNotification.open();
+                    this.usernameExistsNotification.open();
                 }
             } else {
                 // passwords do not match
-                passwordDontMatchNotification.open();
+                this.passwordDontMatchNotification.open();
             }
         });
 
-        accessControl = AccessControlFactory.getInstance().createAccessControl();
+        this.accessControl = AccessControlFactory.getInstance().createAccessControl();
 
-        FormLayout layout = new FormLayout();
-        layout.add(firstNameField, lastNameField, emailField, usernameField, passwordField, confirmPasswordField);
+        final FormLayout layout = new FormLayout();
+        layout.add(this.firstNameField, this.lastNameField, this.emailField, this.usernameField, this.passwordField, this.confirmPasswordField);
         layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1), new FormLayout.ResponsiveStep("500px", 2));
-        layout.setColspan(usernameField, 2);
-        layout.setColspan(emailField, 2);
-        H1 createNewAccountLabel = new H1("Create A New Account");
-        add(createNewAccountLabel);
-        add(layout);
-        add(submitButton);
+        layout.setColspan(this.usernameField, 2);
+        layout.setColspan(this.emailField, 2);
+        final H1 createNewAccountLabel = new H1("Create A New Account");
+        this.add(createNewAccountLabel);
+        this.add(layout);
+        this.add(submitButton);
     }
 
-    private Notification createErrorNotification(String text) {
-        Notification notification = new Notification();
+    private Notification createErrorNotification(final String text) {
+        final Notification notification = new Notification();
         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        Div notiText = new Div(new Text(text));
-        Button closeButton = new Button(new Icon("lumo", "cross"));
+        final Div notiText = new Div(new Text(text));
+        final Button closeButton = new Button(new Icon("lumo", "cross"));
         closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         closeButton.getElement().setAttribute("aria-label", "Close");
         closeButton.addClickListener(event -> notification.close());
 
-        HorizontalLayout layout = new HorizontalLayout(notiText, closeButton);
+        final HorizontalLayout layout = new HorizontalLayout(notiText, closeButton);
         layout.setAlignItems(Alignment.CENTER);
 
         notification.add(layout);
@@ -116,4 +114,5 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
     public void addAll() {
 
     }
+
 }
