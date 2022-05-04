@@ -131,7 +131,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
             final Grid<E> grid = new Grid<>();
             final Column<E> nameColumn = grid.addComponentColumn(this::dialogPopupButton).setHeader("Name").setWidth("50%")
                     .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
-            final Column<E> statusColumn = grid.addComponentColumn(this::statusLabel).setHeader("Status").setWidth("50%")
+            final Column<E> statusColumn = grid.addComponentColumn(ResourceGrid::statusLabel).setHeader("Status").setWidth("50%")
                     .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
             grid.addClassName("availaboard-grid");
             grid.setAllRowsVisible(true);
@@ -172,17 +172,17 @@ public class ResourceGrid<E extends Resource> extends Grid {
     }
 
     /**
-     * Changes the color of the <code>Status</code> column by adding a
-     * <code> CSS Class </code> depending on whether it is <code>Busy</code> or
-     * <code>Available</code>. (Green if <code>Available</code>, red if
-     * <code>Busy</code>.
+     * Creates a {@link Label} with the text "Available" or "Busy"
+     * depending on the {@link Resource}'s {@link Status}.
+     * The color is also either Red or Green depending on it's
+     * {@link Status}.
      *
      * @param res The {@link Resource} used to see if it's {@link Status} is
      *            <code>Busy</code> or <code>Available</code>
      * @return A {@link Label} with text set to the {@link Status} of the
      * {@link Resource} and corresponding color.
      */
-    private Label statusLabel(final Resource res) {
+    public static Label statusLabel(final Resource res) {
         final Label label = new Label();
         label.setText(res.getStatus().toString());
         final String labelClassName = res.getStatus() == Status.AVAILABLE ? "label-available" : "label-busy";
