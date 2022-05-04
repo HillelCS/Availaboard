@@ -1,5 +1,6 @@
 package com.availaboard.UI.webpage.user;
 
+import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.UI.view_pattern.ViewAuthorization;
 import com.availaboard.UI.view_pattern.ViewConfiguration;
 import com.availaboard.UI.webpage.MainLayout;
@@ -25,16 +26,14 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
      */
     private static final long serialVersionUID = -8469495034991926228L;
     private final Label usernameLabel;
-    private final Icon statusIcon;
+    private final Label statusLabel;
     private final AccessControl accessControl;
 
     public UserInformationView() {
         accessControl = AccessControlFactory.getInstance().createAccessControl();
-
-        // Displays a Check Icon if the CurrentUser is Available and an X Icon if they are not.
-        statusIcon = accessControl.getCurrentUser().getStatus() == Status.AVAILABLE ? new Icon(VaadinIcon.CHECK_CIRCLE_O) : new Icon(VaadinIcon.CLOSE_CIRCLE_O);
+        statusLabel = ResourceGrid.statusLabel(accessControl.getCurrentUser());
         usernameLabel = new Label(accessControl.getCurrentUser().getUsername());
-        setHorizontalComponentAlignment(Alignment.START, usernameLabel, statusIcon);
+        setHorizontalComponentAlignment(Alignment.START, usernameLabel, statusLabel);
     }
 
 
@@ -49,7 +48,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
     @Override
     public void addAll() {
-        add(usernameLabel, statusIcon);
+        add(usernameLabel, statusLabel);
     }
 
     @Override
