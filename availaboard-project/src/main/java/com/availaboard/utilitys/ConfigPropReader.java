@@ -15,16 +15,16 @@ public class ConfigPropReader {
      * <code>password</code>, and <code>URL</code> for the database.
      */
     public static ArrayList<String> getPropValues() {
-        ArrayList<String> result = new ArrayList<>();
+        final ArrayList<String> result = new ArrayList<>();
         try {
-            Properties prop = new Properties();
-            File file = new File("src/main/resources/config.properties");
-            FileInputStream ip = new FileInputStream(file);
+            final Properties prop = new Properties();
+            final File file = new File("src/main/resources/config.properties");
+            final FileInputStream ip = new FileInputStream(file);
             prop.load(ip);
             result.add(prop.getProperty("username"));
             result.add(prop.getProperty("password"));
             result.add(prop.getProperty("url"));
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
         return result;

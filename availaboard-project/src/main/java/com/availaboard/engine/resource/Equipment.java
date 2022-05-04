@@ -20,7 +20,7 @@ public class Equipment extends Resource {
         return contact;
     }
 
-    public void setContact(String contact) {
+    public void setContact(final String contact) {
         this.contact = contact;
     }
 
@@ -32,11 +32,11 @@ public class Equipment extends Resource {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(final String model) {
         this.model = model;
     }
 
-    public void setEquipment_type(String equipment_type) {
+    public void setEquipment_type(final String equipment_type) {
         equipmentType = equipment_type;
     }
 }

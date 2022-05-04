@@ -90,7 +90,7 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
     private Notification createErrorNotification(final String text) {
         final Notification notification = new Notification();
         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        Div notificationText = new Div(new Text(text));
+        final Div notificationText = new Div(new Text(text));
         final Button closeButton = new Button(new Icon("lumo", "cross"));
         closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         closeButton.getElement().setAttribute("aria-label", "Close");
@@ -113,6 +113,6 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
 
     @Override
     public String viewName() {
-        return CreateNewAccountView.VIEWNAME;
+        return VIEWNAME;
     }
 }

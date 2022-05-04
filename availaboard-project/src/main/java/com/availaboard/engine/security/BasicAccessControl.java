@@ -30,12 +30,12 @@ class BasicAccessControl implements AccessControl {
      */
 
     @Override
-    public boolean isUserInRole(Permission permission) {
+    public boolean isUserInRole(final Permission permission) {
         return CurrentUser.get().getPermissions() == permission;
     }
 
     @Override
-    public boolean isUserInRole(Stream<Permission> stream) {
+    public boolean isUserInRole(final Stream<Permission> stream) {
         return stream.anyMatch(permission -> CurrentUser.get().getPermissions() == permission);
     }
 
@@ -57,7 +57,7 @@ class BasicAccessControl implements AccessControl {
      */
 
     @Override
-    public boolean signIn(String username, String password) {
+    public boolean signIn(final String username, final String password) {
         if ((username == null) || username.isEmpty()) {
             return false;
         }
@@ -65,7 +65,7 @@ class BasicAccessControl implements AccessControl {
             BasicAccessControl.db.authenticate(username, password);
             CurrentUser.set(BasicAccessControl.db.createUserWithUsername(username));
             return true;
-        } catch (InvalidCredentialsException e) {
+        } catch (final InvalidCredentialsException e) {
             e.printStackTrace();
         }
         return false;

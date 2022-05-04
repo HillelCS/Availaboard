@@ -67,7 +67,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     public void serviceInit(final ServiceInitEvent event) {
         // Add's a reroute listener to every page in the service initialization
         event.getSource().addUIInitListener(uiEvent -> {
-            UI ui = uiEvent.getUI();
+            final UI ui = uiEvent.getUI();
             ui.addBeforeEnterListener(this::beforeEnter);
         });
     }

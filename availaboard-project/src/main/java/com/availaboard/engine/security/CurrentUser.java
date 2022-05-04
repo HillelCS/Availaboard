@@ -39,7 +39,7 @@ final class CurrentUser {
     }
 
     private static VaadinRequest getCurrentRequest() {
-        VaadinRequest request = VaadinService.getCurrentRequest();
+        final VaadinRequest request = VaadinService.getCurrentRequest();
         if (request == null) {
             throw new IllegalStateException("No request bound to current thread.");
         }
@@ -53,7 +53,7 @@ final class CurrentUser {
      *
      * @throws IllegalStateException if the current session cannot be accessed.
      */
-    public static void set(User currentUser) {
+    public static void set(final User currentUser) {
         if (currentUser == null) {
             CurrentUser.getCurrentRequest().getWrappedSession()
                     .removeAttribute(CurrentUser.CURRENT_USER_SESSION_ATTRIBUTE_KEY);

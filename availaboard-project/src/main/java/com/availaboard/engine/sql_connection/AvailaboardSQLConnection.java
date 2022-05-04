@@ -31,16 +31,16 @@ public class AvailaboardSQLConnection {
      *                                     and <code> password </code> don't exist
      *                                     in the same row.
      */
-    public void authenticate(String username, String password) throws InvalidCredentialsException {
+    public void authenticate(final String username, final String password) throws InvalidCredentialsException {
         try {
-            Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
                     AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
 
             final String query = "SELECT COUNT(1) FROM user WHERE username = ? and password = ?;";
-            PreparedStatement st = con.prepareStatement(query);
+            final PreparedStatement st = con.prepareStatement(query);
             st.setString(1, username);
             st.setString(2, password);
-            ResultSet rs = st.executeQuery();
+            final ResultSet rs = st.executeQuery();
 
             if ((rs.next() && ((rs.getInt(1) != 1)))) {
                 throw new InvalidCredentialsException();
@@ -48,7 +48,7 @@ public class AvailaboardSQLConnection {
             st.close();
             rs.close();
             con.close();
-        } catch (SQLException | SecurityException e) {
+        } catch (final SQLException | SecurityException e) {
             e.printStackTrace();
         }
     }
@@ -68,23 +68,23 @@ public class AvailaboardSQLConnection {
      *             the database.
      * @return A <code>E</code> Object with every field set from the database.
      */
-    public <E extends Resource> E createResourceWithID(int ID, Class<E> type) {
+    public <E extends Resource> E createResourceWithID(final int ID, final Class<E> type) {
         try {
-            Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
                     AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
 
-            Resource res = (Resource) Class.forName(type.getName()).getConstructor().newInstance();
+            final Resource res = (Resource) Class.forName(type.getName()).getConstructor().newInstance();
             res.setId(ID);
             final Table table = res.getClass().getAnnotation(Table.class);
-            for (Field field : res.getClass().getDeclaredFields()) {
+            for (final Field field : res.getClass().getDeclaredFields()) {
                 if ((field.isAnnotationPresent(Column.class))) {
                     field.setAccessible(true);
                     final Column column = field.getAnnotation(Column.class);
-                    String query = String.format("select %s from %s where ResourceID = ?", column.value(),
+                    final String query = String.format("select %s from %s where ResourceID = ?", column.value(),
                             table.value());
-                    PreparedStatement st = con.prepareStatement(query);
+                    final PreparedStatement st = con.prepareStatement(query);
                     st.setInt(1, ID);
-                    ResultSet rs = st.executeQuery();
+                    final ResultSet rs = st.executeQuery();
 
                     if (rs.next()) {
                         setType(res, rs.getString(1), field);
@@ -92,9 +92,9 @@ public class AvailaboardSQLConnection {
                 }
             }
             final String query = "select status, name from resource where ResourceID = ?";
-            PreparedStatement st = con.prepareStatement(query);
+            final PreparedStatement st = con.prepareStatement(query);
             st.setInt(1, ID);
-            ResultSet rs = st.executeQuery();
+            final ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 res.setStatus(Status.valueOf(rs.getString(1)));
                 res.setName(rs.getString(2));
@@ -103,9 +103,9 @@ public class AvailaboardSQLConnection {
             rs.close();
             con.close();
             return (E) res;
-        } catch (IllegalArgumentException | SQLException | IllegalAccessException | InstantiationException
-                 | InvocationTargetException | NoSuchMethodException | SecurityException |
-                 ClassNotFoundException e) {
+        } catch (final IllegalArgumentException | SQLException | IllegalAccessException | InstantiationException
+                       | InvocationTargetException | NoSuchMethodException | SecurityException |
+                       ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
@@ -119,7 +119,7 @@ public class AvailaboardSQLConnection {
      * @param username used to create the {@link User} Object.
      * @return A new {@link User}.
      */
-    public User createUserWithUsername(String username) {
+    public User createUserWithUsername(final String username) {
         return createResourceWithID(getResourceIDFromUsername(username), User.class);
     }
 
@@ -131,15 +131,15 @@ public class AvailaboardSQLConnection {
      *                 <code>ResourceID</code>.
      * @return The <code>ResourceID</code> of a <code>Resource</code>.
      */
-    private int getResourceIDFromUsername(String username) {
+    private int getResourceIDFromUsername(final String username) {
         try {
-            Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
                     AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
 
             final String query = "SELECT ResourceID FROM user WHERE username = ?";
-            PreparedStatement st = con.prepareStatement(query);
+            final PreparedStatement st = con.prepareStatement(query);
             st.setString(1, username);
-            ResultSet rs = st.executeQuery();
+            final ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
                 return rs.getInt(1);
@@ -147,7 +147,7 @@ public class AvailaboardSQLConnection {
             st.close();
             rs.close();
             con.close();
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             e.printStackTrace();
         }
         return 0;
@@ -166,16 +166,16 @@ public class AvailaboardSQLConnection {
      * @return An {@link ArrayList} of the type <code>E</code> loaded from the
      * database.
      */
-    public <E extends Resource> Collection<E> loadResources(Class<E> type) {
-        ArrayList<E> arr = new ArrayList<>();
+    public <E extends Resource> Collection<E> loadResources(final Class<E> type) {
+        final ArrayList<E> arr = new ArrayList<>();
         final Table table = type.getAnnotation(Table.class);
         try {
-            Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
                     AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
 
-            String query = "select ResourceID from " + table.value();
-            PreparedStatement st = con.prepareStatement(query);
-            ResultSet rs = st.executeQuery();
+            final String query = "select ResourceID from " + table.value();
+            final PreparedStatement st = con.prepareStatement(query);
+            final ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
                 arr.add(createResourceWithID(rs.getInt(1), type));
@@ -183,7 +183,7 @@ public class AvailaboardSQLConnection {
             st.close();
             con.close();
             rs.close();
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             e.printStackTrace();
         }
         return arr;
@@ -202,7 +202,7 @@ public class AvailaboardSQLConnection {
      * @param field The <code>Field</code> that the Method will set.
      */
 
-    public void setType(Resource res, String value, Field field) {
+    public void setType(final Resource res, final String value, final Field field) {
         try {
             if ((field.getType() instanceof Class) && field.getType().isEnum()) {
                 field.set(res, Enum.valueOf((Class<Enum>) field.getType(), value));
@@ -210,7 +210,7 @@ public class AvailaboardSQLConnection {
                 field.set(res, value);
             }
 
-        } catch (IllegalArgumentException | IllegalAccessException e) {
+        } catch (final IllegalArgumentException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }
@@ -222,17 +222,17 @@ public class AvailaboardSQLConnection {
      * @param res   The {@link Resource} that will be updated.
      * @param field The <code>Field</code> that will be updated.
      */
-    public void updateFieldToDatabase(Resource res, Field field) {
+    public void updateFieldToDatabase(final Resource res, final Field field) {
         final Table table = res.getClass().getAnnotation(Table.class);
         final Column column = field.getAnnotation(Column.class);
         try {
-            Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
                     AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
-            String query = String.format("select %s from %s where ResourceID = ?", column.value(), table.value());
+            final String query = String.format("select %s from %s where ResourceID = ?", column.value(), table.value());
 
-            PreparedStatement st = con.prepareStatement(query);
+            final PreparedStatement st = con.prepareStatement(query);
             st.setInt(1, res.getId());
-            ResultSet rs = st.executeQuery();
+            final ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
                 setType(res, rs.getString(1), field);
@@ -240,7 +240,7 @@ public class AvailaboardSQLConnection {
             st.close();
             rs.close();
             con.close();
-        } catch (IllegalArgumentException | SQLException | SecurityException e) {
+        } catch (final IllegalArgumentException | SQLException | SecurityException e) {
             e.printStackTrace();
         }
     }
@@ -254,22 +254,22 @@ public class AvailaboardSQLConnection {
      * @param field A <code>Field</code> that has a value that will be used to
      *              update the database.
      */
-    public void updateRowInDatabase(Resource res, Field field) {
+    public void updateRowInDatabase(final Resource res, final Field field) {
         final Table table = res.getClass().getAnnotation(Table.class);
         final Column column = field.getAnnotation(Column.class);
         try {
-            Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
                     AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
-            String query = String.format("UPDATE %s SET %s = ? WHERE (`ResourceID` = ?);", table.value(),
+            final String query = String.format("UPDATE %s SET %s = ? WHERE (`ResourceID` = ?);", table.value(),
                     column.value());
 
-            PreparedStatement st = con.prepareStatement(query);
+            final PreparedStatement st = con.prepareStatement(query);
             st.setString(1, field.get(res).toString());
             st.setInt(2, res.getId());
             st.executeUpdate();
             st.close();
             con.close();
-        } catch (IllegalArgumentException | SQLException | IllegalAccessException | SecurityException e) {
+        } catch (final IllegalArgumentException | SQLException | IllegalAccessException | SecurityException e) {
             e.printStackTrace();
         }
     }
@@ -280,16 +280,16 @@ public class AvailaboardSQLConnection {
      * @param username The <code>username</code> being against the database for if
      *                 it exists or not.
      */
-    public boolean doesUsernameExist(String username) {
+    public boolean doesUsernameExist(final String username) {
         try {
-            Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
                     AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
 
             // Uses alias to store the count as variable
             final String query = "SELECT COUNT(1) AS total FROM user WHERE username = ?;";
-            PreparedStatement st = con.prepareStatement(query);
+            final PreparedStatement st = con.prepareStatement(query);
             st.setString(1, username);
-            ResultSet rs = st.executeQuery();
+            final ResultSet rs = st.executeQuery();
             if (rs.next() && rs.getInt("total") == 1) {
                 return true;
             }
@@ -297,7 +297,7 @@ public class AvailaboardSQLConnection {
             st.close();
             rs.close();
             con.close();
-        } catch (SQLException | SecurityException e) {
+        } catch (final SQLException | SecurityException e) {
             e.printStackTrace();
         }
         return false;
@@ -309,13 +309,13 @@ public class AvailaboardSQLConnection {
      * @param res The {@link Resource} that is being inserted into the database.
      * @throws UsernameExistsException
      */
-    public void insertResourceIntoDatabase(Resource res) throws UsernameExistsException {
+    public void insertResourceIntoDatabase(final Resource res) throws UsernameExistsException {
         int key = 0;
         try {
             if (doesUsernameExist(res.getName())) {
                 throw new UsernameExistsException();
             } else {
-                Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+                final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
                         AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
                 final Table table = res.getClass().getAnnotation(Table.class);
 
@@ -324,7 +324,7 @@ public class AvailaboardSQLConnection {
                 st.setString(1, res.getName());
                 st.setString(2, res.getStatus().toString());
                 st.executeUpdate();
-                ResultSet rs = st.getGeneratedKeys();
+                final ResultSet rs = st.getGeneratedKeys();
 
                 if (rs.next()) {
                     key = rs.getInt(1);
@@ -338,7 +338,7 @@ public class AvailaboardSQLConnection {
 
                 res.setId(key);
 
-                for (Field field : res.getClass().getDeclaredFields()) {
+                for (final Field field : res.getClass().getDeclaredFields()) {
                     if ((field.isAnnotationPresent(Column.class))) {
                         field.setAccessible(true);
                         updateRowInDatabase(res, field);
@@ -346,7 +346,7 @@ public class AvailaboardSQLConnection {
                 }
                 con.close();
             }
-        } catch (IllegalArgumentException | SQLException | SecurityException e) {
+        } catch (final IllegalArgumentException | SQLException | SecurityException e) {
             e.printStackTrace();
         }
     }

@@ -30,7 +30,7 @@ public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFo
     }
 
     @Override
-    public int setErrorParameter(BeforeEnterEvent event, ErrorParameter<NotFoundException> parameter) {
+    public int setErrorParameter(final BeforeEnterEvent event, final ErrorParameter<NotFoundException> parameter) {
         path = (ViewType) event.getLocation();
         explanation.setText("Could not navigate to '" + event.getLocation().getPath() + "'.");
         return HttpServletResponse.SC_NOT_FOUND;

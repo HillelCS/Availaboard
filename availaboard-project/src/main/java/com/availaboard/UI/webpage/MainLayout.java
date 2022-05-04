@@ -74,7 +74,7 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
         return routerButton;
     }
 
-    private RouterLink createMenuLink(ViewType viewClass, final String caption) {
+    private RouterLink createMenuLink(final ViewType viewClass, final String caption) {
         final RouterLink routerLink = new RouterLink(caption, (Class<? extends Component>) viewClass.getClass());
         routerLink.setClassName("menu-link");
         return routerLink;
@@ -93,23 +93,23 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
      */
     @SuppressWarnings("unchecked")
     private Stream<RouterLink> getAllAuthorizedViews() {
-        ArrayList<RouterLink> arr = new ArrayList<>();
-        ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+        final ArrayList<RouterLink> arr = new ArrayList<>();
+        final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AssignableTypeFilter(ViewAuthorization.class));
 
-        Set<BeanDefinition> components = provider.findCandidateComponents("com/availaboard/UI/webpage");
-        for (BeanDefinition component : components) {
+        final Set<BeanDefinition> components = provider.findCandidateComponents("com/availaboard/UI/webpage");
+        for (final BeanDefinition component : components) {
             try {
-                ViewAuthorization auth = (ViewAuthorization) Class.forName(component.getBeanClassName()).getDeclaredConstructor().newInstance();
+                final ViewAuthorization auth = (ViewAuthorization) Class.forName(component.getBeanClassName()).getDeclaredConstructor().newInstance();
 
                 if (accessControl.isUserInRole(auth.getRequiredPermission())) {
                     arr.add(createMenuLink(auth, auth.viewName()));
                     registerView(accessControl, auth.getRequiredPermission(), (Class<? extends Component>) Class.forName(component.getBeanClassName()));
                 }
 
-            } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException |
-                     InvocationTargetException | SecurityException | InstantiationException |
-                     NoSuchMethodException e) {
+            } catch (final ClassNotFoundException | IllegalAccessException | IllegalArgumentException |
+                           InvocationTargetException | SecurityException | InstantiationException |
+                           NoSuchMethodException e) {
                 e.printStackTrace();
             }
         }
@@ -129,20 +129,20 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
      * @param cl            The view being registered
      */
     @SuppressWarnings("unchecked")
-    private void registerView(AccessControl accessControl, Stream<Permission> permissions, Class<? extends Component> cl) {
+    private void registerView(final AccessControl accessControl, final Stream<Permission> permissions, final Class<? extends Component> cl) {
         if (accessControl.isUserInRole(permissions) && !RouteConfiguration.forSessionScope().isRouteRegistered(cl)) {
             try {
-                ViewAuthorization auth = (ViewAuthorization) cl.getDeclaredConstructor().newInstance();
+                final ViewAuthorization auth = (ViewAuthorization) cl.getDeclaredConstructor().newInstance();
                 RouteConfiguration.forSessionScope().setRoute(auth.viewName(), cl, MainLayout.class);
-            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException |
-                     InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            } catch (final InstantiationException | IllegalAccessException | IllegalArgumentException |
+                           InvocationTargetException | NoSuchMethodException | SecurityException e) {
                 e.printStackTrace();
             }
         }
     }
 
     @Override
-    public void beforeEnter(BeforeEnterEvent event) {
+    public void beforeEnter(final BeforeEnterEvent event) {
         verticalLayout.removeAll();
         verticalLayout.add(availaboardButton);
 

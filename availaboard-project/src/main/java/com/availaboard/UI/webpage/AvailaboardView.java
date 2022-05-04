@@ -56,21 +56,21 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
      * type to a {@link ResourceGrid}.
      */
     private ArrayList<Grid<Resource>> getResourceGrids() {
-        ArrayList<Grid<Resource>> arr = new ArrayList<>();
-        ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+        final ArrayList<Grid<Resource>> arr = new ArrayList<>();
+        final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AssignableTypeFilter(Resource.class));
 
-        Set<BeanDefinition> components = provider.findCandidateComponents("com/availaboard/engine/resource");
-        for (BeanDefinition component : components) {
+        final Set<BeanDefinition> components = provider.findCandidateComponents("com/availaboard/engine/resource");
+        for (final BeanDefinition component : components) {
             try {
-                Resource res = (Resource) Class.forName(component.getBeanClassName()).getConstructor().newInstance();
-                ResourceGrid<Resource> grid = new ResourceGrid<>(res.getClass());
-                Grid<Resource> resGrid = grid.loadGrid(res.getClass());
+                final Resource res = (Resource) Class.forName(component.getBeanClassName()).getConstructor().newInstance();
+                final ResourceGrid<Resource> grid = new ResourceGrid<>(res.getClass());
+                final Grid<Resource> resGrid = grid.loadGrid(res.getClass());
                 arr.add(resGrid);
 
-            } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException
-                     | InvocationTargetException | SecurityException | InstantiationException
-                     | NoSuchMethodException ignored) {
+            } catch (final ClassNotFoundException | IllegalAccessException | IllegalArgumentException
+                           | InvocationTargetException | SecurityException | InstantiationException
+                           | NoSuchMethodException ignored) {
 
             }
         }

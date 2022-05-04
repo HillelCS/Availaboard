@@ -51,7 +51,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
      * @param type The type of {@link Resource} that the {@link Grid} use's to load
      *             the {@link Resource}'s.
      */
-    public ResourceGrid(Class<? extends Resource> type) {
+    public ResourceGrid(final Class<? extends Resource> type) {
         this.type = type;
     }
 
@@ -70,33 +70,33 @@ public class ResourceGrid<E extends Resource> extends Grid {
      * @return A {@link VerticalLayout} with all the {@link ResourceFieldLoader}'s
      * <code> Field </code> names and value's added.
      */
-    private VerticalLayout createDialogLayout(Dialog dialog, Resource res) {
+    private VerticalLayout createDialogLayout(final Dialog dialog, final Resource res) {
 
-        VerticalLayout dialogLayout = new VerticalLayout();
+        final VerticalLayout dialogLayout = new VerticalLayout();
 
-        H2 headline = new H2(res.getName());
+        final H2 headline = new H2(res.getName());
         headline.getStyle().set("margin", "0").set("font-size", "2.5em").set("font-weight", "bold");
-        HorizontalLayout header = new HorizontalLayout(headline);
+        final HorizontalLayout header = new HorizontalLayout(headline);
         header.getElement().getClassList().add("draggable");
         header.setSpacing(false);
         header.getStyle().set("border-bottom", "1px solid var(--lumo-contrast-20pct)").set("cursor", "move");
         header.getStyle().set("padding", "var(--lumo-space-m) var(--lumo-space-l)").set("margin",
                 "calc(var(--lumo-space-s) * -1) calc(var(--lumo-space-l) * -1) 0");
 
-        VerticalLayout fieldLayout = new VerticalLayout();
-        Field[] resourceFields = res.getClass().getDeclaredFields();
+        final VerticalLayout fieldLayout = new VerticalLayout();
+        final Field[] resourceFields = res.getClass().getDeclaredFields();
 
-        Stream<Field> stream = Arrays.stream(resourceFields);
+        final Stream<Field> stream = Arrays.stream(resourceFields);
 
         stream.forEach(field -> {
             if (field.isAnnotationPresent(ResourceFieldLoader.class)) {
                 try {
                     field.setAccessible(true);
-                    ResourceFieldLoader fieldLoader = field.getAnnotation(ResourceFieldLoader.class);
-                    Label label = new Label(fieldLoader.value() + ": " + field.get(res));
+                    final ResourceFieldLoader fieldLoader = field.getAnnotation(ResourceFieldLoader.class);
+                    final Label label = new Label(fieldLoader.value() + ": " + field.get(res));
                     fieldLayout.add(label);
 
-                } catch (IllegalArgumentException | IllegalAccessException e1) {
+                } catch (final IllegalArgumentException | IllegalAccessException e1) {
                     e1.printStackTrace();
                 }
             }
@@ -105,8 +105,8 @@ public class ResourceGrid<E extends Resource> extends Grid {
         fieldLayout.setSpacing(false);
         fieldLayout.setPadding(false);
 
-        Button finishedButton = new Button("Done", e -> dialog.close());
-        HorizontalLayout buttonLayout = new HorizontalLayout(finishedButton);
+        final Button finishedButton = new Button("Done", e -> dialog.close());
+        final HorizontalLayout buttonLayout = new HorizontalLayout(finishedButton);
         dialogLayout.add(header, fieldLayout, buttonLayout);
         dialogLayout.setPadding(false);
 
@@ -126,25 +126,25 @@ public class ResourceGrid<E extends Resource> extends Grid {
      * type <code>E</code> added.
      */
 
-    public Grid<E> loadGrid(Class<? extends Resource> res) {
+    public Grid<E> loadGrid(final Class<? extends Resource> res) {
         try {
-            Grid<E> grid = new Grid<>();
-            Column<E> nameColumn = grid.addComponentColumn(this::dialogPopupButton).setHeader("Name").setWidth("50%")
+            final Grid<E> grid = new Grid<>();
+            final Column<E> nameColumn = grid.addComponentColumn(this::dialogPopupButton).setHeader("Name").setWidth("50%")
                     .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
-            Column<E> statusColumn = grid.addComponentColumn(this::statusLabel).setHeader("Status").setWidth("50%")
+            final Column<E> statusColumn = grid.addComponentColumn(this::statusLabel).setHeader("Status").setWidth("50%")
                     .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
             grid.addClassName("availaboard-grid");
             grid.setAllRowsVisible(true);
             grid.setItems((Collection<E>) (db.loadResources(type)));
 
-            HeaderRow headerRow = grid.prependHeaderRow();
-            Div simpleNameCell = new Div();
+            final HeaderRow headerRow = grid.prependHeaderRow();
+            final Div simpleNameCell = new Div();
             simpleNameCell.setText(res.getSimpleName());
             simpleNameCell.getElement().getStyle().set("text-align", "center");
             headerRow.join(nameColumn, statusColumn).setComponent(simpleNameCell);
 
             return grid;
-        } catch (IllegalArgumentException | SecurityException e) {
+        } catch (final IllegalArgumentException | SecurityException e) {
 
         }
         return null;
@@ -158,14 +158,14 @@ public class ResourceGrid<E extends Resource> extends Grid {
      *            {@link Dialog}.
      * @return A {@link Button} that opens a {@link Dialog} when clicked.
      */
-    private Button dialogPopupButton(Resource res) {
-        Dialog dialog = new Dialog();
+    private Button dialogPopupButton(final Resource res) {
+        final Dialog dialog = new Dialog();
         dialog.getElement().setAttribute("aria-label", res.getName());
-        VerticalLayout dialogLayout = createDialogLayout(dialog, res);
+        final VerticalLayout dialogLayout = createDialogLayout(dialog, res);
         dialog.add(dialogLayout);
         dialog.setModal(true);
         dialog.setDraggable(true);
-        Button button = new Button(res.getName(), e -> dialog.open());
+        final Button button = new Button(res.getName(), e -> dialog.open());
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         button.addClassName("popup-button");
         return button;
@@ -182,10 +182,10 @@ public class ResourceGrid<E extends Resource> extends Grid {
      * @return A {@link Label} with text set to the {@link Status} of the
      * {@link Resource} and corresponding color.
      */
-    private Label statusLabel(Resource res) {
-        Label label = new Label();
+    private Label statusLabel(final Resource res) {
+        final Label label = new Label();
         label.setText(res.getStatus().toString());
-        String labelClassName = res.getStatus() == Status.AVAILABLE ? "label-available" : "label-busy";
+        final String labelClassName = res.getStatus() == Status.AVAILABLE ? "label-available" : "label-busy";
         label.addClassName(labelClassName);
         return label;
     }

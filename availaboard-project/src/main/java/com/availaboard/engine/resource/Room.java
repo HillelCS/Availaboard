@@ -17,7 +17,7 @@ public class Room extends Resource {
         return contact;
     }
 
-    public void setContact(String contact) {
+    public void setContact(final String contact) {
         this.contact = contact;
     }
 
@@ -25,7 +25,7 @@ public class Room extends Resource {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(final String location) {
         this.location = location;
     }
 }
