@@ -22,6 +22,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
      */
     private static final long serialVersionUID = -8469495034991926228L;
     private final Label usernameLabel = new Label();
+
     private final AccessControl accessControl;
 
     public UserInformationView() {

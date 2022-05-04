@@ -22,7 +22,7 @@ import java.util.Set;
 @PageTitle("Availaboard")
 @CssImport("./styles/webpage-styles/availaboard.css")
 @Theme(themeClass = Lumo.class, variant = Lumo.DARK)
-@Route(value = "", layout = MainLayout.class)
+@Route(value = AvailaboardView.VIEWNAME, layout = MainLayout.class)
 public class AvailaboardView extends VerticalLayout implements AppShellConfigurator, ViewConfiguration {
 
     protected static final String VIEWNAME = "/";
