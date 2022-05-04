@@ -2,7 +2,6 @@ package com.availaboard.UI.view_pattern;
 
 import com.vaadin.flow.component.Component;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -26,7 +25,7 @@ public class ViewFactory {
         }
     }
 
-    @Nullable
+
     public static final ViewConfiguration createViewConfigInstance(final Class<? extends ViewConfiguration> cl) {
         try {
             final ViewConfiguration viewConfig = cl.getConstructor().newInstance();
@@ -42,7 +41,7 @@ public class ViewFactory {
         }
     }
 
-    @Nullable
+
     public static final ViewAuthorization createViewAuthInstance(final Class<? extends ViewAuthorization> cl) {
         try {
             final ViewAuthorization viewAuth = cl.getConstructor().newInstance();
@@ -58,7 +57,7 @@ public class ViewFactory {
         }
     }
 
-    @Nullable
+
     public static final ViewType createViewTypeInstance(final Class<? extends ViewType> cl) {
         try {
             final ViewType viewType = cl.getConstructor().newInstance();
