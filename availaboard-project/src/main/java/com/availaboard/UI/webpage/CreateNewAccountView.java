@@ -106,13 +106,11 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
 
     @Override
     public void addAll() {
-        add(createNewAccountLabel);
-        add(layout);
-        add(submitButton);
+        add(createNewAccountLabel, layout, submitButton);
     }
 
     @Override
     public String viewName() {
-        return VIEWNAME;
+        return CreateNewAccountView.VIEWNAME;
     }
 }

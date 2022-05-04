@@ -24,9 +24,7 @@ public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFo
 
     @Override
     public void addAll() {
-        add(header);
-        add(availaboardButton);
-        add(explanation);
+        add(header, availaboardButton, explanation);
     }
 
     @Override
