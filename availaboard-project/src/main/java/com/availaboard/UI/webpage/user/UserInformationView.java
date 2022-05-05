@@ -27,14 +27,22 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
      *
      */
     private static final long serialVersionUID = -8469495034991926228L;
-    private final Label usernameLabel;
-    private final Label statusLabel;
+    private Label usernameLabel;
+    private Label statusLabel;
     private final AccessControl accessControl;
 
     public UserInformationView() {
         accessControl = AccessControlFactory.getInstance().createAccessControl();
+        setUpUserProfile();
+    }
+
+    private void setUpUserProfile() {
         statusLabel = ResourceGrid.statusLabel(accessControl.getCurrentUser());
         usernameLabel = new Label(accessControl.getCurrentUser().getUsername());
+
+        usernameLabel.addClassName("username-label");
+        statusLabel.addClassName("status-label");
+
         setHorizontalComponentAlignment(Alignment.START, usernameLabel, statusLabel);
     }
 
