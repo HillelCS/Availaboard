@@ -1,6 +1,13 @@
 .username-label {
-    margin-top: auto;
+   font-size: 3vw;
 }
 
 .status-label {
+    font-size: 2vw;
 }
+
+.username-status-container {
+   margin-top: 50px;
+   margin-left: 30px;
+   max-width: 25%;
+ }
