@@ -1,9 +1,9 @@
 .username-label {
-   font-size: 3vw;
+     font-size: clamp(1.5rem, 3vw, 2.5rem)
 }
 
 .status-label {
-    font-size: 2vw;
+     font-size: clamp(1rem, 2vw, 1.5rem)
 }
 
 .username-status-container {
