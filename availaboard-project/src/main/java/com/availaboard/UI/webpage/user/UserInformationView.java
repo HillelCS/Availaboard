@@ -13,10 +13,17 @@ import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.availaboard.engine.sql_connection.UsernameExistsException;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -46,6 +53,8 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     private final TextField lastNameField = new TextField("Last Name");
     private final TextField emailField = new TextField("Email");
 
+    private final Notification successNotification = createSuccessNotification("Successfully updated User");
+
     private final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
     private final Button applyButton;
@@ -64,7 +73,10 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
             user.setFirstName(firstNameField.getValue());
             user.setLastName(lastNameField.getValue());
             user.setEmail(emailField.getValue());
+            
+            db.updateResourceInDatabase(user);
 
+            successNotification.open();
         });
 
         setUpUserProfile();
@@ -110,6 +122,20 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     @Override
     public String viewName() {
         return VIEWNAME;
+    }
+
+    private Notification createSuccessNotification(final String text) {
+        final Notification notification = new Notification();
+        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+        final Div notificationText = new Div(new Text(text));
+        final Button closeButton = new Button(new Icon("lumo", "cross"));
+        closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+        closeButton.getElement().setAttribute("aria-label", "Close");
+        closeButton.addClickListener(event -> notification.close());
+        final HorizontalLayout layout = new HorizontalLayout(notificationText, closeButton);
+        layout.setAlignItems(Alignment.CENTER);
+        notification.add(layout);
+        return notification;
     }
 
 }
