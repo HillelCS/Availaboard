@@ -28,3 +28,5 @@ availaboard-project/node/node.exe
 availaboard-project/.jpb/persistence-units.xml
 availaboard-project/.mvn/wrapper/maven-wrapper.properties
 availaboard-project/.mvn/wrapper/MavenWrapperDownloader.java
+availaboard-project/mvnw
+availaboard-project/mvnw.cmd
