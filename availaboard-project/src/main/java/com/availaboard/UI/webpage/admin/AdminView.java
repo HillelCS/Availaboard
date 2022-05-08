@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 @Route(value = AdminView.VIEWNAME, layout = MainLayout.class)
 public class AdminView extends VerticalLayout implements ViewAuthorization, ViewConfiguration {
 
-    protected static final String VIEWNAME = "admin";
+    protected static final String VIEWNAME = "Admin";
     /**
      *
      */
