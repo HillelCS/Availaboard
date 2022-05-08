@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Stream;
 
 /**
  * Connects to the Availaboard database. Uses the {@link ConfigPropReader} to
@@ -352,10 +353,15 @@ public class AvailaboardSQLConnection {
     }
 
     /**
-     * Updates every row in the database to the corresponding Field in the {@link Resource}.
-     * @param res
+     * Updates every column in the database to the corresponding <code>Field</code> in the {@link Resource}.
+     * @param res The {@link Resource} used to update the Columns in the database.
      */
     public void updateResourceInDatabase(Resource res) {
-
+            Stream<Field> stream = Stream.of(res.getClass().getDeclaredFields());
+            stream.forEach(field -> {
+                if(field.getAnnotation(Column.class) != null) {
+                    updateRowInDatabase(res, field);
+                }
+            });
     }
 }
