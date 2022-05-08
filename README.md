@@ -37,6 +37,23 @@ Other basic workflow steps:
   - run `mvn jetty:run -Pproduction`
   - open http://localhost:8080/
 
+### Set up database
+- Locate the AvailaboardDatabase.sql file in your local repository. 
+- Open up MySQL Workbench and create a new database (Remember the username and password).
+- Navigate into the database and then select Server -> Data Import
+- Select "Import from Self-Contained File."
+- Enter in the file path to the AvailaboardDatabase.sql file
+- Hit start import
+
+### Set up config.properties file
+- Head to Availaboard/availaboard-project/src/main/resources/
+- Add a config.properties file
+- Past the following format but replace the *** with your database information:
+
+<code> username = *** </code>  
+<code> password = *** </code>  
+<code> url = *** </code>  
+
 <!-- CONTRIBUTING -->
 ## Contributing
 
