@@ -20,6 +20,7 @@ error-screenshots/
 webpack.generated.js
 
 availaboard-project/src/main/resources/config.properties
+availaboard-project/.metadata/
 
 
 
