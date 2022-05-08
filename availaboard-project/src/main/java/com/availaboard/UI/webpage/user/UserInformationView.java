@@ -84,7 +84,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     }
 
     private void setUpUserFields() {
-
         applyButton = new Button("Apply Changes", event -> {
             user.setUsername(usernameField.getValue());
             user.setPassword(passwordField.getValue());
@@ -99,7 +98,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
             } catch (NameExistsException e) {
                 usernameExistsNotification.open();
             }
-
         });
 
         select.setLabel("Status");
@@ -113,6 +111,8 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
         emailField.setValue(user.getEmail());
         layout.add(firstNameField, lastNameField, emailField, usernameField, passwordField, select);
         layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1), new FormLayout.ResponsiveStep("500px", 2));
+
+        layout.addClassName("user-field-container");
     }
 
 
