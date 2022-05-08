@@ -350,4 +350,12 @@ public class AvailaboardSQLConnection {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Updates every row in the database to the corresponding Field in the {@link Resource}.
+     * @param res
+     */
+    public void updateResourceInDatabase(Resource res) {
+
+    }
 }
