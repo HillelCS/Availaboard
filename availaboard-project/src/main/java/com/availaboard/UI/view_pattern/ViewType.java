@@ -9,4 +9,5 @@ public interface ViewType {
       * @return The View's {@link Route} path.
       */
      String viewName();
+
 }

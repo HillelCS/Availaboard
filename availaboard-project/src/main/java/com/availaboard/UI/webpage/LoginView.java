@@ -33,8 +33,6 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
     private final LoginForm loginForm = new LoginForm();
     private final FlexLayout centeringLayout = new FlexLayout();
 
-    private ViewAuthorization viewAuth;
-
     public LoginView() {
         accessControl = AccessControlFactory.getInstance().createAccessControl();
         buildUI();
@@ -50,12 +48,11 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
     }
 
     private void login(final LoginForm.LoginEvent event) {
-        viewAuth = (ViewAuthorization) event;
         if (accessControl.signIn(event.getUsername(), event.getPassword())) {
             if (accessControl.isUserInRole(Permission.Admin)) {
-                getUI().get().navigate((Class<? extends Component>) viewAuth.getClass());
+                getUI().get().navigate(AdminView.class);
             } else if (accessControl.isUserInRole(Permission.User)) {
-                getUI().get().navigate(ViewFactory.getViewName(UserInformationView.class));
+                getUI().get().navigate(UserInformationView.class);
             } else {
                 getUI().get().navigate("/");
             }

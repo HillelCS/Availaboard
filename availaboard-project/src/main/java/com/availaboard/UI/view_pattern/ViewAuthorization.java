@@ -1,6 +1,7 @@
 package com.availaboard.UI.view_pattern;
 
 import com.availaboard.engine.resource.Permission;
+import com.vaadin.flow.component.Component;
 
 import java.util.stream.Stream;
 
