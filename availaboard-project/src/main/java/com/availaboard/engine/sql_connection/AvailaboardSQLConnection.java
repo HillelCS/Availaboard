@@ -353,15 +353,40 @@ public class AvailaboardSQLConnection {
     }
 
     /**
+     * Updates the Resource Table columns to the corresponding values in the
+     * {@link Resource} Object being passed in.
+     *
+     * @param res The {@link Resource} object being passed in who's values are being
+     *            used to update the values in the database.
+     */
+    public void updateResourceTable(Resource res) {
+        try {
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+                    AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+            final String query = "UPDATE Resource SET Status = ?, Name = ? WHERE (`ResourceID` = ?);";
+            final PreparedStatement st = con.prepareStatement(query);
+            st.setInt(1, res.getId());
+
+            st.executeUpdate();
+            st.close();
+            con.close();
+        } catch (final SQLException | SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Updates every column in the database to the corresponding <code>Field</code> in the {@link Resource}.
+     *
      * @param res The {@link Resource} used to update the Columns in the database.
      */
     public void updateResourceInDatabase(Resource res) {
-            Stream<Field> stream = Stream.of(res.getClass().getDeclaredFields());
-            stream.forEach(field -> {
-                if(field.isAnnotationPresent(Column.class)) {
-                    updateRowInDatabase(res, field);
-                }
-            });
+        updateResourceTable(res);
+        Stream<Field> stream = Stream.of(res.getClass().getDeclaredFields());
+        stream.forEach(field -> {
+            if (field.isAnnotationPresent(Column.class)) {
+                updateRowInDatabase(res, field);
+            }
+        });
     }
 }
