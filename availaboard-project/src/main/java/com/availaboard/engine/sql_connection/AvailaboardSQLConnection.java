@@ -383,16 +383,18 @@ public class AvailaboardSQLConnection {
      * @param res The {@link Resource} used to update the Columns in the database.
      */
     public void updateResourceInDatabase(Resource res) throws UsernameExistsException {
-        if (doesUsernameExist(res.getName())) {
+        if (!res.getName().equals(createResourceWithID(res.getId(), res.getClass()).getName()) && doesUsernameExist(res.getName())) {
             throw new UsernameExistsException();
+        } else {
+            updateResourceTable(res);
+            Stream<Field> stream = Stream.of(res.getClass().getDeclaredFields());
+            stream.forEach(field -> {
+                if (field.isAnnotationPresent(Column.class)) {
+                    field.setAccessible(true);
+                    updateRowInDatabase(res, field);
+                }
+            });
         }
-        updateResourceTable(res);
-        Stream<Field> stream = Stream.of(res.getClass().getDeclaredFields());
-        stream.forEach(field -> {
-            if (field.isAnnotationPresent(Column.class)) {
-                field.setAccessible(true);
-                updateRowInDatabase(res, field);
-            }
-        });
+
     }
 }
