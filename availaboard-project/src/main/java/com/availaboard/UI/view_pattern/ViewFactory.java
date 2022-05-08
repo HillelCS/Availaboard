@@ -9,6 +9,12 @@ import java.lang.reflect.InvocationTargetException;
  * {@link ViewAuthorization}.
  */
 public class ViewFactory {
+    /**
+     * A useful Factory method used to create a {@link ViewType} <code>Object</code> with a Class
+     * that extends {@link Component}.
+     * @param cl The Class that is being used to instantiate the {@link ViewType}.
+     * @return A {@link ViewType} that is instantiated with a Class that extends {@link Component}.
+     */
     public static ViewType createViewTypeInstance(final Class<? extends Component> cl) {
         try {
             return (ViewType) cl.getConstructor().newInstance();
