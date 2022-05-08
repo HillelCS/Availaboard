@@ -5,6 +5,7 @@ import com.availaboard.UI.view_structure.ViewAuthorization;
 import com.availaboard.UI.view_structure.ViewConfiguration;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
+import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.resource.User;
 import com.availaboard.engine.security.AccessControl;
@@ -73,8 +74,8 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     }
 
     private void setUpUserProfile() {
-        statusLabel = ResourceGrid.statusLabel(accessControl.getCurrentUser());
-        usernameLabel = new Label(accessControl.getCurrentUser().getUsername());
+        statusLabel = ResourceGrid.statusLabel(user);
+        usernameLabel = new Label(user.getUsername());
         usernameLabel.addClassName("username-label");
         statusLabel.addClassName("status-label");
         userStatusContainer.addClassName("username-status-container");
@@ -94,6 +95,9 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
             try {
                 db.updateResourceInDatabase(user);
+                usernameLabel.setText(user.getUsername());
+                statusLabel.removeAll();
+                statusLabel.add(ResourceGrid.statusLabel(user));
                 successNotification.open();
             } catch (NameExistsException e) {
                 usernameExistsNotification.open();
@@ -148,5 +152,4 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
         notification.add(layout);
         return notification;
     }
-
 }
