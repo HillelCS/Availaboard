@@ -3,16 +3,14 @@ package com.availaboard.UI.webpage.user;
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.UI.view_structure.ViewAuthorization;
 import com.availaboard.UI.view_structure.ViewConfiguration;
-import com.availaboard.UI.view_structure.ViewFactory;
 import com.availaboard.UI.webpage.MainLayout;
-import com.availaboard.UI.webpage.admin.AdminView;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.resource.User;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
-import com.availaboard.engine.sql_connection.UsernameExistsException;
+import com.availaboard.engine.sql_connection.NameExistsException;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -30,7 +28,6 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
-import java.awt.*;
 import java.util.stream.Stream;
 
 @CssImport("./styles/webpage-styles/user-information-view.css")
@@ -99,7 +96,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
             try {
                 db.updateResourceInDatabase(user);
                 successNotification.open();
-            } catch (UsernameExistsException e) {
+            } catch (NameExistsException e) {
                 usernameExistsNotification.open();
             }
 

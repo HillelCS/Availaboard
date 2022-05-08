@@ -9,7 +9,7 @@ import com.availaboard.engine.resource.User;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
-import com.availaboard.engine.sql_connection.UsernameExistsException;
+import com.availaboard.engine.sql_connection.NameExistsException;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -69,7 +69,7 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
                 db.insertResourceIntoDatabase(tempUser);
                 accessControl.signIn(usernameField.getValue(), passwordField.getValue());
                 getUI().get().navigate(ViewFactory.createViewTypeInstance(AdminView.class).viewName());
-            } catch (UsernameExistsException e) {
+            } catch (NameExistsException e) {
                 // Username exists in database
                 usernameExistsNotification.open();
             }

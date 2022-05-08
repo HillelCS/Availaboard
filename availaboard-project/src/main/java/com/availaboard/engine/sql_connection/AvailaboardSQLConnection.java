@@ -308,13 +308,13 @@ public class AvailaboardSQLConnection {
      * Inserts a {@link Resource} subclass into the database.
      *
      * @param res The {@link Resource} that is being inserted into the database.
-     * @throws UsernameExistsException
+     * @throws NameExistsException
      */
-    public void insertResourceIntoDatabase(final Resource res) throws UsernameExistsException {
+    public void insertResourceIntoDatabase(final Resource res) throws NameExistsException {
         int key = 0;
         try {
             if (doesUsernameExist(res.getName())) {
-                throw new UsernameExistsException();
+                throw new NameExistsException();
             } else {
                 final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
                         AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
@@ -382,9 +382,9 @@ public class AvailaboardSQLConnection {
      *
      * @param res The {@link Resource} used to update the Columns in the database.
      */
-    public void updateResourceInDatabase(Resource res) throws UsernameExistsException {
+    public void updateResourceInDatabase(Resource res) throws NameExistsException {
         if (!res.getName().equals(createResourceWithID(res.getId(), res.getClass()).getName()) && doesUsernameExist(res.getName())) {
-            throw new UsernameExistsException();
+            throw new NameExistsException();
         } else {
             updateResourceTable(res);
             Stream<Field> stream = Stream.of(res.getClass().getDeclaredFields());
