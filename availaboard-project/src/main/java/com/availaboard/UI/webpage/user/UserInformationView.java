@@ -16,6 +16,7 @@ import com.availaboard.engine.sql_connection.UsernameExistsException;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
@@ -53,11 +54,13 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     private final TextField lastNameField = new TextField("Last Name");
     private final TextField emailField = new TextField("Email");
 
+    Select<Status> select = new Select<>();
+
     private final Notification successNotification = createSuccessNotification("Successfully updated User");
 
     private final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
-    private final Button applyButton;
+    private Button applyButton;
     private final FormLayout layout = new FormLayout();
 
     private final VerticalLayout userStatusContainer = new VerticalLayout();
@@ -66,18 +69,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     public UserInformationView() {
         accessControl = AccessControlFactory.getInstance().createAccessControl();
         user = accessControl.getCurrentUser();
-
-        applyButton = new Button("Apply Changes", event -> {
-            user.setUsername(usernameField.getValue());
-            user.setPassword(passwordField.getValue());
-            user.setFirstName(firstNameField.getValue());
-            user.setLastName(lastNameField.getValue());
-            user.setEmail(emailField.getValue());
-            
-            db.updateResourceInDatabase(user);
-
-            successNotification.open();
-        });
 
         setUpUserProfile();
         setUpUserFields();
@@ -95,12 +86,30 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     }
 
     private void setUpUserFields() {
+
+        applyButton = new Button("Apply Changes", event -> {
+            user.setUsername(usernameField.getValue());
+            user.setPassword(passwordField.getValue());
+            user.setFirstName(firstNameField.getValue());
+            user.setLastName(lastNameField.getValue());
+            user.setEmail(emailField.getValue());
+            user.setStatus(select.getValue());
+
+            db.updateResourceInDatabase(user);
+
+            successNotification.open();
+        });
+
+        select.setLabel("Status");
+        select.setItems(Status.AVAILABLE, Status.BUSY);
+
+        select.setValue(user.getStatus());
         usernameField.setValue(user.getUsername());
         passwordField.setValue(user.getPassword());
         firstNameField.setValue(user.getFirstName());
         lastNameField.setValue(user.getLastName());
         emailField.setValue(user.getEmail());
-        layout.add(firstNameField, lastNameField, emailField, usernameField, passwordField);
+        layout.add(firstNameField, lastNameField, emailField, usernameField, passwordField, select);
         layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1), new FormLayout.ResponsiveStep("500px", 2));
     }
 
