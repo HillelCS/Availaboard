@@ -365,7 +365,9 @@ public class AvailaboardSQLConnection {
                     AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
             final String query = "UPDATE Resource SET Status = ?, Name = ? WHERE (`ResourceID` = ?);";
             final PreparedStatement st = con.prepareStatement(query);
-            st.setInt(1, res.getId());
+            st.setString(1, String.valueOf(res.getStatus()));
+            st.setString(2, res.getName());
+            st.setInt(3, res.getId());
 
             st.executeUpdate();
             st.close();
@@ -380,11 +382,15 @@ public class AvailaboardSQLConnection {
      *
      * @param res The {@link Resource} used to update the Columns in the database.
      */
-    public void updateResourceInDatabase(Resource res) {
+    public void updateResourceInDatabase(Resource res) throws UsernameExistsException {
+        if (doesUsernameExist(res.getName())) {
+            throw new UsernameExistsException();
+        }
         updateResourceTable(res);
         Stream<Field> stream = Stream.of(res.getClass().getDeclaredFields());
         stream.forEach(field -> {
             if (field.isAnnotationPresent(Column.class)) {
+                field.setAccessible(true);
                 updateRowInDatabase(res, field);
             }
         });

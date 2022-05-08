@@ -56,7 +56,8 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
     Select<Status> select = new Select<>();
 
-    private final Notification successNotification = createSuccessNotification("Successfully updated User");
+    private final Notification successNotification = createNotification("Successfully updated User", NotificationVariant.LUMO_SUCCESS);
+    private final Notification usernameExistsNotification = createNotification("Another User already has this Username", NotificationVariant.LUMO_ERROR);
 
     private final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
@@ -95,9 +96,13 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
             user.setEmail(emailField.getValue());
             user.setStatus(select.getValue());
 
-            db.updateResourceInDatabase(user);
+            try {
+                db.updateResourceInDatabase(user);
+                successNotification.open();
+            } catch (UsernameExistsException e) {
+                usernameExistsNotification.open();
+            }
 
-            successNotification.open();
         });
 
         select.setLabel("Status");
@@ -133,9 +138,9 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
         return VIEWNAME;
     }
 
-    private Notification createSuccessNotification(final String text) {
+    private Notification createNotification(final String text, NotificationVariant variant) {
         final Notification notification = new Notification();
-        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+        notification.addThemeVariants(variant);
         final Div notificationText = new Div(new Text(text));
         final Button closeButton = new Button(new Icon("lumo", "cross"));
         closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
