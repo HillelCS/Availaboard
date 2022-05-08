@@ -44,7 +44,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
         userStatusContainer.addClassName("username-status-container");
         userStatusContainer.setAlignItems(Alignment.CENTER);
         userStatusContainer.add(usernameLabel, statusLabel);
-        setHorizontalComponentAlignment(Alignment.START, userStatusContainer);
+        setHorizontalComponentAlignment(Alignment.CENTER, userStatusContainer);
     }
 
 

@@ -1,5 +1,6 @@
 .username-label {
-     font-size: clamp(1.5rem, 3vw, 2.5rem)
+     font-size: clamp(1.5rem, 3vw, 2.5rem);
+     color:  #a9a9a9;
 }
 
 .status-label {
@@ -8,7 +9,7 @@
 
 .username-status-container {
    margin-top: 50px;
-   margin-left: 30px;
-   max-width: 25%;
-   background-color: light-blue;
+   max-width: 25vw;
+   background-color: black;
+   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
  }
