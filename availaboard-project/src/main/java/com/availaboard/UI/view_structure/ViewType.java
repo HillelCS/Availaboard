@@ -1,6 +1,5 @@
-package com.availaboard.UI.view_pattern;
+package com.availaboard.UI.view_structure;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.router.Route;
 
 public interface ViewType {

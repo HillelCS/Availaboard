@@ -1,13 +1,12 @@
 package com.availaboard.UI.webpage.user;
 
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
-import com.availaboard.UI.view_pattern.ViewAuthorization;
-import com.availaboard.UI.view_pattern.ViewConfiguration;
+import com.availaboard.UI.view_structure.ViewAuthorization;
+import com.availaboard.UI.view_structure.ViewConfiguration;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

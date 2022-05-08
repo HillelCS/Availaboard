@@ -1,20 +1,15 @@
 package com.availaboard.UI.webpage;
 
-import com.availaboard.UI.view_pattern.ViewAuthorization;
-import com.availaboard.UI.view_pattern.ViewConfiguration;
-import com.availaboard.UI.view_pattern.ViewFactory;
+import com.availaboard.UI.view_structure.ViewConfiguration;
 import com.availaboard.UI.webpage.admin.AdminView;
 import com.availaboard.UI.webpage.user.UserInformationView;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
-import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.aspectj.lang.annotation.Before;
 
 /**
  * UI content when the user is not logged in yet.

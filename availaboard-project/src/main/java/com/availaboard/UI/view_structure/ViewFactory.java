@@ -1,4 +1,4 @@
-package com.availaboard.UI.view_pattern;
+package com.availaboard.UI.view_structure;
 
 import com.vaadin.flow.component.Component;
 

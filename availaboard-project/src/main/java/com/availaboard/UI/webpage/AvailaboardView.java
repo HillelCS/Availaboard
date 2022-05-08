@@ -1,9 +1,8 @@
 package com.availaboard.UI.webpage;
 
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
-import com.availaboard.UI.view_pattern.ViewConfiguration;
+import com.availaboard.UI.view_structure.ViewConfiguration;
 import com.availaboard.engine.resource.Resource;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
