@@ -359,7 +359,7 @@ public class AvailaboardSQLConnection {
     public void updateResourceInDatabase(Resource res) {
             Stream<Field> stream = Stream.of(res.getClass().getDeclaredFields());
             stream.forEach(field -> {
-                if(field.getAnnotation(Column.class) != null) {
+                if(field.isAnnotationPresent(Column.class)) {
                     updateRowInDatabase(res, field);
                 }
             });
