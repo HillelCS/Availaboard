@@ -1,6 +1,7 @@
 package com.availaboard.UI.webpage;
 
 import com.availaboard.UI.view_pattern.ViewAuthorization;
+import com.availaboard.UI.view_pattern.ViewConfiguration;
 import com.availaboard.UI.view_pattern.ViewFactory;
 import com.availaboard.UI.view_pattern.ViewType;
 import com.availaboard.engine.resource.Permission;
@@ -45,6 +46,7 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
     private final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
     private final VerticalLayout verticalLayout = new VerticalLayout();
 
+
     public MainLayout() {
         final DrawerToggle drawerToggle = new DrawerToggle();
         drawerToggle.addClassName("menu-toggle");
@@ -62,9 +64,9 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
         logoutButton.addClickListener(e -> logout());
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
 
-        availaboardButton = createMenuLink(ViewFactory.createViewConfigInstance(AvailaboardView.class), "Availability");
-        loginButton = createMenuLink(ViewFactory.createViewConfigInstance(LoginView.class), "Login");
-        createAccountButton = createMenuLink(ViewFactory.createViewConfigInstance(CreateNewAccountView.class), "Create New Account");
+        availaboardButton = createMenuLink(ViewFactory.createViewTypeInstance(AvailaboardView.class), "Availability");
+        loginButton = createMenuLink(ViewFactory.createViewTypeInstance(LoginView.class), "Login");
+        createAccountButton = createMenuLink(ViewFactory.createViewTypeInstance(CreateNewAccountView.class), "Create New Account");
     }
 
     private Button createMenuButton() {

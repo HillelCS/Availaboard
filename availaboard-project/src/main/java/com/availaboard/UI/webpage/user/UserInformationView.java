@@ -7,6 +7,7 @@ import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -66,4 +67,5 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     public String viewName() {
         return VIEWNAME;
     }
+
 }

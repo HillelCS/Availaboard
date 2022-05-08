@@ -1,5 +1,6 @@
 package com.availaboard.UI.webpage;
 
+import com.availaboard.UI.view_pattern.ViewAuthorization;
 import com.availaboard.UI.view_pattern.ViewConfiguration;
 import com.availaboard.UI.view_pattern.ViewFactory;
 import com.availaboard.UI.webpage.admin.AdminView;
@@ -7,10 +8,13 @@ import com.availaboard.UI.webpage.user.UserInformationView;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.aspectj.lang.annotation.Before;
 
 /**
  * UI content when the user is not logged in yet.
@@ -29,6 +33,8 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
     private final LoginForm loginForm = new LoginForm();
     private final FlexLayout centeringLayout = new FlexLayout();
 
+    private ViewAuthorization viewAuth;
+
     public LoginView() {
         accessControl = AccessControlFactory.getInstance().createAccessControl();
         buildUI();
@@ -44,9 +50,10 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
     }
 
     private void login(final LoginForm.LoginEvent event) {
+        viewAuth = (ViewAuthorization) event;
         if (accessControl.signIn(event.getUsername(), event.getPassword())) {
             if (accessControl.isUserInRole(Permission.Admin)) {
-                getUI().get().navigate(ViewFactory.getViewName(AdminView.class));
+                getUI().get().navigate((Class<? extends Component>) viewAuth.getClass());
             } else if (accessControl.isUserInRole(Permission.User)) {
                 getUI().get().navigate(ViewFactory.getViewName(UserInformationView.class));
             } else {
@@ -66,4 +73,5 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
     public String viewName() {
         return null;
     }
+
 }

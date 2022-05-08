@@ -2,6 +2,7 @@ package com.availaboard.UI.webpage;
 
 import com.availaboard.UI.view_pattern.ViewConfiguration;
 import com.availaboard.UI.view_pattern.ViewType;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -38,4 +39,6 @@ public class ErrorView extends VerticalLayout implements HasErrorParameter<NotFo
     public String viewName() {
         return path.viewName();
     }
+
+
 }

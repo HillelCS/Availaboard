@@ -4,6 +4,7 @@ import com.availaboard.UI.view_pattern.ViewAuthorization;
 import com.availaboard.UI.view_pattern.ViewConfiguration;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
@@ -40,4 +41,6 @@ public class AdminView extends VerticalLayout implements ViewAuthorization, View
     public String viewName() {
         return AdminView.VIEWNAME;
     }
+
+
 }
