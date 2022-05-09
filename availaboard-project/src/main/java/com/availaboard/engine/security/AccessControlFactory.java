@@ -2,7 +2,7 @@ package com.availaboard.engine.security;
 
 /**
  * Used to create a new instance of a {@link BasicAccessControl} and a
- * {@link accessControl}.
+ * {@link AccessControl}.
  */
 public class AccessControlFactory {
 
@@ -26,9 +26,9 @@ public class AccessControlFactory {
     }
 
     /**
-     * Used to create a new {@link accessControl}
+     * Used to create a new {@link AccessControl}
      *
-     * @return A new {@link accessControl} Object.
+     * @return A new {@link AccessControl} Object.
      */
     public AccessControl createAccessControl() {
         return accessControl;
