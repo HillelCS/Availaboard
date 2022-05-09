@@ -30,7 +30,7 @@ import com.vaadin.flow.router.Route;
 
 @CssImport("./styles/webpage-styles/create-new-account-view.css")
 @Route(value = CreateNewAccountView.VIEWNAME, layout = MainLayout.class)
-public class CreateNewAccountView extends VerticalLayout implements Observer {
+public class CreateNewAccountView extends VerticalLayout implements ViewConfiguration {
 
     protected static final String VIEWNAME = "create-account-view";
 
@@ -81,8 +81,7 @@ public class CreateNewAccountView extends VerticalLayout implements Observer {
         }
     });
 
-    public CreateNewAccountView() {
-        accessControl = AccessControlFactory.getInstance().createAccessControl();
+    private void setUpLayout() {
         layout.add(firstNameField, lastNameField, emailField, usernameField, passwordField, confirmPasswordField);
         layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1), new FormLayout.ResponsiveStep("500px", 2));
         layout.setColspan(usernameField, 2);
@@ -108,31 +107,13 @@ public class CreateNewAccountView extends VerticalLayout implements Observer {
 
     @Override
     public void initialize() {
+        accessControl = AccessControlFactory.getInstance().createAccessControl();
+        setUpLayout();
         add(createNewAccountLabel, layout, submitButton);
     }
 
     @Override
     public String viewName() {
         return CreateNewAccountView.VIEWNAME;
-    }
-
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void register(Subject subject) {
-
-    }
-
-    @Override
-    public void unregister(Subject subject) {
-
-    }
-
-    @Override
-    public Subject getSubject() {
-        return null;
     }
 }
