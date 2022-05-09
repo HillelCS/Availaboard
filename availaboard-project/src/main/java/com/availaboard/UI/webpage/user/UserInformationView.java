@@ -2,12 +2,11 @@ package com.availaboard.UI.webpage.user;
 
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.UI.view_structure.Observer;
-import com.availaboard.UI.view_structure.Subject;
 import com.availaboard.UI.view_structure.ViewAuthorization;
 import com.availaboard.UI.view_structure.ViewConfiguration;
+import com.availaboard.UI.view_structure.ViewFactory;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
-import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.resource.User;
 import com.availaboard.engine.security.AccessControl;
@@ -17,7 +16,6 @@ import com.availaboard.engine.sql_connection.NameExistsException;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
@@ -27,6 +25,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
@@ -54,8 +53,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     private final TextField lastNameField = new TextField("Last Name");
     private final TextField emailField = new TextField("Email");
 
-    Subject subject;
-
     Select<Status> select = new Select<>();
 
     private final Notification successNotification = createNotification("Successfully updated User", NotificationVariant.LUMO_SUCCESS);
@@ -72,7 +69,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     public UserInformationView() {
         accessControl = AccessControlFactory.getInstance().createAccessControl();
         user = accessControl.getCurrentUser();
-
         setUpUserProfile();
         setUpUserFields();
     }
@@ -101,7 +97,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
                 db.updateResourceInDatabase(user);
                 successNotification.open();
-                subject.notifiyObservers();
+                ViewFactory.getViewController().notifiyObservers();
 
             } catch (NameExistsException e) {
                 usernameExistsNotification.open();
@@ -162,16 +158,5 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
         usernameLabel.setText(user.getUsername());
         statusLabel.removeAll();
         statusLabel.add(ResourceGrid.statusLabel(user));
-    }
-
-    @Override
-    public void register(Subject subject) {
-        subject.addObserver(this);
-        this.subject = subject;
-    }
-
-    @Override
-    public Subject getSubject() {
-        return subject;
     }
 }

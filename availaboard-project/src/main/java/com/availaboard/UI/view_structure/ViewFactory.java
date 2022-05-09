@@ -23,5 +23,10 @@ public class ViewFactory {
             throw new RuntimeException(e);
         }
     }
+
+    public static Subject getViewController() {
+        Subject viewController = new ViewController();
+        return viewController;
+    }
 }
 

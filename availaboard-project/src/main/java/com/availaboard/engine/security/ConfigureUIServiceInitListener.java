@@ -1,12 +1,17 @@
 package com.availaboard.engine.security;
 
+import com.availaboard.UI.view_structure.Observer;
 import com.availaboard.UI.view_structure.ViewAuthorization;
 import com.availaboard.UI.view_structure.ViewController;
+import com.availaboard.UI.view_structure.ViewFactory;
 import com.availaboard.UI.webpage.LoginView;
+import com.availaboard.UI.webpage.user.UserInformationView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
