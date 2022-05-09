@@ -11,8 +11,25 @@ import java.util.List;
 import java.util.Set;
 
 public class ViewController implements Subject {
+    List<Observer> observerList = new ArrayList();
 
-     {
+    @Override
+    public void addObserver(Observer observer) {
+        observerList.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observerList.remove(observer);
+    }
+
+    @Override
+    public void notifiyObservers() {
+        observerList.forEach(observer -> observer.update());
+    }
+
+    @Override
+    public void regiserViews() {
         final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AssignableTypeFilter(Observer.class));
 
@@ -37,20 +54,4 @@ public class ViewController implements Subject {
     }
 
 
-    List<Observer> observerList = new ArrayList();
-
-    @Override
-    public void addObserver(Observer observer) {
-        observerList.add(observer);
-    }
-
-    @Override
-    public void removeObserver(Observer observer) {
-        observerList.remove(observer);
-    }
-
-    @Override
-    public void notifiyObservers() {
-        observerList.forEach(observer -> observer.update());
-    }
 }

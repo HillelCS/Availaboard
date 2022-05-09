@@ -6,9 +6,9 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 
 public interface ViewConfiguration extends ViewType, BeforeEnterObserver {
     /**
-     * Add all the components to the view.
+     * Use this method to set up the View. <bold>DO NOT USE THE CONSTRUCTOR</bold>
      */
-    void addAll();
+    void initialize();
 
     /**
      * Calls the addAll() method before the page loads up. Also
@@ -19,7 +19,7 @@ public interface ViewConfiguration extends ViewType, BeforeEnterObserver {
      */
     @Override
     default void beforeEnter(final BeforeEnterEvent event) {
-        addAll();
+        initialize();
     }
 
 }

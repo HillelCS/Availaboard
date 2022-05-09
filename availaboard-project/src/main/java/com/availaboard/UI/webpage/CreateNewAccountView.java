@@ -105,7 +105,7 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
     }
 
     @Override
-    public void addAll() {
+    public void initialize() {
         add(createNewAccountLabel, layout, submitButton);
     }
 

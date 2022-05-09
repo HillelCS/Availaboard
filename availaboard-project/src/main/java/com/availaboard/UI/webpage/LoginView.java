@@ -57,7 +57,7 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
     }
 
     @Override
-    public void addAll() {
+    public void initialize() {
         add(centeringLayout);
     }
 

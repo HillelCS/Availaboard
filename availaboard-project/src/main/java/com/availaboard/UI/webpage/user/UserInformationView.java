@@ -15,8 +15,11 @@ import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.availaboard.engine.sql_connection.NameExistsException;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -30,16 +33,17 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.shared.communication.PushMode;
 
 import java.util.stream.Stream;
 
 @CssImport("./styles/webpage-styles/user-information-view.css")
 @Route(value = UserInformationView.VIEWNAME, layout = MainLayout.class)
-public class UserInformationView extends VerticalLayout implements ViewAuthorization, ViewConfiguration, Observer {
+public class UserInformationView extends UI implements ViewAuthorization, ViewConfiguration, Observer {
 
     protected static final String VIEWNAME = "user-information";
 
-    private final User user;
+    private User user;
 
     /**
      *
@@ -54,7 +58,9 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     private final TextField lastNameField = new TextField("Last Name");
     private final TextField emailField = new TextField("Email");
 
-    Subject subject;
+    VerticalLayout mainLayout = new VerticalLayout();
+
+    static Subject subject;
 
     Select<Status> select = new Select<>();
 
@@ -67,15 +73,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     private final FormLayout layout = new FormLayout();
 
     private final VerticalLayout userStatusContainer = new VerticalLayout();
-    private final AccessControl accessControl;
-
-    public UserInformationView() {
-        accessControl = AccessControlFactory.getInstance().createAccessControl();
-        user = accessControl.getCurrentUser();
-
-        setUpUserProfile();
-        setUpUserFields();
-    }
+    private AccessControl accessControl;
 
     private void setUpUserProfile() {
         statusLabel = ResourceGrid.statusLabel(user);
@@ -83,9 +81,9 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
         usernameLabel.addClassName("username-label");
         statusLabel.addClassName("status-label");
         userStatusContainer.addClassName("username-status-container");
-        userStatusContainer.setAlignItems(Alignment.CENTER);
+        userStatusContainer.setAlignItems(FlexComponent.Alignment.CENTER);
         userStatusContainer.add(usernameLabel, statusLabel);
-        setHorizontalComponentAlignment(Alignment.CENTER, userStatusContainer);
+        mainLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, userStatusContainer);
     }
 
     private void setUpUserFields() {
@@ -134,8 +132,16 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     }
 
     @Override
-    public void addAll() {
-        add(userStatusContainer, layout, applyButton);
+    public void initialize() {
+
+        accessControl = AccessControlFactory.getInstance().createAccessControl();
+        user = accessControl.getCurrentUser();
+
+        setUpUserProfile();
+        setUpUserFields();
+
+        mainLayout.add(userStatusContainer, layout, applyButton);
+        super.add(mainLayout);
     }
 
     @Override
@@ -152,16 +158,14 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
         closeButton.getElement().setAttribute("aria-label", "Close");
         closeButton.addClickListener(event -> notification.close());
         final HorizontalLayout layout = new HorizontalLayout(notificationText, closeButton);
-        layout.setAlignItems(Alignment.CENTER);
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
         notification.add(layout);
         return notification;
     }
 
     @Override
     public void update() {
-        usernameLabel.setText(user.getUsername());
-        statusLabel.removeAll();
-        statusLabel.add(ResourceGrid.statusLabel(user));
+       
     }
 
     @Override

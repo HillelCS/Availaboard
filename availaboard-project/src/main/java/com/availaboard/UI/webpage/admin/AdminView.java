@@ -32,7 +32,7 @@ public class AdminView extends VerticalLayout implements ViewAuthorization, View
 
 
     @Override
-    public void addAll() {
+    public void initialize() {
 
     }
 

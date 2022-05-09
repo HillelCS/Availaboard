@@ -78,7 +78,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
     }
 
     @Override
-    public void addAll() {
+    public void initialize() {
         add(layout);
     }
 
