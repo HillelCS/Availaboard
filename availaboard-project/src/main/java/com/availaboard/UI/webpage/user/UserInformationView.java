@@ -57,8 +57,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     private final TextField lastNameField = new TextField("Last Name");
     private final TextField emailField = new TextField("Email");
 
-    Subject subject = ViewFactory.createViewControllerInstance();
-
     Select<Status> select = new Select<>();
 
     private final Notification successNotification = createNotification("Successfully updated User", NotificationVariant.LUMO_SUCCESS);
@@ -177,6 +175,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
     @Override
     public Subject getSubject() {
-        return subject;
+        return ViewFactory.createViewControllerInstance();
     }
 }

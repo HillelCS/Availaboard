@@ -1,7 +1,10 @@
 package com.availaboard.UI.webpage;
 
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
+import com.availaboard.UI.view_structure.Observer;
+import com.availaboard.UI.view_structure.Subject;
 import com.availaboard.UI.view_structure.ViewConfiguration;
+import com.availaboard.UI.view_structure.ViewFactory;
 import com.availaboard.engine.resource.Resource;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -23,7 +26,7 @@ import java.util.Set;
 @CssImport("./styles/webpage-styles/availaboard.css")
 @Theme(themeClass = Lumo.class, variant = Lumo.DARK)
 @Route(value = AvailaboardView.VIEWNAME, layout = MainLayout.class)
-public class AvailaboardView extends VerticalLayout implements AppShellConfigurator, ViewConfiguration {
+public class AvailaboardView extends VerticalLayout implements AppShellConfigurator, Observer {
 
     protected static final String VIEWNAME = "/";
     /**
@@ -32,10 +35,6 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
     private static final long serialVersionUID = -4432887017833022089L;
     private final VerticalLayout layout = new VerticalLayout();
 
-
-    public AvailaboardView() {
-        addGridsToLayout();
-    }
 
     /**
      * Adds all of the {@link ResourceGrid}'s to a {@link VerticalLayout}.
@@ -79,11 +78,33 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     @Override
     public void initialize() {
+        addGridsToLayout();
         add(layout);
     }
 
     @Override
     public String viewName() {
         return VIEWNAME;
+    }
+
+    @Override
+    public void update() {
+        layout.removeAll();
+        addGridsToLayout();
+    }
+
+    @Override
+    public void register(Subject subject) {
+        subject.addObserver(this);
+    }
+
+    @Override
+    public void unregister(Subject subject) {
+        subject.addObserver(this);
+    }
+
+    @Override
+    public Subject getSubject() {
+        return ViewFactory.createViewControllerInstance();
     }
 }
