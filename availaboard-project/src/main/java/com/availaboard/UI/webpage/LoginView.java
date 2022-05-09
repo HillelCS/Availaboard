@@ -24,14 +24,9 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
 
     protected static final String VIEWNAME = "login";
     private static final long serialVersionUID = -6633815459114206330L;
-    private final AccessControl accessControl;
+    private AccessControl accessControl;
     private final LoginForm loginForm = new LoginForm();
     private final FlexLayout centeringLayout = new FlexLayout();
-
-    public LoginView() {
-        accessControl = AccessControlFactory.getInstance().createAccessControl();
-        buildUI();
-    }
 
     private void buildUI() {
         setSizeFull();
@@ -58,6 +53,8 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
 
     @Override
     public void initialize() {
+        accessControl = AccessControlFactory.getInstance().createAccessControl();
+        buildUI();
         add(centeringLayout);
     }
 
