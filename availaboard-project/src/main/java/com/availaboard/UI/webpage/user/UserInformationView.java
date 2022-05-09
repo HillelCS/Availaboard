@@ -39,7 +39,7 @@ import java.util.stream.Stream;
 
 @CssImport("./styles/webpage-styles/user-information-view.css")
 @Route(value = UserInformationView.VIEWNAME, layout = MainLayout.class)
-public class UserInformationView extends UI implements ViewAuthorization, ViewConfiguration, Observer {
+public class UserInformationView extends VerticalLayout implements ViewAuthorization, ViewConfiguration, Observer {
 
     protected static final String VIEWNAME = "user-information";
 
@@ -57,8 +57,6 @@ public class UserInformationView extends UI implements ViewAuthorization, ViewCo
     private final TextField firstNameField = new TextField("First Name");
     private final TextField lastNameField = new TextField("Last Name");
     private final TextField emailField = new TextField("Email");
-
-    VerticalLayout mainLayout = new VerticalLayout();
 
     static Subject subject;
 
@@ -83,7 +81,7 @@ public class UserInformationView extends UI implements ViewAuthorization, ViewCo
         userStatusContainer.addClassName("username-status-container");
         userStatusContainer.setAlignItems(FlexComponent.Alignment.CENTER);
         userStatusContainer.add(usernameLabel, statusLabel);
-        mainLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, userStatusContainer);
+        setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, userStatusContainer);
     }
 
     private void setUpUserFields() {
@@ -133,15 +131,14 @@ public class UserInformationView extends UI implements ViewAuthorization, ViewCo
 
     @Override
     public void initialize() {
-
         accessControl = AccessControlFactory.getInstance().createAccessControl();
         user = accessControl.getCurrentUser();
 
         setUpUserProfile();
         setUpUserFields();
 
-        mainLayout.add(userStatusContainer, layout, applyButton);
-        super.add(mainLayout);
+        add(userStatusContainer, layout, applyButton);
+
     }
 
     @Override
@@ -165,7 +162,7 @@ public class UserInformationView extends UI implements ViewAuthorization, ViewCo
 
     @Override
     public void update() {
-       
+
     }
 
     @Override
