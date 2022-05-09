@@ -6,9 +6,11 @@ import com.vaadin.flow.router.BeforeLeaveEvent;
 import com.vaadin.flow.router.BeforeLeaveObserver;
 
 /**
- * Used to show a class is an Observer. It extends ViewConfiguration because
+ * Used to show a class is an Observer. It extends {@link ViewConfiguration} because
  * many classes also use that interface which uses the BeforeEnterObserver interface
- * causing conflicts.
+ * causing conflicts. So, you do <bold>not</bold> have to implement the {@link ViewConfiguration}
+ * interface if you implement this interface.
+ *
  */
 public interface Observer extends BeforeLeaveObserver, ViewConfiguration {
 

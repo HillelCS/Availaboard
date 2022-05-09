@@ -1,5 +1,7 @@
 package com.availaboard.UI.webpage;
 
+import com.availaboard.UI.application_structure.observable.Observer;
+import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.view_structure.ViewConfiguration;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.webpage.admin.AdminView;
@@ -28,7 +30,7 @@ import com.vaadin.flow.router.Route;
 
 @CssImport("./styles/webpage-styles/create-new-account-view.css")
 @Route(value = CreateNewAccountView.VIEWNAME, layout = MainLayout.class)
-public class CreateNewAccountView extends VerticalLayout implements ViewConfiguration {
+public class CreateNewAccountView extends VerticalLayout implements Observer {
 
     protected static final String VIEWNAME = "create-account-view";
 
@@ -112,5 +114,25 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
     @Override
     public String viewName() {
         return CreateNewAccountView.VIEWNAME;
+    }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void register(Subject subject) {
+
+    }
+
+    @Override
+    public void unregister(Subject subject) {
+
+    }
+
+    @Override
+    public Subject getSubject() {
+        return null;
     }
 }
