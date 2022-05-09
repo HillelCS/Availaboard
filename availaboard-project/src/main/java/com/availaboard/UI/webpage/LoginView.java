@@ -1,6 +1,6 @@
 package com.availaboard.UI.webpage;
 
-import com.availaboard.UI.view_structure.ViewConfiguration;
+import com.availaboard.UI.application_structure.view_structure.ViewConfiguration;
 import com.availaboard.UI.webpage.admin.AdminView;
 import com.availaboard.UI.webpage.user.UserInformationView;
 import com.availaboard.engine.resource.Permission;

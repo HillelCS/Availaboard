@@ -1,10 +1,9 @@
 package com.availaboard.UI.webpage;
 
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
-import com.availaboard.UI.view_structure.Observer;
-import com.availaboard.UI.view_structure.Subject;
-import com.availaboard.UI.view_structure.ViewConfiguration;
-import com.availaboard.UI.view_structure.ViewFactory;
+import com.availaboard.UI.application_structure.observable.Observer;
+import com.availaboard.UI.application_structure.observable.Subject;
+import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.engine.resource.Resource;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;

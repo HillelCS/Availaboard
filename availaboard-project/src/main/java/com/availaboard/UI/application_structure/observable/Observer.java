@@ -1,8 +1,7 @@
-package com.availaboard.UI.view_structure;
+package com.availaboard.UI.application_structure.observable;
 
-import com.availaboard.engine.resource.Resource;
+import com.availaboard.UI.application_structure.view_structure.ViewConfiguration;
 import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.BeforeLeaveEvent;
 import com.vaadin.flow.router.BeforeLeaveObserver;
 

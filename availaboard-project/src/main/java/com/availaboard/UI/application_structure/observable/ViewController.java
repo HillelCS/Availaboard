@@ -1,14 +1,7 @@
-package com.availaboard.UI.view_structure;
+package com.availaboard.UI.application_structure.observable;
 
-import com.availaboard.engine.resource.Resource;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AssignableTypeFilter;
-
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A concrete implementation of the {@link Subject} interface.

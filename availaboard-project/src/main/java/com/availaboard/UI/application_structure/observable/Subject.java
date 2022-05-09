@@ -1,4 +1,4 @@
-package com.availaboard.UI.view_structure;
+package com.availaboard.UI.application_structure.observable;
 
 /**
  * Indicates the class is a Subject. It is used to communicate

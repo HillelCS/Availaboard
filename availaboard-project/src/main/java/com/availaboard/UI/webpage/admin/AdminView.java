@@ -1,7 +1,7 @@
 package com.availaboard.UI.webpage.admin;
 
-import com.availaboard.UI.view_structure.ViewAuthorization;
-import com.availaboard.UI.view_structure.ViewConfiguration;
+import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
+import com.availaboard.UI.application_structure.view_structure.ViewConfiguration;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

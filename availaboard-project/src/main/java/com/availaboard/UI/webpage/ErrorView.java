@@ -1,7 +1,5 @@
 package com.availaboard.UI.webpage;
 
-import com.availaboard.UI.view_structure.ViewConfiguration;
-import com.availaboard.UI.view_structure.ViewType;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

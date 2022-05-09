@@ -1,10 +1,12 @@
 package com.availaboard.UI.webpage.user;
 
+import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
-import com.availaboard.UI.view_structure.*;
+import com.availaboard.UI.application_structure.observable.Observer;
+import com.availaboard.UI.application_structure.observable.Subject;
+import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
-import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.resource.User;
 import com.availaboard.engine.security.AccessControl;
@@ -12,11 +14,9 @@ import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.availaboard.engine.sql_connection.NameExistsException;
 import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -29,10 +29,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeLeaveEvent;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.shared.communication.PushMode;
 
 import java.util.stream.Stream;
 

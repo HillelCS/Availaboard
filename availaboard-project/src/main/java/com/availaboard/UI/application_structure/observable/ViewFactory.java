@@ -1,5 +1,8 @@
-package com.availaboard.UI.view_structure;
+package com.availaboard.UI.application_structure.observable;
 
+import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
+import com.availaboard.UI.application_structure.view_structure.ViewConfiguration;
+import com.availaboard.UI.application_structure.view_structure.ViewType;
 import com.vaadin.flow.component.Component;
 
 import java.lang.reflect.InvocationTargetException;

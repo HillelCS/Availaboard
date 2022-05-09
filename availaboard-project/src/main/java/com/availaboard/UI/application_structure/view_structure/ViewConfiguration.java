@@ -1,4 +1,4 @@
-package com.availaboard.UI.view_structure;
+package com.availaboard.UI.application_structure.view_structure;
 
 import com.availaboard.UI.webpage.MainLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
