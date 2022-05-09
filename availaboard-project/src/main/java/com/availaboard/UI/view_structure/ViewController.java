@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * A concrete implementation of the {@link Subject} interface.
+ */
 public class ViewController implements Subject {
     List<Observer> observerList = new ArrayList();
 

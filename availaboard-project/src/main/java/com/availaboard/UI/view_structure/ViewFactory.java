@@ -24,6 +24,12 @@ public class ViewFactory {
         }
     }
 
+    /**
+     * Creates an implementation of the {@link Subject} interface with a
+     * {@link ViewController}. This is created statically so all the Views
+     * can communicate with the same {@link Subject}.
+     * @return
+     */
     public static Subject createViewControllerInstance() {
         Subject subject = new ViewController();
         return subject;
