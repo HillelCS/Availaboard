@@ -5,5 +5,4 @@ public interface Subject {
     void removeObserver(Observer observer);
     void notifiyObservers();
 
-    void regiserViews();
 }

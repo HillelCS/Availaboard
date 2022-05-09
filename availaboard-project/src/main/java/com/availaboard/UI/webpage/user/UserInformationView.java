@@ -1,10 +1,7 @@
 package com.availaboard.UI.webpage.user;
 
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
-import com.availaboard.UI.view_structure.Observer;
-import com.availaboard.UI.view_structure.Subject;
-import com.availaboard.UI.view_structure.ViewAuthorization;
-import com.availaboard.UI.view_structure.ViewConfiguration;
+import com.availaboard.UI.view_structure.*;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Resource;
@@ -32,6 +29,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeLeaveEvent;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.shared.communication.PushMode;
 
@@ -39,7 +38,7 @@ import java.util.stream.Stream;
 
 @CssImport("./styles/webpage-styles/user-information-view.css")
 @Route(value = UserInformationView.VIEWNAME, layout = MainLayout.class)
-public class UserInformationView extends VerticalLayout implements ViewAuthorization, ViewConfiguration, Observer {
+public class UserInformationView extends VerticalLayout implements ViewAuthorization, Observer {
 
     protected static final String VIEWNAME = "user-information";
 
@@ -58,7 +57,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     private final TextField lastNameField = new TextField("Last Name");
     private final TextField emailField = new TextField("Email");
 
-    static Subject subject;
+    Subject subject = ViewFactory.createViewControllerInstance();
 
     Select<Status> select = new Select<>();
 
@@ -140,7 +139,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
         add(userStatusContainer, layout, applyButton);
 
     }
-
     @Override
     public String viewName() {
         return VIEWNAME;
@@ -162,13 +160,19 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
     @Override
     public void update() {
-
+        usernameLabel.setText(user.getUsername());
+        statusLabel.removeAll();
+        statusLabel.add(ResourceGrid.statusLabel(user));
     }
 
     @Override
     public void register(Subject subject) {
         subject.addObserver(this);
-        this.subject = subject;
+    }
+
+    @Override
+    public void unregister(Subject subject) {
+        subject.removeObserver(this);
     }
 
     @Override

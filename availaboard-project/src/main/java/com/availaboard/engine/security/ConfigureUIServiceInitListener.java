@@ -72,6 +72,5 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
             final UI ui = uiEvent.getUI();
             ui.addBeforeEnterListener(this::beforeEnter);
         });
-        ViewFactory.createViewControllerInstance().regiserViews();
     }
 }
