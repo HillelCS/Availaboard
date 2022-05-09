@@ -1,6 +1,7 @@
 package com.availaboard.engine.security;
 
 import com.availaboard.UI.view_structure.ViewAuthorization;
+import com.availaboard.UI.view_structure.ViewController;
 import com.availaboard.UI.webpage.LoginView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -65,6 +66,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 
     @Override
     public void serviceInit(final ServiceInitEvent event) {
+        ViewController controller = new ViewController();
         // Add's a reroute listener to every page in the service initialization
         event.getSource().addUIInitListener(uiEvent -> {
             final UI ui = uiEvent.getUI();

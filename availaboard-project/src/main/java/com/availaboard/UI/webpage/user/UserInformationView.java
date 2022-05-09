@@ -1,6 +1,8 @@
 package com.availaboard.UI.webpage.user;
 
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
+import com.availaboard.UI.view_structure.Observer;
+import com.availaboard.UI.view_structure.Subject;
 import com.availaboard.UI.view_structure.ViewAuthorization;
 import com.availaboard.UI.view_structure.ViewConfiguration;
 import com.availaboard.UI.webpage.MainLayout;
@@ -33,7 +35,7 @@ import java.util.stream.Stream;
 
 @CssImport("./styles/webpage-styles/user-information-view.css")
 @Route(value = UserInformationView.VIEWNAME, layout = MainLayout.class)
-public class UserInformationView extends VerticalLayout implements ViewAuthorization, ViewConfiguration {
+public class UserInformationView extends VerticalLayout implements ViewAuthorization, ViewConfiguration, Observer {
 
     protected static final String VIEWNAME = "user-information";
 
@@ -51,6 +53,8 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     private final TextField firstNameField = new TextField("First Name");
     private final TextField lastNameField = new TextField("Last Name");
     private final TextField emailField = new TextField("Email");
+
+    Subject subject;
 
     Select<Status> select = new Select<>();
 
@@ -94,11 +98,11 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
             user.setStatus(select.getValue());
 
             try {
+
                 db.updateResourceInDatabase(user);
-                usernameLabel.setText(user.getUsername());
-                statusLabel.removeAll();
-                statusLabel.add(ResourceGrid.statusLabel(user));
                 successNotification.open();
+                subject.notifiyObservers();
+
             } catch (NameExistsException e) {
                 usernameExistsNotification.open();
             }
@@ -151,5 +155,23 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
         layout.setAlignItems(Alignment.CENTER);
         notification.add(layout);
         return notification;
+    }
+
+    @Override
+    public void update() {
+        usernameLabel.setText(user.getUsername());
+        statusLabel.removeAll();
+        statusLabel.add(ResourceGrid.statusLabel(user));
+    }
+
+    @Override
+    public void register(Subject subject) {
+        subject.addObserver(this);
+        this.subject = subject;
+    }
+
+    @Override
+    public Subject getSubject() {
+        return subject;
     }
 }
