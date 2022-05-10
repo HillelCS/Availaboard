@@ -57,6 +57,11 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
      * <code>database</code> and signs the  CurrentUser in as the
      * {@link User} Object created.
      */
+
+    public CreateNewAccountView() {
+        accessControl = AccessControlFactory.getInstance().createAccessControl();
+        setUpLayout();
+    }
     private final Button submitButton = new Button("Create an account", event -> {
         if (passwordField.getValue().equals(confirmPasswordField.getValue())) {
             User tempUser = new User();
@@ -107,8 +112,6 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
 
     @Override
     public void initialize() {
-        accessControl = AccessControlFactory.getInstance().createAccessControl();
-        setUpLayout();
         add(createNewAccountLabel, layout, submitButton);
     }
 
