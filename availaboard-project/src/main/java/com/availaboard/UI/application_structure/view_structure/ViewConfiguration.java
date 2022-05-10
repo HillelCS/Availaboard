@@ -5,6 +5,7 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 
 public interface ViewConfiguration extends ViewType, BeforeEnterObserver {
+
     /**
      * Use this method to add components to the View.
      */
