@@ -11,6 +11,7 @@ import com.availaboard.engine.resource.User;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.router.PageTitle;
@@ -31,11 +32,11 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
     private static final long serialVersionUID = -4432887017833022089L;
 
     private static final Subject subject = ViewFactory.createViewControllerInstance();
-
-    FormLayout layout = gridLayout();
+    Div container = new Div();
 
     public AvailaboardView() {
-
+        container.addClassName("grid-container");
+        container.add(gridLayout());
     }
 
     private FormLayout gridLayout() {
@@ -43,22 +44,20 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
         layout.add(createResourceGrid(User.class));
         layout.add(createResourceGrid(Equipment.class));
         layout.add(createResourceGrid((Room.class)));
-        layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0px", 1), new FormLayout.ResponsiveStep("700px", 3));
+        layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0px", 1), new FormLayout.ResponsiveStep("650px", 3));
         layout.setWidth("100vw");
-
         return layout;
     }
 
     private Grid<Resource> createResourceGrid(Class<? extends Resource> res) {
         final ResourceGrid<Resource> grid = new ResourceGrid<>();
         final Grid<Resource> resGrid = grid.loadGrid(res);
-        resGrid.addClassName("grid");
         return resGrid;
     }
 
     @Override
     public void initialize() {
-        add(layout);
+        add(container);
     }
 
     @Override
