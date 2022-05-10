@@ -91,7 +91,8 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
                 db.updateResourceInDatabase(user);
                 successNotification.open();
-                subject.notifiyObservers();
+                
+                ViewFactory.createViewControllerInstance().notifiyObservers();
 
             } catch (NameExistsException e) {
                 usernameExistsNotification.open();
