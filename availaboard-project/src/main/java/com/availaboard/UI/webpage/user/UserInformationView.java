@@ -69,6 +69,14 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     private final VerticalLayout userStatusContainer = new VerticalLayout();
     private AccessControl accessControl;
 
+    public UserInformationView() {
+        accessControl = AccessControlFactory.getInstance().createAccessControl();
+        user = accessControl.getCurrentUser();
+
+        setUpUserProfile();
+        setUpUserFields();
+    }
+
     private void setUpUserProfile() {
         statusLabel = ResourceGrid.statusLabel(user);
         usernameLabel = new Label(user.getUsername());
@@ -125,14 +133,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
     @Override
     public void initialize() {
-        accessControl = AccessControlFactory.getInstance().createAccessControl();
-        user = accessControl.getCurrentUser();
-
-        setUpUserProfile();
-        setUpUserFields();
-
         add(userStatusContainer, layout, applyButton);
-
     }
 
     @Override
