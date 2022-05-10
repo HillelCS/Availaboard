@@ -22,6 +22,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -179,7 +180,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
         final Label headline = new Label("Are you sure you would like to delete this item? (" + res.getName() + ")");
         headline.getStyle().set("margin", "0").set("font-size", "1.5em");
 
-        final Footer horizontalLayout = new Footer();
+        final Footer footer = new Footer();
 
         final Button cancelButton = new Button("Cancel", event -> dialog.close());
         final Button confirmButton = new Button("Confirm", event -> {
@@ -194,12 +195,13 @@ public class ResourceGrid<E extends Resource> extends Grid {
         cancelButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         confirmButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY, ButtonVariant.LUMO_ERROR);
 
-        horizontalLayout.add(cancelButton, confirmButton);
-        dialogLayout.add(headline);
+        footer.add(cancelButton, confirmButton);
+        dialogLayout.add(headline, footer);
+        dialogLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.END, footer);
 
-        
 
-        dialog.setWidth("300px");
+
+        dialog.setWidth("700px");
         dialog.setHeight("200px");
 
         return dialogLayout;
