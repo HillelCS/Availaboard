@@ -32,19 +32,22 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
      *
      */
     private static final long serialVersionUID = -4432887017833022089L;
-    private final VerticalLayout layout = new VerticalLayout();
 
     Subject subject = ViewFactory.createViewControllerInstance();
+
+    private final VerticalLayout layout = gridLayout();
 
 
     /**
      * Adds all of the {@link ResourceGrid}'s to a {@link VerticalLayout}.
      */
-    private void addGridsToLayout() {
+    private VerticalLayout gridLayout() {
+        final VerticalLayout layout = new VerticalLayout();
         getResourceGrids().forEach(grid -> {
             layout.add(grid);
             layout.setHorizontalComponentAlignment(Alignment.CENTER, grid);
         });
+        return layout;
     }
 
     /**
@@ -79,7 +82,6 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     @Override
     public void initialize() {
-        addGridsToLayout();
         add(layout);
     }
 
@@ -91,7 +93,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
     @Override
     public void update() {
         layout.removeAll();
-        addGridsToLayout();
+        layout.add(gridLayout());
     }
 
     @Override
