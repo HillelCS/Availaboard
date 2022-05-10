@@ -304,6 +304,29 @@ public class AvailaboardSQLConnection {
         return false;
     }
 
+    public boolean doesIDExist(final int ResourceID) {
+        try {
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+                    AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+
+            // Uses alias to store the count as variable
+            final String query = "SELECT COUNT(1) AS total FROM Resource WHERE ResourceID = ?;";
+            final PreparedStatement st = con.prepareStatement(query);
+            st.setInt(1, ResourceID);
+            final ResultSet rs = st.executeQuery();
+            if (rs.next() && rs.getInt("total") == 1) {
+                return true;
+            }
+
+            st.close();
+            rs.close();
+            con.close();
+        } catch (final SQLException | SecurityException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     /**
      * Inserts a {@link Resource} subclass into the database.
      *
@@ -378,13 +401,35 @@ public class AvailaboardSQLConnection {
     }
 
     /**
-     * Drops a Resource from the database.
-     * @param res The Resource that is being dropped.
+     * Deletes a Resource from the database.
+     *
+     * @param res The Resource that is being deleted.
      */
-    public void dropResourceFromDatabase(Resource res) {
+    public void deleteResourceFromDatabase(Resource res) throws ResourceDoesNotExistException {
+        if (!doesIDExist(res.getId())) {
+            throw new ResourceDoesNotExistException();
+        } else {
+            try {
+                final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+                        AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+                final Table table = res.getClass().getAnnotation(Table.class);
+                String query = String.format("DELETE FROM `availaboard`.`%s` WHERE (`ResourceID` = '?');", table.value());
+                PreparedStatement st = con.prepareStatement(query);
+                st.setString(1, String.valueOf(res.getId()));
+                st.executeUpdate();
 
+                query = "DELETE FROM `availaboard`.`Resource` WHERE (`ResourceID` = '?');";
+                st = con.prepareStatement(query);
+                st.setString(1, String.valueOf(res.getId()));
+                st.executeUpdate();
+
+                st.close();
+                con.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
-
 
     /**
      * Updates every column in the database to the corresponding <code>Field</code> in the {@link Resource}.
