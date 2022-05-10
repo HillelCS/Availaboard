@@ -180,8 +180,6 @@ public class ResourceGrid<E extends Resource> extends Grid {
         final Label headline = new Label("Are you sure you would like to delete this item? (" + res.getName() + ")");
         headline.getStyle().set("margin", "0").set("font-size", "1.5em");
 
-        final Footer footer = new Footer();
-
         final Button cancelButton = new Button("Cancel", event -> dialog.close());
         final Button confirmButton = new Button("Confirm", event -> {
             try {
@@ -192,17 +190,20 @@ public class ResourceGrid<E extends Resource> extends Grid {
             dialog.close();
         });
 
+        confirmButton.setClassName("confirm-button");
+
         cancelButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-        confirmButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY, ButtonVariant.LUMO_ERROR);
+        confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
 
-        footer.add(cancelButton, confirmButton);
-        dialogLayout.add(headline, footer);
-        dialogLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.END, footer);
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.add(cancelButton, confirmButton);
+        horizontalLayout.addClassName("button-container");
 
+        dialogLayout.add(headline, horizontalLayout);
+        dialogLayout.setHorizontalComponentAlignment(FlexComponent.Alignment.END, horizontalLayout);
 
-
-        dialog.setWidth("700px");
-        dialog.setHeight("200px");
+        dialog.setWidth("400px");
+        dialog.setHeight("250px");
 
         return dialogLayout;
 
