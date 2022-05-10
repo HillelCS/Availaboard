@@ -51,8 +51,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     private Grid<Resource> createResourceGrid(Class<? extends Resource> res) {
         final ResourceGrid<Resource> grid = new ResourceGrid<>();
-        final Grid<Resource> resGrid = grid.loadGrid(res);
-        return resGrid;
+        return grid.loadGrid(res);
     }
 
     @Override
