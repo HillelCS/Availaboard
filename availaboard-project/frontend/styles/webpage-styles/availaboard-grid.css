@@ -9,7 +9,7 @@
 }
 
 .availaboard-grid {
-	width: 100%;
+	width: 100vw;
 	margin-top: 15px;
 	max-width: 400px;
 }

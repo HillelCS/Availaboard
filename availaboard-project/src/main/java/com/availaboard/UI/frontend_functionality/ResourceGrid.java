@@ -17,7 +17,6 @@ import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
@@ -49,20 +48,8 @@ public class ResourceGrid<E extends Resource> extends Grid {
     private static final long serialVersionUID = -2025064138726788718L;
     private final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
     private final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
-    private final Class<? extends Resource> type;
     private String content;
 
-
-
-    /**
-     * Used to set the type of {@link Resource} the {@link Grid} needs to load.
-     *
-     * @param type The type of {@link Resource} that the {@link Grid} use's to load
-     *             the {@link Resource}'s.
-     */
-    public ResourceGrid(final Class<? extends Resource> type) {
-        this.type = type;
-    }
 
     /**
      * <p>
@@ -152,7 +139,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
                     .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
             grid.addClassName("availaboard-grid");
             grid.setAllRowsVisible(true);
-            grid.setItems((Collection<E>) (db.loadResources(type)));
+            grid.setItems((Collection<E>) (db.loadResources(res)));
 
             final HeaderRow headerRow = grid.prependHeaderRow();
             final Div simpleNameCell = new Div();

@@ -4,8 +4,12 @@ import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.UI.application_structure.observable.Observer;
 import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
+import com.availaboard.engine.resource.Equipment;
 import com.availaboard.engine.resource.Resource;
+import com.availaboard.engine.resource.Room;
+import com.availaboard.engine.resource.User;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.AppShellConfigurator;
@@ -13,13 +17,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AssignableTypeFilter;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Set;
 
 @PageTitle("Availaboard")
 @CssImport("./styles/webpage-styles/availaboard.css")
@@ -33,51 +30,35 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
      */
     private static final long serialVersionUID = -4432887017833022089L;
 
-    Subject subject = ViewFactory.createViewControllerInstance();
-
-    private final VerticalLayout layout = gridLayout();
+    private static final Subject subject = ViewFactory.createViewControllerInstance();
 
 
     /**
      * Adds all of the {@link ResourceGrid}'s to a {@link VerticalLayout}.
      */
-    private VerticalLayout gridLayout() {
-        final VerticalLayout layout = new VerticalLayout();
-        getResourceGrids().forEach(grid -> {
-            layout.add(grid);
-            layout.setHorizontalComponentAlignment(Alignment.CENTER, grid);
-        });
+
+    FormLayout layout;
+
+    public AvailaboardView() {
+        layout = gridLayout();
+        setHorizontalComponentAlignment(Alignment.CENTER, layout);
+    }
+
+    private FormLayout gridLayout() {
+
+        final FormLayout layout = new FormLayout();
+        layout.add(createResourceGrid(User.class));
+        layout.add(createResourceGrid(Equipment.class));
+        layout.add(createResourceGrid((Room.class)));
+        layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1), new FormLayout.ResponsiveStep("400px", 3));
+
         return layout;
     }
 
-    /**
-     * Iterates through every subclass of {@link Resource} and creates a
-     * {@link ResourceGrid} with each of them. It then adds them all to an
-     * {@link ArrayList}.
-     *
-     * @return An {@link ArrayList} of each subclass of {@link Resource} added as a
-     * type to a {@link ResourceGrid}.
-     */
-    private ArrayList<Grid<Resource>> getResourceGrids() {
-        final ArrayList<Grid<Resource>> arr = new ArrayList<>();
-        final ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
-        provider.addIncludeFilter(new AssignableTypeFilter(Resource.class));
-
-        final Set<BeanDefinition> components = provider.findCandidateComponents("com/availaboard/engine/resource");
-        for (final BeanDefinition component : components) {
-            try {
-                final Resource res = (Resource) Class.forName(component.getBeanClassName()).getConstructor().newInstance();
-                final ResourceGrid<Resource> grid = new ResourceGrid<>(res.getClass());
-                final Grid<Resource> resGrid = grid.loadGrid(res.getClass());
-                arr.add(resGrid);
-
-            } catch (final ClassNotFoundException | IllegalAccessException | IllegalArgumentException
-                           | InvocationTargetException | SecurityException | InstantiationException
-                           | NoSuchMethodException ignored) {
-
-            }
-        }
-        return arr;
+    private Grid<Resource> createResourceGrid(Class<? extends Resource> res) {
+        final ResourceGrid<Resource> grid = new ResourceGrid<>();
+        final Grid<Resource> resGrid = grid.loadGrid(res);
+        return resGrid;
     }
 
     @Override
@@ -92,8 +73,8 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     @Override
     public void update() {
-        layout.removeAll();
-        layout.add(gridLayout());
+        gridLayout().removeAll();
+        gridLayout().add(gridLayout());
     }
 
     @Override

@@ -41,7 +41,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
     private User user;
 
-    Subject subject = ViewFactory.createViewControllerInstance();
+    private static final Subject subject = ViewFactory.createViewControllerInstance();
 
     /**
      *
