@@ -378,6 +378,15 @@ public class AvailaboardSQLConnection {
     }
 
     /**
+     * Drops a Resource from the database.
+     * @param res The Resource that is being dropped.
+     */
+    public void dropResourceFromDatabase(Resource res) {
+
+    }
+
+
+    /**
      * Updates every column in the database to the corresponding <code>Field</code> in the {@link Resource}.
      *
      * @param res The {@link Resource} used to update the Columns in the database.
