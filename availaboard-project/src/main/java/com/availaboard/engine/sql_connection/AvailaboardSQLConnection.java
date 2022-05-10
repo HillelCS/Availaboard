@@ -413,12 +413,12 @@ public class AvailaboardSQLConnection {
                 final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
                         AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
                 final Table table = res.getClass().getAnnotation(Table.class);
-                String query = String.format("DELETE FROM `availaboard`.`%s` WHERE (`ResourceID` = '?');", table.value());
+                String query = String.format("DELETE FROM `availaboard`.`%s` WHERE (`ResourceID` = ?);", table.value());
                 PreparedStatement st = con.prepareStatement(query);
                 st.setString(1, String.valueOf(res.getId()));
                 st.executeUpdate();
 
-                query = "DELETE FROM `availaboard`.`Resource` WHERE (`ResourceID` = '?');";
+                query = "DELETE FROM `availaboard`.`Resource` WHERE (`ResourceID` = ?);";
                 st = con.prepareStatement(query);
                 st.setString(1, String.valueOf(res.getId()));
                 st.executeUpdate();
