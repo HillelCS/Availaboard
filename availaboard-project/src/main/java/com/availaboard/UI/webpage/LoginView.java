@@ -28,6 +28,11 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
     private final LoginForm loginForm = new LoginForm();
     private final FlexLayout centeringLayout = new FlexLayout();
 
+    public LoginView() {
+        accessControl = AccessControlFactory.getInstance().createAccessControl();
+        buildUI();
+    }
+
     private void buildUI() {
         setSizeFull();
         loginForm.addLoginListener(this::login);
@@ -53,8 +58,6 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
 
     @Override
     public void initialize() {
-        accessControl = AccessControlFactory.getInstance().createAccessControl();
-        buildUI();
         add(centeringLayout);
     }
 
