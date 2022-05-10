@@ -17,6 +17,7 @@ import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
@@ -178,7 +179,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
         final Label headline = new Label("Are you sure you would like to delete this item? (" + res.getName() + ")");
         headline.getStyle().set("margin", "0").set("font-size", "1.5em");
 
-        final HorizontalLayout horizontalLayout = new HorizontalLayout();
+        final Footer horizontalLayout = new Footer();
 
         final Button cancelButton = new Button("Cancel", event -> dialog.close());
         final Button confirmButton = new Button("Confirm", event -> {
@@ -194,9 +195,12 @@ public class ResourceGrid<E extends Resource> extends Grid {
         confirmButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY, ButtonVariant.LUMO_ERROR);
 
         horizontalLayout.add(cancelButton, confirmButton);
-        dialogLayout.add(horizontalLayout);
+        dialogLayout.add(headline);
+
         
-        dialogLayout.getStyle().set("width", "350px").set("height", "200px");
+
+        dialog.setWidth("300px");
+        dialog.setHeight("200px");
 
         return dialogLayout;
 
@@ -231,7 +235,6 @@ public class ResourceGrid<E extends Resource> extends Grid {
         dialog.setDraggable(true);
         final Button button = new Button(new Icon(VaadinIcon.TRASH), e -> dialog.open());
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-        button.addClassName("popup-button");
         return button;
     }
 
