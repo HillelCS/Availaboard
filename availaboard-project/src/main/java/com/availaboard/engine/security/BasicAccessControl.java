@@ -31,7 +31,10 @@ class BasicAccessControl implements AccessControl {
 
     @Override
     public boolean isUserInRole(final Permission permission) {
-        return CurrentUser.get().getPermissions() == permission;
+        if(isUserSignedIn()) {
+            return CurrentUser.get().getPermissions() == permission;
+        }
+       return false;
     }
 
     @Override

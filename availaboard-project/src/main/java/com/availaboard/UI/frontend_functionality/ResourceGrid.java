@@ -1,13 +1,16 @@
 package com.availaboard.UI.frontend_functionality;
 
+import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.ResourceFieldLoader;
 import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
+import com.availaboard.engine.sql_connection.ResourceDoesNotExistException;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
@@ -16,6 +19,8 @@ import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -44,6 +49,8 @@ public class ResourceGrid<E extends Resource> extends Grid {
     private final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
     private final Class<? extends Resource> type;
     private String content;
+
+
 
     /**
      * Used to set the type of {@link Resource} the {@link Grid} needs to load.
@@ -110,7 +117,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
         dialogLayout.add(header, fieldLayout, buttonLayout);
         dialogLayout.setPadding(false);
 
-        dialogLayout.getStyle().set("width", "350px").set("max-width", "450px");
+        dialogLayout.getStyle().set("width", "350px");
 
         return dialogLayout;
     }
@@ -118,7 +125,8 @@ public class ResourceGrid<E extends Resource> extends Grid {
     /**
      * Creates a new {@link Grid} with two columns; <code>Name</code> and
      * <code>Status</code>. Then it loads all of the {@link Resource}'s and add's
-     * them to the grid.
+     * them to the grid. If the {@link CurrentUser} has {@link Permission#Admin} then
+     * they get the delete button added to the grid.
      *
      * @param res The type of {@link Resource} that the {@link Grid} use's to load
      *            the {@link Resource}'s.
@@ -129,8 +137,15 @@ public class ResourceGrid<E extends Resource> extends Grid {
     public Grid<E> loadGrid(final Class<? extends Resource> res) {
         try {
             final Grid<E> grid = new Grid<>();
-            final Column<E> nameColumn = grid.addComponentColumn(this::dialogPopupButton).setHeader("Name").setWidth("50%")
-                    .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
+            final Column<E> nameColumn;
+            if(accessControl.isUserInRole(Permission.Admin)) {
+                nameColumn = grid.addComponentColumn(this::dialogPopupButtonWithDeleteButton).setHeader("Name").setWidth("50%")
+                        .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
+            } else {
+                nameColumn = grid.addComponentColumn(this::dialogPopupButton).setHeader("Name").setWidth("50%")
+                        .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
+            }
+
             final Column<E> statusColumn = grid.addComponentColumn(ResourceGrid::statusLabel).setHeader("Status").setWidth("50%")
                     .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
             grid.addClassName("availaboard-grid");
@@ -148,6 +163,42 @@ public class ResourceGrid<E extends Resource> extends Grid {
 
         }
         return null;
+    }
+
+    /**
+     * Confirms the User would like to delete the selected {@link Resource}.
+     *
+     * @param dialog
+     * @param res    The {@link Resource} being deleted
+     * @return A {@link ConfirmDialog} that pops up confirming the User would like to delete the selected {@link Resource}.
+     */
+    private VerticalLayout createConfirmDeleteDialog(Dialog dialog, Resource res) {
+        final VerticalLayout dialogLayout = new VerticalLayout();
+
+        final Label headline = new Label("Are you sure you would like to delete this item? (" + res.getName() + ")");
+        headline.getStyle().set("margin", "0").set("font-size", "1.5em");
+
+        final HorizontalLayout horizontalLayout = new HorizontalLayout();
+
+        final Button cancelButton = new Button("Cancel", event -> dialog.close());
+        final Button confirmButton = new Button("Confirm", event -> {
+            try {
+                db.deleteResourceFromDatabase(res);
+            } catch (ResourceDoesNotExistException e) {
+                throw new RuntimeException(e);
+            }
+            dialog.close();
+        });
+
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        confirmButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY, ButtonVariant.LUMO_ERROR);
+
+        horizontalLayout.add(cancelButton, confirmButton);
+        dialogLayout.add(horizontalLayout);
+        
+        dialogLayout.getStyle().set("width", "350px").set("height", "200px");
+
+        return dialogLayout;
 
     }
 
@@ -169,6 +220,32 @@ public class ResourceGrid<E extends Resource> extends Grid {
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
         button.addClassName("popup-button");
         return button;
+    }
+
+    private Button confirmDeletePopupButton(final Resource res) {
+        final Dialog dialog = new Dialog();
+        dialog.getElement().setAttribute("aria-label", res.getName());
+        final VerticalLayout dialogLayout = createConfirmDeleteDialog(dialog, res);
+        dialog.add(dialogLayout);
+        dialog.setModal(true);
+        dialog.setDraggable(true);
+        final Button button = new Button(new Icon(VaadinIcon.TRASH), e -> dialog.open());
+        button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+        button.addClassName("popup-button");
+        return button;
+    }
+
+    /**
+     * Adds both the dialogPopupButton() and confirmDeleteDialog()
+     * {@link Button}'s to a {@link HorizontalLayout}.
+     * @param res The selected {@link Resource}.
+     * @return A {@link HorizontalLayout} of the dialogPopupButton() and confirmDeleteDialog()
+     *      * {@link Button}s.
+     */
+    private HorizontalLayout dialogPopupButtonWithDeleteButton(Resource res) {
+        HorizontalLayout layout = new HorizontalLayout();
+        layout.add(confirmDeletePopupButton(res), dialogPopupButton(res));
+        return layout;
     }
 
     /**
