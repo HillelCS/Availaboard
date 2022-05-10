@@ -32,25 +32,18 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     private static final Subject subject = ViewFactory.createViewControllerInstance();
 
-
-    /**
-     * Adds all of the {@link ResourceGrid}'s to a {@link VerticalLayout}.
-     */
-
-    FormLayout layout;
+    FormLayout layout = gridLayout();
 
     public AvailaboardView() {
-        layout = gridLayout();
-        setHorizontalComponentAlignment(Alignment.CENTER, layout);
+
     }
 
     private FormLayout gridLayout() {
-
         final FormLayout layout = new FormLayout();
         layout.add(createResourceGrid(User.class));
         layout.add(createResourceGrid(Equipment.class));
         layout.add(createResourceGrid((Room.class)));
-        layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0px", 1), new FormLayout.ResponsiveStep("500px", 3));
+        layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0px", 1), new FormLayout.ResponsiveStep("700px", 3));
         layout.setWidth("100vw");
 
         return layout;
@@ -59,6 +52,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
     private Grid<Resource> createResourceGrid(Class<? extends Resource> res) {
         final ResourceGrid<Resource> grid = new ResourceGrid<>();
         final Grid<Resource> resGrid = grid.loadGrid(res);
+        resGrid.addClassName("grid");
         return resGrid;
     }
 
