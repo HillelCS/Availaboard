@@ -34,6 +34,8 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
     private static final long serialVersionUID = -4432887017833022089L;
     private final VerticalLayout layout = new VerticalLayout();
 
+    Subject subject = ViewFactory.createViewControllerInstance();
+
 
     /**
      * Adds all of the {@link ResourceGrid}'s to a {@link VerticalLayout}.
@@ -104,6 +106,6 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     @Override
     public Subject getSubject() {
-        return ViewFactory.createViewControllerInstance();
+        return subject;
     }
 }

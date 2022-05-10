@@ -1,10 +1,10 @@
 package com.availaboard.UI.webpage.user;
 
-import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
-import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.UI.application_structure.observable.Observer;
 import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
+import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
+import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Status;
@@ -16,8 +16,6 @@ import com.availaboard.engine.sql_connection.NameExistsException;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
@@ -25,8 +23,10 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
@@ -40,6 +40,8 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     protected static final String VIEWNAME = "user-information";
 
     private User user;
+
+    Subject subject = ViewFactory.createViewControllerInstance();
 
     /**
      *
@@ -88,12 +90,9 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
             user.setStatus(select.getValue());
 
             try {
-
                 db.updateResourceInDatabase(user);
+                subject.notifiyObservers();
                 successNotification.open();
-                
-                ViewFactory.createViewControllerInstance().notifiyObservers();
-
             } catch (NameExistsException e) {
                 usernameExistsNotification.open();
             }
@@ -135,6 +134,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
         add(userStatusContainer, layout, applyButton);
 
     }
+
     @Override
     public String viewName() {
         return VIEWNAME;
@@ -173,6 +173,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
     @Override
     public Subject getSubject() {
-        return ViewFactory.createViewControllerInstance();
+        return subject;
     }
 }

@@ -1,5 +1,8 @@
 package com.availaboard.UI.webpage.admin;
 
+import com.availaboard.UI.application_structure.observable.Observer;
+import com.availaboard.UI.application_structure.observable.Subject;
+import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
 import com.availaboard.UI.application_structure.view_structure.ViewConfiguration;
 import com.availaboard.UI.webpage.MainLayout;
@@ -10,13 +13,15 @@ import com.vaadin.flow.router.Route;
 import java.util.stream.Stream;
 
 @Route(value = AdminView.VIEWNAME, layout = MainLayout.class)
-public class AdminView extends VerticalLayout implements ViewAuthorization, ViewConfiguration {
+public class AdminView extends VerticalLayout implements ViewAuthorization, Observer {
 
     protected static final String VIEWNAME = "Admin";
     /**
      *
      */
     private static final long serialVersionUID = -118322660015469075L;
+
+    Subject subject = ViewFactory.createViewControllerInstance();
 
     public AdminView() {
 
@@ -42,4 +47,23 @@ public class AdminView extends VerticalLayout implements ViewAuthorization, View
     }
 
 
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void register(Subject subject) {
+        subject.addObserver(this);
+    }
+
+    @Override
+    public void unregister(Subject subject) {
+        subject.removeObserver(this);
+    }
+
+    @Override
+    public Subject getSubject() {
+        return subject;
+    }
 }
