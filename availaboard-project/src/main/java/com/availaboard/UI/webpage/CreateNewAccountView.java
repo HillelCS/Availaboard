@@ -52,6 +52,7 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
     private final Notification usernameExistsNotification = createErrorNotification("Username already exists!");
     private final Notification passwordDontMatchNotification = createErrorNotification("Passwords do not match!");
     private AccessControl accessControl;
+
     /**
      * A button that gets all the fields values and creates a {@link User} Object
      * with it. It then inserts the {@link User} Object into the
