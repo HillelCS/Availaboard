@@ -53,6 +53,9 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
     private final Notification passwordDontMatchNotification = createErrorNotification("Passwords do not match!");
     private AccessControl accessControl;
 
+    private final User tempUser = new User();
+
+
     /**
      * A button that gets all the fields values and creates a {@link User} Object
      * with it. It then inserts the {@link User} Object into the
@@ -66,15 +69,19 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
     }
     private final Button submitButton = new Button("Create an account", event -> {
         if (passwordField.getValue().equals(confirmPasswordField.getValue())) {
-            final User tempUser = new User();
-            tempUser.setName(firstNameField.getValue());
+
+            // User fields
             tempUser.setUsername(usernameField.getValue());
             tempUser.setPassword(passwordField.getValue());
             tempUser.setFirstName(firstNameField.getValue());
             tempUser.setLastName(lastNameField.getValue());
             tempUser.setEmail(emailField.getValue());
+
+            // Resource fields
+            tempUser.setName(firstNameField.getValue());
             tempUser.setPermissions(Permission.User);
             tempUser.setStatus(Status.AVAILABLE);
+
             try {
                 db.insertResourceIntoDatabase(tempUser);
                 accessControl.signIn(usernameField.getValue(), passwordField.getValue());
