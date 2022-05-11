@@ -86,6 +86,8 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
                 db.insertResourceIntoDatabase(tempUser);
                 accessControl.signIn(usernameField.getValue(), passwordField.getValue());
                 getUI().get().navigate(ViewFactory.createViewTypeInstance(UserInformationView.class).viewName());
+                ViewFactory.getViewControllerInstance().notifiyObservers();
+
             } catch (NameExistsException e) {
                 // Username exists in database
                 usernameExistsNotification.open();
