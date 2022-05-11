@@ -65,11 +65,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     @Override
     public void update() {
-
-        container.getChildren().forEach(node -> {
-            container.remove(node);
-        });
-
+        container.getChildren().forEach(node -> container.remove(node));
         container.add(gridLayout());
     }
 
