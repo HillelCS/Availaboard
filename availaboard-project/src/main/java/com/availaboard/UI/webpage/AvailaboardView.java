@@ -8,6 +8,7 @@ import com.availaboard.engine.resource.Equipment;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Room;
 import com.availaboard.engine.resource.User;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -18,6 +19,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+
+import java.util.Optional;
 
 @PageTitle("Availaboard")
 @CssImport("./styles/webpage-styles/availaboard.css")
@@ -82,5 +85,10 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
     @Override
     public Subject getSubject() {
         return ViewFactory.getViewControllerInstance();
+    }
+
+    @Override
+    public Optional<UI> getUI() {
+        return super.getUI();
     }
 }

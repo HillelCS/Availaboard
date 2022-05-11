@@ -7,9 +7,11 @@ import com.availaboard.UI.application_structure.view_structure.ViewAuthorization
 import com.availaboard.UI.application_structure.view_structure.ViewConfiguration;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Route(value = AdminView.VIEWNAME, layout = MainLayout.class)
@@ -23,6 +25,11 @@ public class AdminView extends VerticalLayout implements ViewAuthorization, Obse
 
     public AdminView() {
 
+    }
+
+    @Override
+    public Optional<UI> getUI() {
+        return super.getUI();
     }
 
     /**

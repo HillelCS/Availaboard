@@ -14,6 +14,7 @@ import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.availaboard.engine.sql_connection.NameExistsException;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -31,6 +32,7 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @CssImport("./styles/webpage-styles/user-information-view.css")
@@ -174,5 +176,10 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     @Override
     public Subject getSubject() {
         return ViewFactory.getViewControllerInstance();
+    }
+    
+    @Override
+    public Optional<UI> getUI() {
+        return super.getUI();
     }
 }

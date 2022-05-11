@@ -1,5 +1,7 @@
 package com.availaboard.UI.application_structure.observable;
 
+import com.vaadin.flow.component.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,10 @@ public class ViewController implements Subject {
 
     @Override
     public void notifiyObservers() {
-        observerList.forEach(observer -> observer.update());
+        observerList.forEach(observer -> {
+            observer.getUI().ifPresent(ui -> ui.access(() -> {
+                observer.update();
+            }));
+        });
     }
 }
