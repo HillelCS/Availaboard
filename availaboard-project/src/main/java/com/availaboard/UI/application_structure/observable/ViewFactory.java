@@ -12,6 +12,9 @@ import java.lang.reflect.InvocationTargetException;
  * {@link ViewAuthorization}.
  */
 public class ViewFactory {
+
+    private static final Subject subject = new ViewController();
+
     /**
      * A useful Factory method used to create a {@link ViewType} <code>Object</code> with a Class
      * that extends {@link Component}.
@@ -33,8 +36,7 @@ public class ViewFactory {
      * can communicate with the same {@link Subject}.
      * @return A static {@link Subject} concretely created with a {@link ViewController}.
      */
-    public static Subject createViewControllerInstance() {
-        Subject subject = new ViewController();
+    public static Subject getViewControllerInstance() {
         return subject;
     }
 }

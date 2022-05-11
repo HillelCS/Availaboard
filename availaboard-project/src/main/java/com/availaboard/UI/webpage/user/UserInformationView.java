@@ -41,8 +41,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
     private User user;
 
-    private final Subject subject = ViewFactory.createViewControllerInstance();
-
     /**
      *
      */
@@ -99,7 +97,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
             try {
                 db.updateResourceInDatabase(user);
-                subject.notifiyObservers();
+                ViewFactory.getViewControllerInstance().notifiyObservers();
                 successNotification.open();
             } catch (NameExistsException e) {
                 usernameExistsNotification.open();
@@ -174,6 +172,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
     @Override
     public Subject getSubject() {
-        return subject;
+        return ViewFactory.getViewControllerInstance();
     }
 }

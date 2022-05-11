@@ -31,7 +31,6 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
      */
     private static final long serialVersionUID = -4432887017833022089L;
 
-    private final Subject subject = ViewFactory.createViewControllerInstance();
     Div container = new Div();
 
     public AvailaboardView() {
@@ -82,6 +81,6 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     @Override
     public Subject getSubject() {
-        return subject;
+        return ViewFactory.getViewControllerInstance();
     }
 }
