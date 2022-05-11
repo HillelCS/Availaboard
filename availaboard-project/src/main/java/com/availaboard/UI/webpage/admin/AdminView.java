@@ -21,7 +21,7 @@ public class AdminView extends VerticalLayout implements ViewAuthorization, Obse
      */
     private static final long serialVersionUID = -118322660015469075L;
 
-    Subject subject = ViewFactory.createViewControllerInstance();
+    private final Subject subject = ViewFactory.createViewControllerInstance();
 
     public AdminView() {
 
