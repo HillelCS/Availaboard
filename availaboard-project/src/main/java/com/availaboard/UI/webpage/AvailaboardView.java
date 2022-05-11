@@ -46,8 +46,8 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
         layout.add(createResourceGrid(User.class));
         layout.add(createResourceGrid(Equipment.class));
         layout.add(createResourceGrid((Room.class)));
-        layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0px", 1), new FormLayout.ResponsiveStep("650px", 3));
-        layout.setWidth("100vw");
+        layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0px", 1), new FormLayout.ResponsiveStep("750px", 3));
+        layout.addClassName("grid-form-layout");
         return layout;
     }
 
