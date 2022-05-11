@@ -5,6 +5,7 @@ import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.view_structure.ViewConfiguration;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.webpage.admin.AdminView;
+import com.availaboard.UI.webpage.user.UserInformationView;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.resource.User;
@@ -64,7 +65,8 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
     }
     private final Button submitButton = new Button("Create an account", event -> {
         if (passwordField.getValue().equals(confirmPasswordField.getValue())) {
-            User tempUser = new User();
+            final User tempUser = new User();
+            tempUser.setName(firstNameField.getValue());
             tempUser.setUsername(usernameField.getValue());
             tempUser.setPassword(passwordField.getValue());
             tempUser.setFirstName(firstNameField.getValue());
@@ -75,7 +77,7 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
             try {
                 db.insertResourceIntoDatabase(tempUser);
                 accessControl.signIn(usernameField.getValue(), passwordField.getValue());
-                getUI().get().navigate(ViewFactory.createViewTypeInstance(AdminView.class).viewName());
+                getUI().get().navigate(ViewFactory.createViewTypeInstance(UserInformationView.class).viewName());
             } catch (NameExistsException e) {
                 // Username exists in database
                 usernameExistsNotification.open();
