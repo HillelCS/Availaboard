@@ -1,5 +1,6 @@
 package com.availaboard.UI.frontend_functionality;
 
+import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.ResourceFieldLoader;
@@ -174,6 +175,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
             } catch (ResourceDoesNotExistException e) {
                 throw new RuntimeException(e);
             }
+            ViewFactory.getViewControllerInstance().notifiyObservers();
             dialog.close();
         });
 

@@ -5,6 +5,7 @@ import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.view_structure.ViewConfiguration;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.webpage.admin.AdminView;
+import com.availaboard.UI.webpage.user.UserInformationView;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.resource.User;
@@ -51,6 +52,10 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
     private final Notification usernameExistsNotification = createErrorNotification("Username already exists!");
     private final Notification passwordDontMatchNotification = createErrorNotification("Passwords do not match!");
     private AccessControl accessControl;
+
+    private final User tempUser = new User();
+
+
     /**
      * A button that gets all the fields values and creates a {@link User} Object
      * with it. It then inserts the {@link User} Object into the
@@ -64,18 +69,25 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
     }
     private final Button submitButton = new Button("Create an account", event -> {
         if (passwordField.getValue().equals(confirmPasswordField.getValue())) {
-            User tempUser = new User();
+
+            // User fields
             tempUser.setUsername(usernameField.getValue());
             tempUser.setPassword(passwordField.getValue());
             tempUser.setFirstName(firstNameField.getValue());
             tempUser.setLastName(lastNameField.getValue());
             tempUser.setEmail(emailField.getValue());
+
+            // Resource fields
+            tempUser.setName(firstNameField.getValue());
             tempUser.setPermissions(Permission.User);
             tempUser.setStatus(Status.AVAILABLE);
+
             try {
                 db.insertResourceIntoDatabase(tempUser);
                 accessControl.signIn(usernameField.getValue(), passwordField.getValue());
-                getUI().get().navigate(ViewFactory.createViewTypeInstance(AdminView.class).viewName());
+                getUI().get().navigate(ViewFactory.createViewTypeInstance(UserInformationView.class).viewName());
+                ViewFactory.getViewControllerInstance().notifiyObservers();
+
             } catch (NameExistsException e) {
                 // Username exists in database
                 usernameExistsNotification.open();

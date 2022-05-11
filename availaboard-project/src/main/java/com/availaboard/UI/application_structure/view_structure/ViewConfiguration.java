@@ -12,7 +12,7 @@ public interface ViewConfiguration extends ViewType, BeforeEnterObserver {
     void initialize();
 
     /**
-     * Calls the addAll() method before the page loads up. Also
+     * Calls the initialize() method before the page loads up. Also
      * set's the route as the getViewName() implementation and the
      * ParentLayout as the {@link MainLayout}.
      *
