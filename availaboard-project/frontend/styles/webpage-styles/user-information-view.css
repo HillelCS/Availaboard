@@ -10,6 +10,7 @@
 .username-status-container {
    margin-top: 25px;
    max-width: 25vw;
+   min-width: 200px;
    background-color: black;
    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
  }
