@@ -24,7 +24,7 @@ public class LoginView extends FlexLayout implements ViewConfiguration {
 
     protected static final String VIEWNAME = "login";
     private static final long serialVersionUID = -6633815459114206330L;
-    private AccessControl accessControl;
+    private final AccessControl accessControl;
     private final LoginForm loginForm = new LoginForm();
     private final FlexLayout centeringLayout = new FlexLayout();
 
