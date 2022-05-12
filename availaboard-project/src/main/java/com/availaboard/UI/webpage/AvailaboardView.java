@@ -8,6 +8,7 @@ import com.availaboard.engine.resource.Equipment;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Room;
 import com.availaboard.engine.resource.User;
+import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -20,7 +21,9 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @PageTitle("Availaboard")
 @CssImport("./styles/webpage-styles/availaboard.css")
@@ -34,7 +37,13 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
      */
     private static final long serialVersionUID = -4432887017833022089L;
 
+    AvailaboardSQLConnection db = new AvailaboardSQLConnection();
+
     Div container = new Div();
+
+    private final Grid<Resource> userGrid = createResourceGrid(User.class);
+    private final Grid<Resource> equipmentGrid = createResourceGrid(Equipment.class);
+    private final Grid<Resource> roomGrid = createResourceGrid(Room.class);
 
     public AvailaboardView() {
         container.addClassName("grid-container");
@@ -43,9 +52,9 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     private FormLayout gridLayout() {
         final FormLayout layout = new FormLayout();
-        layout.add(createResourceGrid(User.class));
-        layout.add(createResourceGrid(Equipment.class));
-        layout.add(createResourceGrid((Room.class)));
+        layout.add(userGrid);
+        layout.add(equipmentGrid);
+        layout.add(roomGrid);
         layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0px", 1), new FormLayout.ResponsiveStep("750px", 3));
         layout.addClassName("grid-form-layout");
         return layout;
@@ -68,8 +77,9 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     @Override
     public void update() {
-        container.getChildren().forEach(node -> container.remove(node));
-        container.add(gridLayout());
+        userGrid.setItems((Collection) (db.loadResources(User.class)));
+        equipmentGrid.setItems((Collection) (db.loadResources(Equipment.class)));
+        roomGrid.setItems((Collection) (db.loadResources(Room.class)));
     }
 
     @Override
