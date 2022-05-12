@@ -47,6 +47,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
      *
      */
     private static final long serialVersionUID = -2025064138726788718L;
+    private final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
     private final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
     private String content;
 
@@ -117,14 +118,13 @@ public class ResourceGrid<E extends Resource> extends Grid {
      * them to the grid. If the {@link CurrentUser} has {@link Permission#Admin} then
      * they get the delete button added to the grid.
      *
-     * @param res           The type of {@link Resource} that the {@link Grid} use's to load
-     *                      the {@link Resource}'s.
-     * @param accessControl
+     * @param res The type of {@link Resource} that the {@link Grid} use's to load
+     *            the {@link Resource}'s.
      * @return A {@link Grid} with two columns and all of the {@link Resource} of
      * type <code>E</code> added.
      */
 
-    public Grid<E> loadGrid(final Class<? extends Resource> res, AccessControl accessControl) {
+    public Grid<E> loadGrid(final Class<? extends Resource> res) {
         try {
             final Grid<E> grid = new Grid<>();
             final Column<E> nameColumn;

@@ -8,8 +8,6 @@ import com.availaboard.engine.resource.Equipment;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Room;
 import com.availaboard.engine.resource.User;
-import com.availaboard.engine.security.AccessControl;
-import com.availaboard.engine.security.AccessControlFactory;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -55,7 +53,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     private Grid<Resource> createResourceGrid(Class<? extends Resource> res) {
         final ResourceGrid<Resource> grid = new ResourceGrid<>();
-        return grid.loadGrid(res, AccessControlFactory.getInstance().createAccessControl());
+        return grid.loadGrid(res);
     }
 
     @Override
