@@ -24,9 +24,15 @@ public class ViewController implements Subject {
     @Override
     public void notifiyObservers() {
         observerList.forEach(observer -> {
-            observer.getUI().ifPresent(ui -> ui.access(() -> {
-                observer.update();
-            }));
+            observer.getUI().ifPresent(ui -> {
+                ui.access(() -> {
+                    try {
+                        observer.update();
+                    } catch (IllegalStateException ignored) {
+
+                    }
+                });
+            });
         });
     }
 }
