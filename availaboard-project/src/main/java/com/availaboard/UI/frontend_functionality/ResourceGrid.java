@@ -128,7 +128,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
         try {
             final Grid<E> grid = new Grid<>();
             final Column<E> nameColumn;
-            if(accessControl.isUserInRole(Permission.Admin)) {
+            if (accessControl.isUserInRole(Permission.Admin)) {
                 nameColumn = grid.addComponentColumn(this::dialogPopupButtonWithDeleteButton).setHeader("Name").setWidth("50%")
                         .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
             } else {
@@ -136,7 +136,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
                         .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
             }
 
-            final Column<E> statusColumn = grid.addComponentColumn(ResourceGrid::statusLabel).setHeader("Status").setWidth("50%")
+            final Column<E> statusColumn = grid.addComponentColumn(VaadinComponentUtilitys::statusLabel).setHeader("Status").setWidth("50%")
                     .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
             grid.addClassName("availaboard-grid");
             grid.setAllRowsVisible(true);
@@ -233,32 +233,14 @@ public class ResourceGrid<E extends Resource> extends Grid {
     /**
      * Adds both the dialogPopupButton() and confirmDeleteDialog()
      * {@link Button}'s to a {@link HorizontalLayout}.
+     *
      * @param res The selected {@link Resource}.
      * @return A {@link HorizontalLayout} of the dialogPopupButton() and confirmDeleteDialog()
-     *      * {@link Button}s.
+     * * {@link Button}s.
      */
     private HorizontalLayout dialogPopupButtonWithDeleteButton(Resource res) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.add(confirmDeletePopupButton(res), dialogPopupButton(res));
         return layout;
-    }
-
-    /**
-     * Creates a {@link Label} with the text "Available" or "Busy"
-     * depending on the {@link Resource}'s {@link Status}.
-     * The color is also either Red or Green depending on it's
-     * {@link Status}.
-     *
-     * @param res The {@link Resource} used to see if it's {@link Status} is
-     *            <code>Busy</code> or <code>Available</code>
-     * @return A {@link Label} with text set to the {@link Status} of the
-     * {@link Resource} and corresponding color.
-     */
-    public static Label statusLabel(final Resource res) {
-        final Label label = new Label();
-        label.setText(res.getStatus().toString());
-        final String labelClassName = res.getStatus() == Status.AVAILABLE ? "label-available" : "label-busy";
-        label.addClassName(labelClassName);
-        return label;
     }
 }

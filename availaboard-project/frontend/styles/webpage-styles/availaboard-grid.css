@@ -1,13 +1,3 @@
-.label-available {
-	font-family: Arial, Helvetica, sans-serif;
-	color: #5aff15;
-}
-           
-.label-busy {
-	font-family: Arial, Helvetica, sans-serif;
-	color: red;
-}
-
 .availaboard-grid {
 	width: 100vw;
 	margin-top: 15px;

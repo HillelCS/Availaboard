@@ -78,7 +78,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     }
 
     private void setUpUserProfile() {
-        statusLabel = ResourceGrid.statusLabel(user);
+        statusLabel = VaadinComponentUtilitys.statusLabel();
         usernameLabel = new Label(user.getUsername());
         usernameLabel.addClassName("username-label");
         statusLabel.addClassName("status-label");
