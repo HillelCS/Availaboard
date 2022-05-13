@@ -5,6 +5,7 @@ import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
+import com.availaboard.UI.frontend_functionality.VaadinComponentUtilitys;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Status;
@@ -78,7 +79,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     }
 
     private void setUpUserProfile() {
-        statusLabel = VaadinComponentUtilitys.statusLabel();
+        statusLabel = VaadinComponentUtilitys.statusLabel(user);
         usernameLabel = new Label(user.getUsername());
         usernameLabel.addClassName("username-label");
         statusLabel.addClassName("status-label");
@@ -160,7 +161,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     public void update() {
         usernameLabel.setText(user.getUsername());
         statusLabel.removeAll();
-        statusLabel.add(ResourceGrid.statusLabel(user));
+        statusLabel.add(VaadinComponentUtilitys.statusLabel(user));
     }
 
     @Override
