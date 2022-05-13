@@ -4,7 +4,6 @@ import com.availaboard.UI.application_structure.observable.Observer;
 import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
-import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.UI.frontend_functionality.VaadinComponentUtilitys;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
@@ -42,7 +41,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
     protected static final String VIEWNAME = "user-information";
 
-    private User user;
+    private final User user;
 
     /**
      *
@@ -68,7 +67,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     private final FormLayout layout = new FormLayout();
 
     private final VerticalLayout userStatusContainer = new VerticalLayout();
-    private AccessControl accessControl;
+    private final AccessControl accessControl;
 
     public UserInformationView() {
         accessControl = AccessControlFactory.getInstance().createAccessControl();

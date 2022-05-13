@@ -1,10 +1,10 @@
 package com.availaboard.engine.security;
 
-import java.io.Serializable;
-import java.util.stream.Stream;
-
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.User;
+
+import java.io.Serializable;
+import java.util.stream.Stream;
 
 /**
  * Regulates {@link User} sessions.

@@ -1,9 +1,9 @@
 package com.availaboard.UI.webpage;
 
-import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.UI.application_structure.observable.Observer;
 import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
+import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.engine.resource.Equipment;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Room;
@@ -23,7 +23,6 @@ import com.vaadin.flow.theme.lumo.Lumo;
 
 import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @PageTitle("Availaboard")
 @CssImport("./styles/webpage-styles/availaboard.css")
@@ -37,9 +36,9 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
      */
     private static final long serialVersionUID = -4432887017833022089L;
 
-    AvailaboardSQLConnection db = new AvailaboardSQLConnection();
+    private final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
-    Div container = new Div();
+    private final Div container = new Div();
 
     private final Grid<Resource> userGrid = createResourceGrid(User.class);
     private final Grid<Resource> equipmentGrid = createResourceGrid(Equipment.class);
