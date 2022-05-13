@@ -5,7 +5,6 @@ import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
 import com.availaboard.UI.application_structure.view_structure.ViewConfiguration;
-import com.availaboard.UI.frontend_functionality.VaadinComponentUtilitys;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
 import com.vaadin.flow.component.UI;
@@ -55,7 +54,7 @@ public class AdminView extends VerticalLayout implements ViewAuthorization, Obse
 
     @Override
     public void update() {
-        VaadinComponentUtilitys.showReloadNotification();
+
     }
 
     @Override

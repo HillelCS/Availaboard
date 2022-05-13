@@ -4,7 +4,6 @@ import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.UI.application_structure.observable.Observer;
 import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
-import com.availaboard.UI.frontend_functionality.VaadinComponentUtilitys;
 import com.availaboard.engine.resource.Equipment;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Room;
@@ -81,7 +80,6 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
         userGrid.setItems((Collection) (db.loadResources(User.class)));
         equipmentGrid.setItems((Collection) (db.loadResources(Equipment.class)));
         roomGrid.setItems((Collection) (db.loadResources(Room.class)));
-        VaadinComponentUtilitys.showReloadNotification();
     }
 
     @Override

@@ -31,7 +31,6 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import com.availaboard.UI.frontend_functionality.VaadinComponentUtilitys;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -42,7 +41,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
     protected static final String VIEWNAME = "user-information";
 
-    private final User user;
+    private User user;
 
     /**
      *
@@ -68,7 +67,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     private final FormLayout layout = new FormLayout();
 
     private final VerticalLayout userStatusContainer = new VerticalLayout();
-    private final AccessControl accessControl;
+    private AccessControl accessControl;
 
     public UserInformationView() {
         accessControl = AccessControlFactory.getInstance().createAccessControl();
@@ -79,7 +78,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     }
 
     private void setUpUserProfile() {
-        statusLabel = VaadinComponentUtilitys.statusLabel(user);
+        statusLabel = VaadinComponentUtilitys.statusLabel();
         usernameLabel = new Label(user.getUsername());
         usernameLabel.addClassName("username-label");
         statusLabel.addClassName("status-label");
@@ -161,8 +160,7 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     public void update() {
         usernameLabel.setText(user.getUsername());
         statusLabel.removeAll();
-        statusLabel.add(VaadinComponentUtilitys.statusLabel(user));
-        VaadinComponentUtilitys.showReloadNotification();
+        statusLabel.add(ResourceGrid.statusLabel(user));
     }
 
     @Override
