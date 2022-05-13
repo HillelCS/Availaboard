@@ -2,9 +2,14 @@ package com.availaboard.UI.frontend_functionality;
 
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.Status;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Label;
 
+/**
+ * A class used to create Vaadin {@link Component}'s that are
+ * used throughout the application. 
+ */
 @CssImport("./styles/webpage-styles/vaadin-component-utilitys.css")
 public class VaadinComponentUtilitys {
 
