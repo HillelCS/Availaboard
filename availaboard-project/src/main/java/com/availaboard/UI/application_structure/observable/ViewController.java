@@ -1,7 +1,5 @@
 package com.availaboard.UI.application_structure.observable;
 
-import com.vaadin.flow.component.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 

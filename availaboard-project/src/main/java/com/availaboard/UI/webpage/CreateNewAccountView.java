@@ -1,10 +1,7 @@
 package com.availaboard.UI.webpage;
 
-import com.availaboard.UI.application_structure.observable.Observer;
-import com.availaboard.UI.application_structure.observable.Subject;
-import com.availaboard.UI.application_structure.view_structure.ViewConfiguration;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
-import com.availaboard.UI.webpage.admin.AdminView;
+import com.availaboard.UI.application_structure.view_structure.ViewConfiguration;
 import com.availaboard.UI.webpage.user.UserInformationView;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Status;

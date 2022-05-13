@@ -8,7 +8,7 @@ import com.vaadin.flow.component.html.Label;
 
 /**
  * A class used to create Vaadin {@link Component}'s that are
- * used throughout the application. 
+ * used throughout the application.
  */
 @CssImport("./styles/webpage-styles/vaadin-component-utilitys.css")
 public class VaadinComponentUtilitys {

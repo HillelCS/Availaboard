@@ -1,7 +1,7 @@
 package com.availaboard.UI.webpage;
 
-import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
+import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
 import com.availaboard.UI.application_structure.view_structure.ViewType;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
