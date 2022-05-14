@@ -4,25 +4,35 @@ import com.availaboard.UI.application_structure.observable.Observer;
 import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
-import com.availaboard.engine.resource.Equipment;
-import com.availaboard.engine.resource.Resource;
-import com.availaboard.engine.resource.Room;
-import com.availaboard.engine.resource.User;
+import com.availaboard.engine.resource.*;
+import com.availaboard.engine.security.AccessControl;
+import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.AppShellConfigurator;
+import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @PageTitle("Availaboard")
 @CssImport("./styles/webpage-styles/availaboard.css")
@@ -40,11 +50,14 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     private final Div container = new Div();
 
+    private final AccessControl accessControl;
+
     private final Grid<Resource> userGrid = createResourceGrid(User.class);
     private final Grid<Resource> equipmentGrid = createResourceGrid(Equipment.class);
     private final Grid<Resource> roomGrid = createResourceGrid(Room.class);
 
     public AvailaboardView() {
+        accessControl = AccessControlFactory.getInstance().createAccessControl();
         container.addClassName("grid-container");
         container.add(gridLayout());
     }
@@ -64,8 +77,98 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
         return grid.loadGrid(res);
     }
 
+    /**
+     * Adds the addResourceButton if the {@link CurrentUser} is an Admin.
+     * The addResourceButton creates a NewResourceDialogLayout when it is clicked.
+     * It passes in the {@link Resource} selected in the
+     * {@link Select}.
+     */
+    private void addResourceButtonIfApplicable() {
+        if (accessControl.isUserInRole(Permission.Admin)) {
+
+            final Select<String> select = new Select<>();
+            final HorizontalLayout horizontalLayout = new HorizontalLayout();
+
+            final Button addResourceButton = new Button(new Icon(VaadinIcon.PLUS), event -> {
+                final Dialog dialog = new Dialog();
+                final VerticalLayout dialogLayout;
+                dialogLayout = createNewResourceDialogLayout(dialog, ResourceFactory.createResource(select.getValue()));
+                dialog.add(dialogLayout);
+                dialog.setModal(true);
+                dialog.setDraggable(true);
+                dialog.open();
+            });
+
+            select.setItems(Room.class.getSimpleName(), Equipment.class.getSimpleName());
+            select.setValue(Room.class.getClass().getSimpleName());
+
+            horizontalLayout.add(addResourceButton, select);
+            add(horizontalLayout);
+            setHorizontalComponentAlignment(Alignment.END, horizontalLayout);
+        }
+    }
+
+
+    /**
+     * <p>
+     * A {@link VerticalLayout} created to be added to a {@link Dialog}. The Method
+     * iterates through every <code> Field </code> in the {@link Resource} with the
+     * {@link ResourceFieldLoader} and displays it's label as the Field's "nickname,"
+     * and provides a {@link TextField} for the User to input that Fields information in.
+     *
+     * @param dialog The {@link Dialog} that this specific {@link VerticalLayout}
+     *               should be added to.
+     * @param res    The {@link Resource} with the fields that will be added to the
+     *               {@link VerticalLayout}.
+     * @return A {@link VerticalLayout} with all the {@link ResourceFieldLoader}'s
+     * <code> Field </code> names and value's added.
+     */
+    private VerticalLayout createNewResourceDialogLayout(final Dialog dialog, final Resource res) {
+
+        final VerticalLayout dialogLayout = new VerticalLayout();
+
+        final H2 headline = new H2("Create a new " + res.getClass().getSimpleName());
+        headline.getStyle().set("margin", "0").set("font-size", "2.5em").set("font-weight", "bold");
+        final HorizontalLayout header = new HorizontalLayout(headline);
+        header.getElement().getClassList().add("draggable");
+        header.setSpacing(false);
+        header.getStyle().set("border-bottom", "1px solid var(--lumo-contrast-20pct)").set("cursor", "move");
+        header.getStyle().set("padding", "var(--lumo-space-m) var(--lumo-space-l)").set("margin", "calc(var(--lumo-space-s) * -1) calc(var(--lumo-space-l) * -1) 0");
+
+        final VerticalLayout fieldLayout = new VerticalLayout();
+        final Field[] resourceFields = res.getClass().getDeclaredFields();
+
+        final Stream<Field> stream = Arrays.stream(resourceFields);
+
+        stream.forEach(field -> {
+            if (field.isAnnotationPresent(ResourceFieldLoader.class)) {
+                try {
+                    field.setAccessible(true);
+                    final ResourceFieldLoader fieldLoader = field.getAnnotation(ResourceFieldLoader.class);
+                    TextField textField = new TextField(fieldLoader.value());
+                    fieldLayout.add(textField);
+                } catch (final IllegalArgumentException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        fieldLayout.setSpacing(false);
+        fieldLayout.setPadding(false);
+
+        final Button finishedButton = new Button("Done", e -> dialog.close());
+        final HorizontalLayout buttonLayout = new HorizontalLayout(finishedButton);
+        dialogLayout.add(header, fieldLayout, buttonLayout);
+        dialogLayout.setPadding(false);
+
+        dialogLayout.getStyle().set("width", "350px");
+
+        return dialogLayout;
+    }
+
     @Override
     public void initialize() {
+        addResourceButtonIfApplicable();
         add(container);
     }
 
