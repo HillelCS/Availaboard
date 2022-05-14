@@ -101,7 +101,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
             });
 
             select.setItems(Room.class.getSimpleName(), Equipment.class.getSimpleName());
-            select.setValue(Room.class.getClass().getSimpleName());
+            select.setValue(Room.class.getSimpleName());
 
             horizontalLayout.add(addResourceButton, select);
             add(horizontalLayout);
