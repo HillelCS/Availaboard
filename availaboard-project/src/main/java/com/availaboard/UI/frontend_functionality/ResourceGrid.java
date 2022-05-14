@@ -4,9 +4,11 @@ import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Resource;
 import com.availaboard.engine.resource.ResourceFieldLoader;
+import com.availaboard.engine.resource.Status;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
+import com.availaboard.engine.sql_connection.NameExistsException;
 import com.availaboard.engine.sql_connection.ResourceDoesNotExistException;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -24,6 +26,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -127,16 +130,21 @@ public class ResourceGrid<E extends Resource> extends Grid {
         try {
             final Grid<E> grid = new Grid<>();
             final Column<E> nameColumn;
+            final Column<E> statusColumn;
+
             if (accessControl.isUserInRole(Permission.Admin)) {
                 nameColumn = grid.addComponentColumn(this::dialogPopupButtonWithDeleteButton).setHeader("Name").setWidth("50%")
+                        .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
+                statusColumn = grid.addComponentColumn(this::statusPopupButton).setHeader("Status").setWidth("50%")
                         .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
             } else {
                 nameColumn = grid.addComponentColumn(this::dialogPopupButton).setHeader("Name").setWidth("50%")
                         .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
+                statusColumn = grid.addComponentColumn(VaadinComponentUtilitys::statusLabel).setHeader("Status").setWidth("50%")
+                        .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
             }
 
-            final Column<E> statusColumn = grid.addComponentColumn(VaadinComponentUtilitys::statusLabel).setHeader("Status").setWidth("50%")
-                    .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
+
             grid.addClassName("availaboard-grid");
             grid.setAllRowsVisible(true);
             grid.setItems((Collection<E>) (db.loadResources(res)));
@@ -241,5 +249,45 @@ public class ResourceGrid<E extends Resource> extends Grid {
         HorizontalLayout layout = new HorizontalLayout();
         layout.add(confirmDeletePopupButton(res), dialogPopupButton(res));
         return layout;
+    }
+
+    private Button statusPopupButton(final Resource res) {
+        final Dialog dialog = new Dialog();
+        final VerticalLayout dialogLayout = createStatusDialogLayout(dialog, res);
+        dialog.add(dialogLayout);
+        dialog.setModal(true);
+        dialog.setDraggable(true);
+        final Button button = new Button(VaadinComponentUtilitys.statusLabel(res), e -> dialog.open());
+        return button;
+    }
+
+    private VerticalLayout createStatusDialogLayout(Dialog dialog, Resource res) {
+
+        final VerticalLayout dialogLayout = new VerticalLayout();
+        
+
+        final Select<Status> statusField = new Select<>();
+        statusField.setLabel("Status");
+        statusField.setItems(Status.AVAILABLE, Status.BUSY);
+        statusField.setValue(res.getStatus());
+
+        final Button confirmButton = new Button("Confirm", event -> {
+            try {
+                res.setStatus(statusField.getValue());
+                db.updateResourceInDatabase(res);
+            } catch (NameExistsException e) {
+                throw new RuntimeException(e);
+            }
+            ViewFactory.getViewControllerInstance().notifiyObservers();
+            dialog.close();
+        });
+
+        confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
+        dialogLayout.add(statusField, confirmButton);
+
+        dialog.setWidth("300px");
+        dialog.setHeight("200px");
+
+        return dialogLayout;
     }
 }
