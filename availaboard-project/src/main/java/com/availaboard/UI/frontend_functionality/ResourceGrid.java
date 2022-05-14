@@ -105,6 +105,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
         fieldLayout.setPadding(false);
 
         final Button finishedButton = new Button("Done", e -> dialog.close());
+        finishedButton.setAutofocus(true);
         final HorizontalLayout buttonLayout = new HorizontalLayout(finishedButton);
         dialogLayout.add(header, fieldLayout, buttonLayout);
         dialogLayout.setPadding(false);
@@ -186,6 +187,8 @@ public class ResourceGrid<E extends Resource> extends Grid {
             dialog.close();
         });
 
+        confirmButton.setAutofocus(true);
+
         confirmButton.setClassName("confirm-button");
 
         cancelButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
@@ -264,7 +267,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
     private VerticalLayout createStatusDialogLayout(Dialog dialog, Resource res) {
 
         final VerticalLayout dialogLayout = new VerticalLayout();
-        
+
 
         final Select<Status> statusField = new Select<>();
         statusField.setLabel("Status");

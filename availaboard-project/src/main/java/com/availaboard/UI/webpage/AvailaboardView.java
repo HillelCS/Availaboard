@@ -193,6 +193,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
                 throw new RuntimeException(ex);
             }
         });
+        finishedButton.setAutofocus(true);
         final HorizontalLayout buttonLayout = new HorizontalLayout(finishedButton, cancelButton);
         dialogLayout.add(header, fieldLayout, buttonLayout);
         dialogLayout.setPadding(false);

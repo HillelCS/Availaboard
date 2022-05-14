@@ -107,6 +107,8 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
             }
         });
 
+        applyButton.setAutofocus(true);
+
         select.setLabel("Status");
         select.setItems(Status.AVAILABLE, Status.BUSY);
 
