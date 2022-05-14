@@ -58,8 +58,8 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
 
     Select<Status> select = new Select<>();
 
-    private final Notification successNotification = createNotification("Successfully updated User", NotificationVariant.LUMO_SUCCESS);
-    private final Notification usernameExistsNotification = createNotification("Another User already has this Username", NotificationVariant.LUMO_ERROR);
+    private final Notification successNotification = VaadinComponentUtilitys.createNotification("Successfully updated User", NotificationVariant.LUMO_SUCCESS, 1000);
+    private final Notification usernameExistsNotification = VaadinComponentUtilitys.createNotification("Another User already has this Username", NotificationVariant.LUMO_ERROR, 1000);
 
     private final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
 
@@ -101,7 +101,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
                 db.updateResourceInDatabase(user);
                 ViewFactory.getViewControllerInstance().notifiyObservers();
                 successNotification.open();
-
             } catch (NameExistsException e) {
                 usernameExistsNotification.open();
             }
@@ -142,20 +141,6 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     @Override
     public String viewName() {
         return VIEWNAME;
-    }
-
-    private Notification createNotification(final String text, NotificationVariant variant) {
-        final Notification notification = new Notification();
-        notification.addThemeVariants(variant);
-        final Div notificationText = new Div(new Text(text));
-        final Button closeButton = new Button(new Icon("lumo", "cross"));
-        closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-        closeButton.getElement().setAttribute("aria-label", "Close");
-        closeButton.addClickListener(event -> notification.close());
-        final HorizontalLayout layout = new HorizontalLayout(notificationText, closeButton);
-        layout.setAlignItems(FlexComponent.Alignment.CENTER);
-        notification.add(layout);
-        return notification;
     }
 
     @Override

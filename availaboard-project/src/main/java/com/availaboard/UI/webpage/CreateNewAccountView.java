@@ -2,6 +2,7 @@ package com.availaboard.UI.webpage;
 
 import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.application_structure.view_structure.ViewConfiguration;
+import com.availaboard.UI.frontend_functionality.VaadinComponentUtilitys;
 import com.availaboard.UI.webpage.user.UserInformationView;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.resource.Status;
@@ -46,8 +47,8 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
     private final TextField emailField = new TextField("Email");
     private final H1 createNewAccountLabel = new H1("Create A New Account");
     private final FormLayout layout = new FormLayout();
-    private final Notification usernameExistsNotification = createErrorNotification("Username already exists!");
-    private final Notification passwordDontMatchNotification = createErrorNotification("Passwords do not match!");
+    private final Notification usernameExistsNotification = VaadinComponentUtilitys.createNotification("Username already exists!", NotificationVariant.LUMO_ERROR, 1000);
+    private final Notification passwordDontMatchNotification = VaadinComponentUtilitys.createNotification("Passwords do not match!", NotificationVariant.LUMO_ERROR, 1000);
     private AccessControl accessControl;
 
     private final User tempUser = new User();
@@ -100,23 +101,6 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
         layout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1), new FormLayout.ResponsiveStep("500px", 2));
         layout.setColspan(usernameField, 2);
         layout.setColspan(emailField, 2);
-    }
-
-    private Notification createErrorNotification(final String text) {
-        final Notification notification = new Notification();
-        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        final Div notificationText = new Div(new Text(text));
-        final Button closeButton = new Button(new Icon("lumo", "cross"));
-        closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-        closeButton.getElement().setAttribute("aria-label", "Close");
-        closeButton.addClickListener(event -> notification.close());
-
-        final HorizontalLayout layout = new HorizontalLayout(notificationText, closeButton);
-        layout.setAlignItems(Alignment.CENTER);
-
-        notification.add(layout);
-
-        return notification;
     }
 
     @Override
