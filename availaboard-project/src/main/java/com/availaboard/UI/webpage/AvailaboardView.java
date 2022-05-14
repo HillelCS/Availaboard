@@ -151,6 +151,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
         final Select<Status> statusField = new Select<>();
         statusField.setLabel("Status");
         statusField.setItems(Status.AVAILABLE, Status.BUSY);
+        statusField.setValue(Status.AVAILABLE);
 
         fieldLayout.add(nameField, statusField);
 
