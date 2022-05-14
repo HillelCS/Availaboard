@@ -8,6 +8,7 @@ import com.availaboard.engine.resource.*;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
+import com.availaboard.engine.sql_connection.NameExistsException;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -115,6 +116,12 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
      * iterates through every <code> Field </code> in the {@link Resource} with the
      * {@link ResourceFieldLoader} and displays it's label as the Field's "nickname,"
      * and provides a {@link TextField} for the User to input that Fields information in.
+     * When the values of the TextFields changes it set's that value to the value of the
+     * dialogResource.
+     *
+     * The dialogResource is cloned so the res being passed in is not mutated.
+     * If the add button is pressed then the dialogResource is inserted into the
+     * database. If the cancel button is hit then the Dialog is closed.
      *
      * @param dialog The {@link Dialog} that this specific {@link VerticalLayout}
      *               should be added to.
@@ -124,6 +131,8 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
      * <code> Field </code> names and value's added.
      */
     private VerticalLayout createNewResourceDialogLayout(final Dialog dialog, final Resource res) {
+
+        final Resource dialogResource = ResourceFactory.createResource(res.getClass().getSimpleName());
 
         final VerticalLayout dialogLayout = new VerticalLayout();
 
@@ -138,6 +147,13 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
         final VerticalLayout fieldLayout = new VerticalLayout();
         final Field[] resourceFields = res.getClass().getDeclaredFields();
 
+        final TextField nameField = new TextField("Name");
+        final Select<Status> statusField = new Select<>();
+        statusField.setLabel("Status");
+        statusField.setItems(Status.AVAILABLE, Status.BUSY);
+
+        fieldLayout.add(nameField, statusField);
+
         final Stream<Field> stream = Arrays.stream(resourceFields);
 
         stream.forEach(field -> {
@@ -146,6 +162,13 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
                     field.setAccessible(true);
                     final ResourceFieldLoader fieldLoader = field.getAnnotation(ResourceFieldLoader.class);
                     TextField textField = new TextField(fieldLoader.value());
+                    textField.addValueChangeListener(change -> {
+                        try {
+                            field.set(dialogResource, change.getValue());
+                        } catch (IllegalAccessException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
                     fieldLayout.add(textField);
                 } catch (final IllegalArgumentException e1) {
                     e1.printStackTrace();
@@ -156,8 +179,20 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
         fieldLayout.setSpacing(false);
         fieldLayout.setPadding(false);
 
-        final Button finishedButton = new Button("Done", e -> dialog.close());
-        final HorizontalLayout buttonLayout = new HorizontalLayout(finishedButton);
+        final Button cancelButton = new Button("Cancel", e -> dialog.close());
+        final Button finishedButton = new Button("Add", e -> {
+            try {
+                dialogResource.setName(nameField.getValue());
+                dialogResource.setStatus(statusField.getValue());
+                db.insertResourceIntoDatabase(dialogResource);
+                ViewFactory.getViewControllerInstance().notifiyObservers();
+                dialog.close();
+            } catch (NameExistsException ex) {
+                //TODO add error notificaiton
+                throw new RuntimeException(ex);
+            }
+        });
+        final HorizontalLayout buttonLayout = new HorizontalLayout(finishedButton, cancelButton);
         dialogLayout.add(header, fieldLayout, buttonLayout);
         dialogLayout.setPadding(false);
 
