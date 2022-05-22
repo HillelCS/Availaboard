@@ -9,13 +9,9 @@ import com.vaadin.flow.router.BeforeLeaveObserver;
 import java.util.Optional;
 
 /**
- * Used to show a class is an Observer. It extends {@link ViewConfiguration} because
- * many classes also use that interface which uses the BeforeEnterObserver interface
- * causing conflicts. So, you do <bold>not</bold> have to implement the {@link ViewConfiguration}
- * interface if you implement this interface.
- *
+ * Used to show a class is an Observer.
  */
-public interface Observer extends BeforeLeaveObserver, ViewConfiguration {
+public interface Observer {
 
     /**
      * A method called on all the Observers any time the
@@ -41,23 +37,5 @@ public interface Observer extends BeforeLeaveObserver, ViewConfiguration {
      * @return The {@link Subject} that the Observer implementation is communicating with.
      */
     Subject getSubject();
-
-    /**
-     * Registers the current View as an Observer to the Subject and
-     * initializes the view.
-     * @param event before navigation event with event details
-     */
-    @Override
-    default void beforeEnter(final BeforeEnterEvent event) {
-        register(getSubject());
-        initialize();
-    }
-
-    @Override
-    default void beforeLeave(final BeforeLeaveEvent event) {
-        unregister(getSubject());
-    }
-
-    Optional<UI> getUI();
 
 }

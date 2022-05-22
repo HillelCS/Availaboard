@@ -3,6 +3,7 @@ package com.availaboard.UI.webpage;
 import com.availaboard.UI.application_structure.observable.Observer;
 import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
+import com.availaboard.UI.application_structure.view_structure.ViewObserver;
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
 import com.availaboard.engine.resource.*;
 import com.availaboard.engine.security.AccessControl;
@@ -39,7 +40,7 @@ import java.util.stream.Stream;
 @CssImport("./styles/webpage-styles/availaboard.css")
 @Theme(themeClass = Lumo.class, variant = Lumo.DARK)
 @Route(value = AvailaboardView.VIEWNAME, layout = MainLayout.class)
-public class AvailaboardView extends VerticalLayout implements AppShellConfigurator, Observer {
+public class AvailaboardView extends VerticalLayout implements AppShellConfigurator, ViewObserver {
 
     protected static final String VIEWNAME = "/";
     /**

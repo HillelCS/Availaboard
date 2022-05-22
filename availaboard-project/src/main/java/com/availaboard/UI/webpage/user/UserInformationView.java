@@ -4,6 +4,7 @@ import com.availaboard.UI.application_structure.observable.Observer;
 import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
+import com.availaboard.UI.application_structure.view_structure.ViewObserver;
 import com.availaboard.UI.frontend_functionality.VaadinComponentUtilitys;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
@@ -37,7 +38,7 @@ import java.util.stream.Stream;
 
 @CssImport("./styles/webpage-styles/user-information-view.css")
 @Route(value = UserInformationView.VIEWNAME, layout = MainLayout.class)
-public class UserInformationView extends VerticalLayout implements ViewAuthorization, Observer {
+public class UserInformationView extends VerticalLayout implements ViewAuthorization, ViewObserver {
 
     protected static final String VIEWNAME = "user-information";
 
