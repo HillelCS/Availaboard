@@ -12,7 +12,7 @@ public class ResourceFactory {
         } else  if(name.equals("User")) {
             return new User();
         } else {
-            return new Resource();
+            return null;
         }
     }
 }
