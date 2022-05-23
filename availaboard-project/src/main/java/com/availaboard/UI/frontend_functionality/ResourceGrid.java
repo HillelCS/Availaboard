@@ -261,6 +261,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
         dialog.setModal(true);
         dialog.setDraggable(true);
         final Button button = new Button(VaadinComponentUtilitys.statusLabel(res), e -> dialog.open());
+        button.addClassName("status-popup-button");
         return button;
     }
 

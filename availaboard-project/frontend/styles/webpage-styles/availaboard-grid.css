@@ -23,6 +23,12 @@
     margin-top: 15px;
 }
 
+.status-popup-button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    text-decoration: underline black 2px;
+}
+
 
 
 
