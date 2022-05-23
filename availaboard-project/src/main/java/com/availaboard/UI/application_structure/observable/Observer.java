@@ -22,17 +22,6 @@ public interface Observer {
     void update();
 
     /**
-     * Registers an Observer in a {@link Subject}.
-     * @param subject The {@link Subject} that's getting an Observer added.
-     */
-    void register(Subject subject);
-    /**
-     * Unregisters an Observer from a {@link Subject}.
-     * @param subject The {@link Subject} that's removing an Observer.
-     */
-    void unregister(Subject subject);
-
-    /**
      * Get's the {@link Subject} that the Observer implementation is communicating with.
      * @return The {@link Subject} that the Observer implementation is communicating with.
      */
