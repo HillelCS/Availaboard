@@ -5,11 +5,11 @@ package com.availaboard.engine.resource;
  */
 public class ResourceFactory {
     public static Resource createResource(String name) {
-        if(name.equals("Equipment")) {
+        if(name.equals(Equipment.class.getSimpleName())) {
             return new Equipment();
-        } else  if(name.equals("Room")) {
+        } else  if(name.equals(Room.class.getSimpleName())) {
             return new Room();
-        } else  if(name.equals("User")) {
+        } else  if(name.equals(User.class.getSimpleName())) {
             return new User();
         } else {
             return null;
