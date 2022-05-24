@@ -1,10 +1,10 @@
 package com.availaboard.UI.webpage;
 
-import com.availaboard.UI.application_structure.observable.Observer;
 import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.application_structure.view_structure.ViewObserver;
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
+import com.availaboard.UI.frontend_functionality.VaadinComponentUtilitys;
 import com.availaboard.engine.resource.*;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
@@ -20,6 +20,8 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.AppShellConfigurator;
@@ -119,7 +121,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
      * and provides a {@link TextField} for the User to input that Fields information in.
      * When the values of the TextFields changes it set's that value to the value of the
      * dialogResource.
-     *
+     * <p>
      * The dialogResource is cloned so the res being passed in is not mutated.
      * If the add button is pressed then the dialogResource is inserted into the
      * database. If the cancel button is hit then the Dialog is closed.
@@ -189,9 +191,14 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
                 db.insertResourceIntoDatabase(dialogResource);
                 ViewFactory.getViewControllerInstance().notifiyObservers();
                 dialog.close();
-            } catch (NameExistsException ex) {
-                //TODO add error notificaiton
-                throw new RuntimeException(ex);
+            } catch (NameExistsException e1) {
+                Notification nameExistsNotification = VaadinComponentUtilitys.createNotification(String.format("Another %s already has this name", res.getClass().getSimpleName()), NotificationVariant.LUMO_ERROR, 1000);
+                nameExistsNotification.open();
+            }
+            // A field isn't filled out
+            catch (NullPointerException e1) {
+                Notification nullFieldNotification = VaadinComponentUtilitys.createNotification("A field is not filled out", NotificationVariant.LUMO_ERROR, 1000);
+                nullFieldNotification.open();
             }
         });
         finishedButton.setAutofocus(true);
