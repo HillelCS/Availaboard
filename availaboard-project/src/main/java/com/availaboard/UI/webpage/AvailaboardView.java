@@ -5,7 +5,6 @@ import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.application_structure.view_structure.ViewObserver;
 import com.availaboard.UI.frontend_functionality.ResourceGrid;
-import com.availaboard.UI.frontend_functionality.VaadinComponentUtilitys;
 import com.availaboard.engine.resource.*;
 import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
@@ -21,8 +20,6 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.AppShellConfigurator;
@@ -192,17 +189,11 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
                 db.insertResourceIntoDatabase(dialogResource);
                 ViewFactory.getViewControllerInstance().notifiyObservers();
                 dialog.close();
-            } catch (NameExistsException e1) {
-                Notification nameExistsNotification = VaadinComponentUtilitys.createNotification(String.format("Another %s already has this name", res.getClass().getSimpleName()), NotificationVariant.LUMO_ERROR, 1000);
-                nameExistsNotification.open();
-            }
-            // A field isn't filled out
-            catch (NullPointerException e1) {
-                Notification nullFieldNotification = VaadinComponentUtilitys.createNotification("A field is not filled out", NotificationVariant.LUMO_ERROR, 1000);
-                nullFieldNotification.open();
+            } catch (NameExistsException ex) {
+                //TODO add error notificaiton
+                throw new RuntimeException(ex);
             }
         });
-
         finishedButton.setAutofocus(true);
         final HorizontalLayout buttonLayout = new HorizontalLayout(finishedButton, cancelButton);
         dialogLayout.add(header, fieldLayout, buttonLayout);

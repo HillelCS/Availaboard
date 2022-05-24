@@ -23,8 +23,6 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -270,6 +268,8 @@ public class ResourceGrid<E extends Resource> extends Grid {
     private VerticalLayout createStatusDialogLayout(Dialog dialog, Resource res) {
 
         final VerticalLayout dialogLayout = new VerticalLayout();
+
+
         final Select<Status> statusField = new Select<>();
         statusField.setLabel("Status");
         statusField.setItems(Status.AVAILABLE, Status.BUSY);
@@ -280,9 +280,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
                 res.setStatus(statusField.getValue());
                 db.updateResourceInDatabase(res);
             } catch (NameExistsException e) {
-                // This should not be thrown because the name is not being updated
-                Notification nameExistsNotification = VaadinComponentUtilitys.createNotification("Something is very wrong! Please contact an Administrator.", NotificationVariant.LUMO_ERROR, 1000);
-                nameExistsNotification.open();
+                throw new RuntimeException(e);
             }
             ViewFactory.getViewControllerInstance().notifiyObservers();
             dialog.close();
