@@ -11,19 +11,22 @@ import java.util.Optional;
 
 /**
  * Used for Views that want to become an Observer. It extends {@link ViewConfiguration} because
- *  * many classes also use that interface which uses the BeforeEnterObserver interface
- *  * causing conflicts. So, you do <bold>not</bold> have to implement the {@link ViewConfiguration}
- *  * interface if you implement this interface.
+ * * many classes also use that interface which uses the BeforeEnterObserver interface
+ * * causing conflicts. So, you do <bold>not</bold> have to implement the {@link ViewConfiguration}
+ * * interface if you implement this interface.
  */
-public interface ViewObserver extends Observer, BeforeLeaveObserver, ViewConfiguration  {
+public interface ViewObserver extends Observer, BeforeLeaveObserver, ViewConfiguration {
 
     /**
      * Registers an Observer in a {@link Subject}.
+     *
      * @param subject The {@link Subject} that's getting an Observer added.
      */
     void register(Subject subject);
+
     /**
      * Unregisters an Observer from a {@link Subject}.
+     *
      * @param subject The {@link Subject} that's removing an Observer.
      */
     void unregister(Subject subject);
