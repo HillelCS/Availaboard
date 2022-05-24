@@ -18,17 +18,6 @@ import java.util.Optional;
 public interface ViewObserver extends Observer, BeforeLeaveObserver, ViewConfiguration  {
 
     /**
-     * Registers an Observer in a {@link Subject}.
-     * @param subject The {@link Subject} that's getting an Observer added.
-     */
-    void register(Subject subject);
-    /**
-     * Unregisters an Observer from a {@link Subject}.
-     * @param subject The {@link Subject} that's removing an Observer.
-     */
-    void unregister(Subject subject);
-
-    /**
      * Registers the current View as an Observer to the Subject and
      * initializes the view.
      * @param event before navigation event with event details
