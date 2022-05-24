@@ -5,7 +5,7 @@ package com.availaboard.engine.resource;
  * extend.
  */
 
-public abstract class Resource {
+public class Resource {
 
     private String name;
     private Status status;

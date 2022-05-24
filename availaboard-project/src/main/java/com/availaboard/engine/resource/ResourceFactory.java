@@ -12,7 +12,7 @@ public class ResourceFactory {
         } else  if(name.equals(User.class.getSimpleName())) {
             return new User();
         } else {
-            return null;
+            return new Resource();
         }
     }
 }
