@@ -4,7 +4,6 @@ import com.availaboard.UI.application_structure.observable.Observer;
 import com.availaboard.UI.application_structure.observable.Subject;
 import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
-import com.availaboard.UI.application_structure.view_structure.ViewObserver;
 import com.availaboard.UI.webpage.MainLayout;
 import com.availaboard.engine.resource.Permission;
 import com.vaadin.flow.component.UI;
@@ -15,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @Route(value = AdminView.VIEWNAME, layout = MainLayout.class)
-public class AdminView extends VerticalLayout implements ViewAuthorization, ViewObserver {
+public class AdminView extends VerticalLayout implements ViewAuthorization, Observer {
 
     protected static final String VIEWNAME = "Admin";
     /**
