@@ -217,7 +217,6 @@ public class ResourceGrid<E extends Resource> extends Grid {
      */
     private Button dialogPopupButton(final Resource res) {
         final Dialog dialog = new Dialog();
-        dialog.getElement().setAttribute("aria-label", res.getName());
         final VerticalLayout dialogLayout = createDialogLayout(dialog, res);
         dialog.add(dialogLayout);
         dialog.setModal(true);
