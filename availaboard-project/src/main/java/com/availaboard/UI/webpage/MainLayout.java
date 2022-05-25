@@ -2,6 +2,7 @@ package com.availaboard.UI.webpage;
 
 import com.availaboard.UI.application_structure.observable.ViewFactory;
 import com.availaboard.UI.application_structure.view_structure.ViewAuthorization;
+import com.availaboard.UI.application_structure.view_structure.ViewObserver;
 import com.availaboard.UI.application_structure.view_structure.ViewType;
 import com.availaboard.engine.resource.Permission;
 import com.availaboard.engine.security.AccessControl;
@@ -45,6 +46,8 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
     private final AccessControl accessControl = AccessControlFactory.getInstance().createAccessControl();
     private final VerticalLayout verticalLayout = new VerticalLayout();
 
+    ViewObserver observer;
+
 
     public MainLayout() {
         final DrawerToggle drawerToggle = new DrawerToggle();
@@ -61,6 +64,7 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
 
         logoutButton = createMenuButton();
         logoutButton.addClickListener(e -> logout());
+
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
 
         availaboardButton = createMenuLink(ViewFactory.createViewTypeInstance(AvailaboardView.class), "Availability");
@@ -118,6 +122,7 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
     }
 
     private void logout() {
+        if (observer != null) observer.getSubject().removeObserver(observer);
         AccessControlFactory.getInstance().createAccessControl().signOut();
     }
 
@@ -144,6 +149,12 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(final BeforeEnterEvent event) {
+
+        if (event.getNavigationTarget().isAssignableFrom(ViewObserver.class)) {
+            Object tempObj = event.getNavigationTarget();
+            observer = (ViewObserver) tempObj;
+        }
+
         verticalLayout.removeAll();
         verticalLayout.add(availaboardButton);
 

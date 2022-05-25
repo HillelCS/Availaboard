@@ -4,6 +4,7 @@ import com.availaboard.UI.application_structure.view_structure.ViewObserver;
 import com.vaadin.flow.component.UIDetachedException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -29,11 +30,7 @@ public class ViewController implements Subject {
         observerList.forEach(observer -> {
             observer.getUI().ifPresent(ui -> {
                 if(ui.isAttached()) {
-                     ui.access(() -> {
-                            observer.update();
-                    });
-                } else {
-                    observerList.remove(observer);
+                    observer.update();
                 }
             });
         });
