@@ -25,13 +25,9 @@ public class ViewController implements Subject {
 
     @Override
     public void notifiyObservers() {
-        for (Iterator<ViewObserver> iterator = observerList.iterator(); iterator.hasNext(); ) {
+        for (Iterator<ViewObserver> iterator = observerList.iterator(); iterator.hasNext();) {
             ViewObserver observer = iterator.next();
-            if (observer.getUI().isPresent()) {
-                observer.update();
-            } else {
-                iterator.remove();
-            }
+            observer.getUI().ifPresentOrElse(view -> observer.update(), () -> iterator.remove());
         }
     }
 }
