@@ -1,3 +1,6 @@
-.adminGrid {
-    padding-left: 5000px;
+.admin-resource-grid {
+     position: absolute;
+     left: 0;
+     right: 0;
+     margin: auto;
 }

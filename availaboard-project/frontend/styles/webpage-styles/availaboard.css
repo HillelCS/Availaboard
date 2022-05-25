@@ -1,7 +1,7 @@
 .grid-container {
-      height: auto;
-      margin: 0 auto;
-      padding: 10px;
-      position: relative;
-      width: 75vw;
+        position: relative;
+           left: 0;
+           right: 0;
+           margin: auto;
+      width: 50vw;
 }
