@@ -122,7 +122,6 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
     }
 
     private void logout() {
-        if (observer != null) observer.getSubject().removeObserver(observer);
         AccessControlFactory.getInstance().createAccessControl().signOut();
     }
 
@@ -149,11 +148,6 @@ public class MainLayout extends AppLayout implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(final BeforeEnterEvent event) {
-
-        if (event.getNavigationTarget().isAssignableFrom(ViewObserver.class)) {
-            Object tempObj = event.getNavigationTarget();
-            observer = (ViewObserver) tempObj;
-        }
 
         verticalLayout.removeAll();
         verticalLayout.add(availaboardButton);

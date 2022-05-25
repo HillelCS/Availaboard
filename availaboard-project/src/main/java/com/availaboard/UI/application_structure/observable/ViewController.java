@@ -1,12 +1,10 @@
 package com.availaboard.UI.application_structure.observable;
 
 import com.availaboard.UI.application_structure.view_structure.ViewObserver;
-import com.vaadin.flow.component.UIDetachedException;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.Future;
 
 /**
  * A concrete implementation of the {@link Subject} interface.
@@ -27,12 +25,13 @@ public class ViewController implements Subject {
 
     @Override
     public void notifiyObservers() {
-        observerList.forEach(observer -> {
-            observer.getUI().ifPresent(ui -> {
-                if(ui.isAttached()) {
-                    observer.update();
-                }
-            });
-        });
+        for (Iterator<ViewObserver> iterator = observerList.iterator(); iterator.hasNext(); ) {
+            ViewObserver observer = iterator.next();
+            if (observer.getUI().isPresent()) {
+                observer.update();
+            } else {
+                iterator.remove();
+            }
+        }
     }
 }
