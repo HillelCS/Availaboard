@@ -18,3 +18,8 @@ drivers/
 error-screenshots/
 webpack.generated.js
 /bin/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

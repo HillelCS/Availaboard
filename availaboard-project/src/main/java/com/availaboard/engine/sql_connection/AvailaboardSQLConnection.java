@@ -92,14 +92,19 @@ public class AvailaboardSQLConnection {
                     }
                 }
             }
+
             final String query = "select status, name from resource where ResourceID = ?";
             final PreparedStatement st = con.prepareStatement(query);
             st.setInt(1, ID);
             final ResultSet rs = st.executeQuery();
+
             if (rs.next()) {
                 res.setStatus(Status.valueOf(rs.getString(1)));
                 res.setName(rs.getString(2));
             }
+
+            res.setVisibleInGrid(this.getResourceVisibility(res));
+
             st.close();
             rs.close();
             con.close();
@@ -274,6 +279,81 @@ public class AvailaboardSQLConnection {
             e.printStackTrace();
         }
     }
+
+    public boolean getResourceVisibility(Resource res) {
+        try {
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+                    AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+            final String query = "SELECT visibility FROM `availaboard`.`visible_in_grid` WHERE (`ResourceID` = ?);";
+
+            final PreparedStatement st = con.prepareStatement(query);
+            st.setInt(1, res.getId());
+
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()) {
+                return rs.getBoolean(1);
+            }
+            st.close();
+            con.close();
+        } catch (final IllegalArgumentException | SQLException | SecurityException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void setResourceVisibility(Resource res) {
+        try {
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+                    AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+            final String query = "UPDATE visibility SET `availaboard`.`visible_in_grid` = ? where ResourceID = ?;";
+
+            final PreparedStatement st = con.prepareStatement(query);
+            st.setInt(1, res.getId());
+            st.executeUpdate();
+
+            st.close();
+            con.close();
+        } catch (final IllegalArgumentException | SQLException | SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertResourceVisibility(Resource res) {
+        try {
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+                    AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+            final String query = "INSERT INTO visible_in_grid (ResourceID) VALUES (?) where ResourceID = ?";
+
+            final PreparedStatement st = con.prepareStatement(query);
+            st.setBoolean(1, res.isVisibleInGrid());
+            st.setInt(2, res.getId());
+            st.executeUpdate();
+
+            st.close();
+            con.close();
+        } catch (final IllegalArgumentException | SQLException | SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteResourceVisibility(Resource res) {
+        try {
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+                    AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+            final String query = "DELETE FROM `availaboard`.`visible_in_grid` WHERE (`visibilityID` = '?');";
+
+            final PreparedStatement st = con.prepareStatement(query);
+            st.setInt(1, res.getId());
+            st.executeUpdate();
+
+            st.close();
+            con.close();
+        } catch (final IllegalArgumentException | SQLException | SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Checks if a <code>Username</code> exists in the database.
