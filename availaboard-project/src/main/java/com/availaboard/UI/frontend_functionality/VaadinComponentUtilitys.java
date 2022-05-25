@@ -41,7 +41,7 @@ public class VaadinComponentUtilitys {
         return label;
     }
 
-    public static Notification createNotification(final String text, NotificationVariant variant, int time) {
+    public static Notification createNotification(final String text, final NotificationVariant variant, final int time) {
         final Notification notification = new Notification();
         notification.addThemeVariants(variant);
         final Div notificationText = new Div(new Text(text));

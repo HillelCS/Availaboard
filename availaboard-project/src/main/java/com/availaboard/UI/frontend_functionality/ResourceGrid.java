@@ -170,7 +170,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
      * @param res    The {@link Resource} being deleted
      * @return A {@link ConfirmDialog} that pops up confirming the User would like to delete the selected {@link Resource}.
      */
-    private VerticalLayout createConfirmDeleteDialog(Dialog dialog, Resource res) {
+    private VerticalLayout createConfirmDeleteDialog(final Dialog dialog, final Resource res) {
         final VerticalLayout dialogLayout = new VerticalLayout();
 
         final Label headline = new Label("Are you sure you would like to delete this item? (" + res.getName() + ")");
@@ -248,7 +248,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
      * @return A {@link HorizontalLayout} of the dialogPopupButton() and confirmDeleteDialog()
      * * {@link Button}s.
      */
-    private HorizontalLayout dialogPopupButtonWithDeleteButton(Resource res) {
+    private HorizontalLayout dialogPopupButtonWithDeleteButton(final Resource res) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.add(confirmDeletePopupButton(res), dialogPopupButton(res));
         return layout;
@@ -265,7 +265,7 @@ public class ResourceGrid<E extends Resource> extends Grid {
         return button;
     }
 
-    private VerticalLayout createStatusDialogLayout(Dialog dialog, Resource res) {
+    private VerticalLayout createStatusDialogLayout(final Dialog dialog, final Resource res) {
 
         final VerticalLayout dialogLayout = new VerticalLayout();
 
