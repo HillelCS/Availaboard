@@ -9,6 +9,8 @@ public abstract class Resource {
 
     private String name;
     private Status status;
+
+    private boolean visibleInGrid;
     private int id;
 
     /**
@@ -41,5 +43,13 @@ public abstract class Resource {
 
     public void setStatus(final Status status) {
         this.status = status;
+    }
+
+    public boolean isVisibleInGrid() {
+        return visibleInGrid;
+    }
+
+    public void setVisibleInGrid(boolean visibleInGrid) {
+        this.visibleInGrid = visibleInGrid;
     }
 }
