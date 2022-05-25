@@ -35,6 +35,16 @@ CREATE TABLE `equipment` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `equipment`
+--
+
+LOCK TABLES `equipment` WRITE;
+/*!40000 ALTER TABLE `equipment` DISABLE KEYS */;
+INSERT INTO `equipment` VALUES ('I-pad SE 14 gen','Computer','John Smith',5,1);
+/*!40000 ALTER TABLE `equipment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `resource`
 --
 
@@ -45,11 +55,19 @@ CREATE TABLE `resource` (
   `name` varchar(255) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `ResourceID` int NOT NULL AUTO_INCREMENT,
-  `isLoggedIn` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ResourceID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `resource`
+--
+
+LOCK TABLES `resource` WRITE;
+/*!40000 ALTER TABLE `resource` DISABLE KEYS */;
+INSERT INTO `resource` VALUES ('samiam','BUSY',1),('Heather','BUSY',3),('Atrium','AVAILABLE',4),('Heathers I-pad','AVAILABLE',5),('Kenny','AVAILABLE',6);
+/*!40000 ALTER TABLE `resource` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `room`
@@ -69,6 +87,15 @@ CREATE TABLE `room` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `room`
+--
+
+LOCK TABLES `room` WRITE;
+/*!40000 ALTER TABLE `room` DISABLE KEYS */;
+INSERT INTO `room` VALUES ('Zachary','Upper west building',4,1);
+/*!40000 ALTER TABLE `room` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `user`
@@ -90,13 +117,18 @@ CREATE TABLE `user` (
   UNIQUE KEY `APP_USER_UK` (`username`),
   KEY `ResourceID` (`ResourceID`),
   CONSTRAINT `user_ibfk_1` FOREIGN KEY (`ResourceID`) REFERENCES `resource` (`ResourceID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `user`
 --
 
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('AccountOne','Park','contact@gmail.com','samiam','Can\'tGuessThis',1,1,'Admin'),('John','Smith','john@gmail.com','FatherOfFour','Welcome123',3,3,'User'),('Kenny','Terreek','kenntereeks@gmail.com','GreatUncle','Uncle321',6,4,'Admin');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -107,4 +139,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-25 11:25:23
+-- Dump completed on 2022-05-24 21:26:35
