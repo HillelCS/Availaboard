@@ -11,17 +11,12 @@ import com.availaboard.engine.security.AccessControl;
 import com.availaboard.engine.security.AccessControlFactory;
 import com.availaboard.engine.sql_connection.AvailaboardSQLConnection;
 import com.availaboard.engine.sql_connection.NameExistsException;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -65,6 +60,7 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
         accessControl = AccessControlFactory.getInstance().createAccessControl();
         setUpLayout();
     }
+
     private final Button submitButton = new Button("Create an account", event -> {
         if (passwordField.getValue().equals(confirmPasswordField.getValue())) {
 
@@ -81,6 +77,7 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
             tempUser.setStatus(Status.AVAILABLE);
 
             try {
+
                 db.insertResourceIntoDatabase(tempUser);
                 accessControl.signIn(usernameField.getValue(), passwordField.getValue());
                 getUI().get().navigate(ViewFactory.createViewTypeInstance(UserInformationView.class).viewName());
