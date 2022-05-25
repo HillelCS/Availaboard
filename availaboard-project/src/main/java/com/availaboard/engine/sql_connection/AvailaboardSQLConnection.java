@@ -436,7 +436,7 @@ public class AvailaboardSQLConnection {
      *
      * @param res The {@link Resource} used to update the Columns in the database.
      */
-    public void updateResourceInDatabase(Resource res) throws NameExistsException {
+    public void updateResourceInDatabase(final Resource res) throws NameExistsException {
         if (!res.getName().equals(createResourceWithID(res.getId(), res.getClass()).getName()) && doesUsernameExist(res.getName())) {
             throw new NameExistsException();
         } else {

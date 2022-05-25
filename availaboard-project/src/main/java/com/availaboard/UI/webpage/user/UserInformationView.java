@@ -90,12 +90,16 @@ public class UserInformationView extends VerticalLayout implements ViewAuthoriza
     }
 
     private void setUpUserFields() {
+
         applyButton = new Button("Apply Changes", event -> {
+
             user.setUsername(usernameField.getValue());
             user.setPassword(passwordField.getValue());
             user.setFirstName(firstNameField.getValue());
             user.setLastName(lastNameField.getValue());
             user.setEmail(emailField.getValue());
+
+            user.setName(usernameField.getValue());
             user.setStatus(select.getValue());
 
             try {
