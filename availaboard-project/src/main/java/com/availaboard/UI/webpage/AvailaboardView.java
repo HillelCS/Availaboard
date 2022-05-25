@@ -51,9 +51,6 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
     private static final long serialVersionUID = -4432887017833022089L;
 
     private final AvailaboardSQLConnection db = new AvailaboardSQLConnection();
-
-    private final Div container = new Div();
-
     private final AccessControl accessControl;
 
     private final Grid<Resource> userGrid = createResourceGrid(User.class);
@@ -62,8 +59,6 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     public AvailaboardView() {
         accessControl = AccessControlFactory.getInstance().createAccessControl();
-        container.addClassName("grid-container");
-        container.add(gridLayout());
     }
 
     private FormLayout gridLayout() {
@@ -214,7 +209,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
     @Override
     public void initialize() {
         addResourceButtonIfApplicable();
-        add(container);
+        add(gridLayout());
     }
 
     @Override
