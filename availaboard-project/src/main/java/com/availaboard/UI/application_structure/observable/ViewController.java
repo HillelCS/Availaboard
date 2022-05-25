@@ -22,7 +22,6 @@ public class ViewController implements Subject {
         observerList.remove(observer);
     }
 
-
     @Override
     public void notifiyObservers() {
         for (Iterator<ViewObserver> iterator = observerList.iterator(); iterator.hasNext();) {
