@@ -367,7 +367,7 @@ public class AvailaboardSQLConnection {
         try {
             final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
                     AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
-            final String query = "INSERT INTO visible_in_grid (ResourceID) VALUES (?) where ResourceID = ?";
+            final String query = "INSERT INTO `availaboard`.`visible_in_grid` (`visibility`, `ResourceID`) VALUES(?,?)";
 
             final PreparedStatement st = con.prepareStatement(query);
             st.setBoolean(1, res.isVisibleInGrid());
