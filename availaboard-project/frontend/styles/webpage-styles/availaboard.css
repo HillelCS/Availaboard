@@ -2,5 +2,6 @@
       left: 0;
       right: 0;
       margin: auto;
-      width: 50vw;
+      width: 90vw;
+      min-width: 300px;
 }
