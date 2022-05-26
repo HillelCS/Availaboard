@@ -16,7 +16,6 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -57,12 +56,34 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
     private final Grid<Resource> equipmentGrid = createResourceGrid(Equipment.class);
     private final Grid<Resource> roomGrid = createResourceGrid(Room.class);
 
+    private final FormLayout layout;
+
+    private final HorizontalLayout resourceButtonLayout;
+
+    private final Select<String> select;
+
+    private final Button addResourceButton;
+
     public AvailaboardView() {
+
         accessControl = AccessControlFactory.getInstance().createAccessControl();
+
+
+        layout = new FormLayout();
+        resourceButtonLayout = new HorizontalLayout();
+        select = new Select<>();
+        addResourceButton = new Button(new Icon(VaadinIcon.PLUS), event -> {
+            final Dialog dialog = new Dialog();
+            final VerticalLayout dialogLayout;
+            dialogLayout = createNewResourceDialogLayout(dialog, ResourceFactory.createResource(select.getValue()));
+            dialog.add(dialogLayout);
+            dialog.setModal(true);
+            dialog.setDraggable(true);
+            dialog.open();
+        });
     }
 
     private FormLayout gridLayout() {
-        final FormLayout layout = new FormLayout();
         layout.add(userGrid);
         layout.add(equipmentGrid);
         layout.add(roomGrid);
@@ -82,29 +103,12 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
      * It passes in the {@link Resource} selected in the
      * {@link Select}.
      */
-    private void addResourceButtonIfApplicable() {
-        if (accessControl.isUserInRole(Permission.Admin)) {
-
-            final Select<String> select = new Select<>();
-            final HorizontalLayout horizontalLayout = new HorizontalLayout();
-
-            final Button addResourceButton = new Button(new Icon(VaadinIcon.PLUS), event -> {
-                final Dialog dialog = new Dialog();
-                final VerticalLayout dialogLayout;
-                dialogLayout = createNewResourceDialogLayout(dialog, ResourceFactory.createResource(select.getValue()));
-                dialog.add(dialogLayout);
-                dialog.setModal(true);
-                dialog.setDraggable(true);
-                dialog.open();
-            });
-
-            select.setItems(Room.class.getSimpleName(), Equipment.class.getSimpleName());
-            select.setValue(Room.class.getSimpleName());
-
-            horizontalLayout.add(addResourceButton, select);
-            add(horizontalLayout);
-            setHorizontalComponentAlignment(Alignment.END, horizontalLayout);
-        }
+    private HorizontalLayout resourceButtonLayout() {
+        select.setItems(Room.class.getSimpleName(), Equipment.class.getSimpleName());
+        select.setValue(Room.class.getSimpleName());
+        resourceButtonLayout.add(addResourceButton, select);
+        setHorizontalComponentAlignment(Alignment.END, resourceButtonLayout);
+        return resourceButtonLayout;
     }
 
 
@@ -209,7 +213,7 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
     @Override
     public void initialize() {
-        addResourceButtonIfApplicable();
+        if (accessControl.isUserInRole(Permission.Admin)) add(resourceButtonLayout());
         add(gridLayout());
     }
 
