@@ -184,7 +184,50 @@ public class AvailaboardSQLConnection {
             final ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
-                arr.add(createResourceWithID(rs.getInt(1), type));
+                Resource res = createResourceWithID(rs.getInt(1), type);
+                if (res.isVisibleInGrid()) {
+                    arr.add((E) res);
+                }
+            }
+            st.close();
+            con.close();
+            rs.close();
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+        return arr;
+    }
+
+    /**
+     * Overloaded method used for if a Grid does not want to check if the isVisible() field is true.
+     *
+     * @param <E>              The type of Object that the method is grabbing and returning from
+     *                         the database.
+     * @param type             The type of Object that the method is grabbing and returning from
+     *                         the database.
+     * @param setVisibleInGrid A boolean that is used to check if the Grid wants to only load
+     *                         Resources with the {@link Resource#isVisibleInGrid()} returning true.
+     * @return An {@link ArrayList} of the type <code>E</code> loaded from the
+     * database.
+     */
+    public <E extends Resource> Collection<E> loadResources(final Class<E> type, boolean setVisibleInGrid) {
+        final ArrayList<E> arr = new ArrayList<>();
+        final Table table = type.getAnnotation(Table.class);
+        try {
+            final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
+                    AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
+
+            final String query = "select ResourceID from " + table.value();
+            final PreparedStatement st = con.prepareStatement(query);
+            final ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                Resource res = createResourceWithID(rs.getInt(1), type);
+                if (setVisibleInGrid == false) {
+                    arr.add((E) res);
+                } else if (res.isVisibleInGrid()) {
+                    arr.add((E) res);
+                    }
             }
             st.close();
             con.close();
@@ -302,14 +345,15 @@ public class AvailaboardSQLConnection {
         return false;
     }
 
-    public void setResourceVisibility(Resource res) {
+    public void updateResourceVisibility(Resource res) {
         try {
             final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
                     AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
-            final String query = "UPDATE visibility SET `availaboard`.`visible_in_grid` = ? where ResourceID = ?;";
+            final String query = "UPDATE `availaboard`.`visible_in_grid` SET visibility = ? where ResourceID = ?;";
 
             final PreparedStatement st = con.prepareStatement(query);
-            st.setInt(1, res.getId());
+            st.setBoolean(1, res.isVisibleInGrid());
+            st.setInt(2, res.getId());
             st.executeUpdate();
 
             st.close();
@@ -448,6 +492,9 @@ public class AvailaboardSQLConnection {
                         updateRowInDatabase(res, field);
                     }
                 }
+
+                this.insertResourceVisibility(res);
+
                 con.close();
             }
         } catch (final IllegalArgumentException | SQLException | SecurityException e) {
@@ -503,6 +550,8 @@ public class AvailaboardSQLConnection {
                 st.setString(1, String.valueOf(res.getId()));
                 st.executeUpdate();
 
+                this.deleteResourceVisibility(res);
+
                 st.close();
                 con.close();
             } catch (SQLException e) {
@@ -528,6 +577,7 @@ public class AvailaboardSQLConnection {
                     updateRowInDatabase(res, field);
                 }
             });
+            this.updateResourceVisibility(res);
         }
 
     }

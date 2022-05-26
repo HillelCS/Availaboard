@@ -75,6 +75,7 @@ public class CreateNewAccountView extends VerticalLayout implements ViewConfigur
             tempUser.setName(firstNameField.getValue());
             tempUser.setPermissions(Permission.User);
             tempUser.setStatus(Status.AVAILABLE);
+            tempUser.setVisibleInGrid(false);
 
             try {
 

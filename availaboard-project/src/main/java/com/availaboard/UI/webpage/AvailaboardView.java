@@ -134,6 +134,8 @@ public class AvailaboardView extends VerticalLayout implements AppShellConfigura
 
         final VerticalLayout dialogLayout = new VerticalLayout();
 
+        res.setVisibleInGrid(true);
+
         final H2 headline = new H2("Create a new " + res.getClass().getSimpleName());
         headline.getStyle().set("margin", "0").set("font-size", "2.5em").set("font-weight", "bold");
         final HorizontalLayout header = new HorizontalLayout(headline);

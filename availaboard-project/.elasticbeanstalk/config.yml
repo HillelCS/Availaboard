@@ -3,7 +3,7 @@ branch-defaults:
     environment: null
     group_suffix: null
 deploy:
-  artifact: target/myapp-1.0-SNAPSHOT.jar
+  artifact: \out\artifacts\availaboard_jar/availaboard.jar
 global:
   application_name: availaboard-project
   branch: null

@@ -26,21 +26,23 @@ public class AdminResourceGrid extends Grid {
     public Grid<User> loadGrid() {
         try {
             final Grid<User> grid = new Grid<>();
-            final Column<User> nameColumn = grid.addColumn(User::getUsername).setHeader("Name").setWidth("50%")
+            final Column<User> nameColumn = grid.addColumn(User::getUsername).setHeader("Name").setWidth("40%")
                     .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
-            final Column<User> permissionColumn = grid.addComponentColumn(this::permissionPopButton).setHeader("Status").setWidth("50%")
+            final Column<User> permissionColumn = grid.addComponentColumn(this::permissionPopButton).setHeader("Status").setWidth("25%")
+                    .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
+            final Column<User> visibilityColumn = grid.addComponentColumn(this::visibilityPopupButton).setHeader("Visibility").setWidth("35%")
                     .setFlexGrow(1).setTextAlign(ColumnTextAlign.CENTER);
 
 
             grid.addClassName("availaboard-grid");
             grid.setAllRowsVisible(true);
-            grid.setItems((Collection<User>) (db.loadResources(User.class)));
+            grid.setItems((Collection<User>) (db.loadResources(User.class, false)));
 
             final HeaderRow headerRow = grid.prependHeaderRow();
             final Div simpleNameCell = new Div();
             simpleNameCell.setText("Users");
             simpleNameCell.getElement().getStyle().set("text-align", "center");
-            headerRow.join(nameColumn, permissionColumn).setComponent(simpleNameCell);
+            headerRow.join(nameColumn, permissionColumn, visibilityColumn).setComponent(simpleNameCell);
 
             return grid;
         } catch (final IllegalArgumentException | SecurityException e) {
@@ -57,8 +59,49 @@ public class AdminResourceGrid extends Grid {
         dialog.setDraggable(true);
         final Button button = new Button(user.getPermissions().toString(), e -> dialog.open());
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-        button.addClassName("permission-button");
+        button.addClassName("popup-button");
         return button;
+    }
+
+    private Button visibilityPopupButton(final User user) {
+        final Dialog dialog = new Dialog();
+        final VerticalLayout dialogLayout = createGridVisibilityDialogLayout(dialog, user);
+        dialog.add(dialogLayout);
+        dialog.setModal(true);
+        dialog.setDraggable(true);
+        final Button button = new Button(String.valueOf(user.isVisibleInGrid()), e -> dialog.open());
+        button.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+        button.addClassName("popup-button");
+        return button;
+    }
+
+    private VerticalLayout createGridVisibilityDialogLayout(Dialog dialog, User user) {
+
+        final VerticalLayout dialogLayout = new VerticalLayout();
+
+        final Select<Boolean> visibilityField = new Select<>();
+        visibilityField.setLabel("Visible in grid");
+        visibilityField.setItems(true, false);
+        visibilityField.setValue(user.isVisibleInGrid());
+
+        final Button confirmButton = new Button("Confirm", event -> {
+            try {
+                user.setVisibleInGrid(visibilityField.getValue());
+                db.updateResourceInDatabase(user);
+            } catch (NameExistsException e) {
+                throw new RuntimeException(e);
+            }
+            ViewFactory.getViewControllerInstance().notifiyObservers();
+            dialog.close();
+        });
+
+        confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
+        dialogLayout.add(visibilityField, confirmButton);
+
+        dialog.setWidth("300px");
+        dialog.setHeight("200px");
+
+        return dialogLayout;
     }
 
     private VerticalLayout createPermissionDialogLayout(Dialog dialog, User user) {

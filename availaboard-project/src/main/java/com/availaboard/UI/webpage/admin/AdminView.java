@@ -72,7 +72,7 @@ public class AdminView extends VerticalLayout implements ViewAuthorization, View
 
     @Override
     public void update() {
-        adminGrid.setItems(db.loadResources(User.class));
+        adminGrid.setItems(db.loadResources(User.class, false));
     }
 
     @Override
