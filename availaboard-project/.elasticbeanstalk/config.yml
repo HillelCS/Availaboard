@@ -1,9 +1,13 @@
 branch-defaults:
   default:
-    environment: null
+    environment: availaboard-project-dev
     group_suffix: null
 deploy:
-  artifact: \out\artifacts\availaboard_jar/availaboard.jar
+  artifact: target/availaboard-1.0-SNAPSHOT.jar
+environment-defaults:
+  availaboard-project-dev:
+    branch: null
+    repository: null
 global:
   application_name: availaboard-project
   branch: null
