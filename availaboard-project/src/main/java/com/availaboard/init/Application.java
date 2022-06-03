@@ -1,4 +1,4 @@
-package com.availaboard.UI.init;
+package com.availaboard.init;
 
 import com.vaadin.flow.spring.annotation.EnableVaadin;
 import org.springframework.boot.SpringApplication;
