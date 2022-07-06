@@ -3,7 +3,7 @@ package com.availaboard.engine.resource;
 import com.availaboard.engine.sql_connection.Column;
 import com.availaboard.engine.sql_connection.Table;
 
-@Table("Equipment")
+@Table("equipment")
 public class Equipment extends Resource {
 
     @ResourceFieldLoader("Model")
