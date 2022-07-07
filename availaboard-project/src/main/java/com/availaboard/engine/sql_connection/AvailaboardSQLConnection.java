@@ -434,7 +434,7 @@ public class AvailaboardSQLConnection {
                     AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
 
             // Uses alias to store the count as variable
-            final String query = "SELECT COUNT(1) AS total FROM Resource WHERE ResourceID = ?;";
+            final String query = "SELECT COUNT(1) AS total FROM resource WHERE ResourceID = ?;";
             final PreparedStatement st = con.prepareStatement(query);
             st.setInt(1, ResourceID);
             final ResultSet rs = st.executeQuery();
