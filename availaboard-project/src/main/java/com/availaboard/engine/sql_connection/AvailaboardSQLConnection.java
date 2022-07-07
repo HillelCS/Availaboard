@@ -513,7 +513,7 @@ public class AvailaboardSQLConnection {
         try {
             final Connection con = DriverManager.getConnection(AvailaboardSQLConnection.url,
                     AvailaboardSQLConnection.username, AvailaboardSQLConnection.password);
-            final String query = "UPDATE Resource SET Status = ?, Name = ? WHERE (`ResourceID` = ?);";
+            final String query = "UPDATE resource SET Status = ?, Name = ? WHERE (`ResourceID` = ?);";
             final PreparedStatement st = con.prepareStatement(query);
             st.setString(1, String.valueOf(res.getStatus()));
             st.setString(2, res.getName());
@@ -545,7 +545,7 @@ public class AvailaboardSQLConnection {
                 st.setString(1, String.valueOf(res.getId()));
                 st.executeUpdate();
 
-                query = "DELETE FROM `availaboard`.`Resource` WHERE (`ResourceID` = ?);";
+                query = "DELETE FROM `availaboard`.`resource` WHERE (`ResourceID` = ?);";
                 st = con.prepareStatement(query);
                 st.setString(1, String.valueOf(res.getId()));
                 st.executeUpdate();
